@@ -1,0 +1,16 @@
+
+<ad-nav-menu [menuSource]='mainMenu'>
+	<div *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
+		<mat-icon class="mat-icon-rtl-mirror">
+			{{treeControl.isExpanded(menuNode) ? 'expand_more' : 'chevron_right'}}
+		</mat-icon>
+		<span>{{menuNode.name}} : {{menuNode.level}}</span>
+	</div>
+	<div *ad-nav-item="let menuNode=menuNode;">
+	
+            <mat-icon>accessible</mat-icon>
+            <span> {{menuNode.name}}</span>
+         
+	</div>
+</ad-nav-menu>
+	

@@ -1,0 +1,23 @@
+<div>
+  <mat-nav-list>
+    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+      <mat-tree-node *matTreeNodeDef="let node;when: isMenuExpandable">
+        <mat-list-item matTreeNodeToggle>
+          <a matTreeNodePadding [matTreeNodePaddingIndent]='20'>
+            <ng-container *ngTemplateOutlet="nesterTemplate.tpl; context:{menuNode:node, treeControl:treeControl, dataSource:dataSource}"></ng-container>
+          </a>
+        </mat-list-item>
+      </mat-tree-node>
+
+      <mat-tree-node *matTreeNodeDef="let node">
+          <mat-list-item>
+            <a matTreeNodePadding [matTreeNodePaddingIndent]='20'>
+              <ng-container *ngTemplateOutlet="menuItemTemplate.tpl; context:{menuNode:node, treeControl:treeControl, dataSource:dataSource}"></ng-container>
+            </a>
+          </mat-list-item>
+        </mat-tree-node>
+
+    </mat-tree>
+  </mat-nav-list>
+</div>

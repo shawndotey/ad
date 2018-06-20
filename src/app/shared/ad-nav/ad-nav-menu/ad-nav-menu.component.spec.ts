@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdDashboardSideNavComponent } from './ad-dashboard-side-nav.component';
+import { AdNavMenuComponent } from './ad-nav-menu.component';
 
-describe('AdDashboardSideNavComponent', () => {
-  let component: AdDashboardSideNavComponent;
-  let fixture: ComponentFixture<AdDashboardSideNavComponent>;
+describe('AdDashboardSidenavMenuComponent', () => {
+  let component: AdNavMenuComponent;
+  let fixture: ComponentFixture<AdNavMenuComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdDashboardSideNavComponent ]
+      declarations: [ AdNavMenuComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdDashboardSideNavComponent);
+    fixture = TestBed.createComponent(AdNavMenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
