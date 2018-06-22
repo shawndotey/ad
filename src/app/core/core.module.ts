@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { AdDashboardModule } from '../layout/ad-dashboard.module';
+import { AppLayoutModule } from '../layout/layout.module';
 import {SharedModule} from 'src/app/shared/shared.module';
 import 'hammerjs';
 
@@ -10,7 +10,7 @@ import 'hammerjs';
   imports: [
     CommonModule,
     BrowserAnimationsModule,
-    AdDashboardModule
+    AppLayoutModule
 
   ],
   declarations: [
@@ -19,7 +19,7 @@ import 'hammerjs';
   exports:[
     CommonModule,
     BrowserAnimationsModule,
-    AdDashboardModule
+    AppLayoutModule
   ]
 })
 export class CoreModule { }

@@ -1,6 +1,4 @@
-import { AdDashboardSideNavComponent } from './ad-dashboard-sidenav.component';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { MenuModel } from 'src/app/shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 
 
@@ -72,7 +70,7 @@ export const MENU_LIST:Partial<MainMenu>[] = [
 @Injectable({
   providedIn: 'root',
 })
-export class AdDashboardSideNavService {
+export class AppDashboardSideNavService {
   
   constructor() {
     this.initialize();

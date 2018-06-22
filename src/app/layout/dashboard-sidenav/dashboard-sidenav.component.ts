@@ -1,14 +1,14 @@
 import { MenuModel } from 'src/app/shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 import { Component, OnInit } from '@angular/core';
 import {of as observableOf} from 'rxjs';
-import {MENU_LIST} from './ad-dashboard-sidenav.service';
+import {MENU_LIST} from './dashboard-sidenav.service';
 
 @Component({
-  selector: 'ad-dashboard-sidenav',
-  templateUrl: './ad-dashboard-sidenav.component.html',
-  styleUrls: ['./ad-dashboard-sidenav.component.scss']
+  selector: 'app-dashboard-sidenav',
+  templateUrl: './dashboard-sidenav.component.html',
+  styleUrls: ['./dashboard-sidenav.component.scss']
 })
-export class AdDashboardSideNavComponent implements OnInit {
+export class AppDashboardSideNavComponent implements OnInit {
 
   
   public mainMenu: Partial<MenuModel>[];

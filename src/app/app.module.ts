@@ -9,6 +9,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { HomeComponent } from './home/home.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { AppLayoutModule } from './layout/layout.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { SharedModule } from './shared/shared.module';
     BrowserAnimationsModule,
     LayoutModule,
     CoreModule,
-    SharedModule
+    SharedModule,
+    AppLayoutModule
    
   ],
   exports:[
