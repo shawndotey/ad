@@ -6,24 +6,30 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LayoutModule } from '@angular/cdk/layout';
-import { HomeComponent } from './home/home.component';
+import { HomeModule } from './home/home.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { AppLayoutModule } from './layout/layout.module';
 
+
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent
+    AppComponent   
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    LayoutModule,
     CoreModule,
+    LayoutModule,
+    HomeModule,
     SharedModule,
-    AppLayoutModule
+    AppLayoutModule,
+
+
+    // FormsModule,
+    // HttpModule,
+    // NgGridModule
    
   ],
   exports:[
