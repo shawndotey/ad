@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
-import { NgGridModule} from 'src/app/angular2-grid/modules/NgGrid.module';
+import { Angular2GridModule} from 'src/app/angular2-grid/Angular2Grid.module';
 import { HomeComponent } from './home.component';
 import { FormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
@@ -14,7 +14,7 @@ import { SharedModule } from '../shared/shared.module';
     SharedModule,
     FormsModule,
     HttpModule,
-    NgGridModule
+    Angular2GridModule
   ],
   declarations: [ HomeComponent],
   exports:[

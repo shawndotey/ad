@@ -1,21 +1,21 @@
-import { NgGrid } from '../directives/NgGrid';
-import { NgGridItem } from '../directives/NgGridItem';
-import { NgGridItemPosition, NgGridItemSize } from '../interfaces/INgGrid';
-import { Component, Directive, ElementRef, Renderer, EventEmitter, Host, ViewEncapsulation, Type, ComponentRef, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy, DoCheck, ViewContainerRef, Output } from '@angular/core';
+import { NgGridItemSize } from "../model/NgGridItem/NgGridItemSize";
+import { NgGridItemPosition } from "../model/NgGridItem/NgGridItemPosition";
+import { Component, ElementRef, Renderer, OnInit } from '@angular/core';
+import { NgGridDirective } from '../ng-grid/ng-grid.directive';
 
 @Component({
 	selector: 'ng-grid-placeholder',
 	template: ''
 })
-export class NgGridPlaceholder implements OnInit {
+export class NgGridPlaceholderComponent implements OnInit {
 	private _size: NgGridItemSize;
 	private _position: NgGridItemPosition;
-	private _ngGrid: NgGrid;
+	private _ngGrid: NgGridDirective;
 	private _cascadeMode: string;
 
 	constructor(private _ngEl: ElementRef, private _renderer: Renderer) { }
 
-	public registerGrid(ngGrid: NgGrid) {
+	public registerGrid(ngGrid: NgGridDirective) {
 		this._ngGrid = ngGrid;
 	}
 

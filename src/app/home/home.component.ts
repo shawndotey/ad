@@ -1,5 +1,7 @@
+import { NgGridConfig } from '../angular2-grid/model';
 import { Component, OnInit, Injectable, ViewChild, AfterViewInit  } from '@angular/core';
-import { NgGridItemConfig, NgGridConfig, NgGridItemEvent } from 'src/app/angular2-grid/main';
+import { NgGridItemConfig } from "src/app/angular2-grid/model";
+import { NgGridItemEvent } from "src/app/angular2-grid/model";
  
 
 
@@ -26,7 +28,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
  
-  public curNum = 10;
+  public curNum = 3;
   public boxes: Array<Box> = [];
   public gridConfig: NgGridConfig = <NgGridConfig>{
       'margins': [5],
@@ -104,7 +106,7 @@ export class HomeComponent implements OnInit {
   }
 
   onDrag(index: number, event: NgGridItemEvent): void {
-      // Do something here
+    //console.log('onDrag')
   }
 
   onResize(index: number, event: NgGridItemEvent): void {

@@ -1,9 +1,16 @@
 import { Component, Directive, ElementRef, Renderer, EventEmitter, ComponentFactoryResolver, Host, ViewEncapsulation, Type, ComponentRef, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy, DoCheck, ViewContainerRef, Output } from '@angular/core';
-import { NgGridConfig, NgGridItemEvent, NgGridItemPosition, NgGridItemSize, NgGridRawPosition, NgGridItemDimensions, NgConfigFixDirection } from '../interfaces/INgGrid';
-import { NgGridItem } from './NgGridItem';
-import * as NgGridHelper from "../helpers/NgGridHelpers";
-import { NgGridPlaceholder } from '../components/NgGridPlaceholder';
 import { Subscription, Observable, fromEvent } from 'rxjs';
+
+import { NgGridItemEvent } from "../model/NgGridItem/NgGridItemEvent";
+import { NgGridItemSize } from "../model/NgGridItem/NgGridItemSize";
+import { NgGridItemPosition } from "../model/NgGridItem/NgGridItemPosition";
+import { NgGridRawPosition } from "../model/NgGrid/NgGridRawPosition";
+import { NgGridItemDimensions } from "../model/NgGridItem/NgGridItemDimensions";
+import { NgConfigFixDirection } from "../model/NgConfigFixDirection";
+import { NgGridConfig } from "../model/NgGrid/NgGridConfig";
+import { NgGridPlaceholderComponent } from './../ng-grid-placeholder/ng-grid-placeholder.component';
+import { NgGridItemDirective } from '../ng-grid-item/ng-grid-item.directive';
+import * as NgGridHelper from "../shared/NgGridHelpers";
 
 @Directive({
 	selector: '[ngGrid]',
@@ -12,14 +19,14 @@ import { Subscription, Observable, fromEvent } from 'rxjs';
 		'(window:resize)': 'resizeEventHandler($event)',
 	}
 })
-export class NgGrid implements OnInit, DoCheck, OnDestroy {
+export class NgGridDirective implements OnInit, DoCheck, OnDestroy {
 	//	Event Emitters
-	@Output() public onDragStart: EventEmitter<NgGridItem> = new EventEmitter<NgGridItem>();
-	@Output() public onDrag: EventEmitter<NgGridItem> = new EventEmitter<NgGridItem>();
-	@Output() public onDragStop: EventEmitter<NgGridItem> = new EventEmitter<NgGridItem>();
-	@Output() public onResizeStart: EventEmitter<NgGridItem> = new EventEmitter<NgGridItem>();
-	@Output() public onResize: EventEmitter<NgGridItem> = new EventEmitter<NgGridItem>();
-	@Output() public onResizeStop: EventEmitter<NgGridItem> = new EventEmitter<NgGridItem>();
+	@Output() public onDragStart: EventEmitter<NgGridItemDirective> = new EventEmitter<NgGridItemDirective>();
+	@Output() public onDrag: EventEmitter<NgGridItemDirective> = new EventEmitter<NgGridItemDirective>();
+	@Output() public onDragStop: EventEmitter<NgGridItemDirective> = new EventEmitter<NgGridItemDirective>();
+	@Output() public onResizeStart: EventEmitter<NgGridItemDirective> = new EventEmitter<NgGridItemDirective>();
+	@Output() public onResize: EventEmitter<NgGridItemDirective> = new EventEmitter<NgGridItemDirective>();
+	@Output() public onResizeStop: EventEmitter<NgGridItemDirective> = new EventEmitter<NgGridItemDirective>();
 	@Output() public onItemChange: EventEmitter<Array<NgGridItemEvent>> = new EventEmitter<Array<NgGridItemEvent>>();
 
 	//	Public variables
@@ -42,9 +49,9 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	public minHeight: number = 100;
 
 	//	Private variables
-	private _items: Map<string, NgGridItem> = new Map<string, NgGridItem>();
-	private _draggingItem: NgGridItem = null;
-	private _resizingItem: NgGridItem = null;
+	private _items: Map<string, NgGridItemDirective> = new Map<string, NgGridItemDirective>();
+	private _draggingItem: NgGridItemDirective = null;
+	private _resizingItem: NgGridItemDirective = null;
 	private _resizeDirection: string = null;
 	private _itemsInGrid: Set<string> = new Set<string>();
 	private _containerWidth: number;
@@ -57,7 +64,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	private _setHeight: number = 250;
 	private _posOffset: NgGridRawPosition = null;
 	private _adding: boolean = false;
-	private _placeholderRef: ComponentRef<NgGridPlaceholder> = null;
+	private _placeholderRef: ComponentRef<NgGridPlaceholderComponent> = null;
 	private _fixToGrid: boolean = false;
 	private _autoResize: boolean = false;
 	private _differ: KeyValueDiffer<string, any>;
@@ -116,7 +123,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		fix_item_position_direction: "cascade",
 		fix_collision_position_direction: "cascade",
 	};
-	private _config = NgGrid.CONST_DEFAULT_CONFIG;
+	private _config = NgGridDirective.CONST_DEFAULT_CONFIG;
 
 	//	[ng-grid] attribute handler
 	set config(v: NgGridConfig) {
@@ -329,12 +336,12 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 		this._updateRatio();
 
-		this._items.forEach((item: NgGridItem) => {
+		this._items.forEach((item: NgGridItemDirective) => {
 			this._removeFromGrid(item);
 			item.setCascadeMode(this.cascade);
 		});
 
-		this._items.forEach((item: NgGridItem) => {
+		this._items.forEach((item: NgGridItemDirective) => {
 			item.recalculateSelf();
 			this._addToGrid(item);
 		});
@@ -388,7 +395,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		this.resizeEnable = false;
 	}
 
-	public addItem(ngItem: NgGridItem): void {
+	public addItem(ngItem: NgGridItemDirective): void {
 		ngItem.setCascadeMode(this.cascade);
 
 		if (!this._preferNew) {
@@ -414,7 +421,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 	}
 
-	public removeItem(ngItem: NgGridItem): void {
+	public removeItem(ngItem: NgGridItemDirective): void {
 		this._removeFromGrid(ngItem);
 
 		this._items.delete(ngItem.uid);
@@ -423,12 +430,12 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 		this.triggerCascade().then(() => {
 			this._updateSize();
-			this._items.forEach((item: NgGridItem) => item.recalculateSelf());
+			this._items.forEach((item: NgGridItemDirective) => item.recalculateSelf());
 			this._emitOnItemChange();
 		});
 	}
 
-	public updateItem(ngItem: NgGridItem): void {
+	public updateItem(ngItem: NgGridItemDirective): void {
 		this._removeFromGrid(ngItem);
 		this._addToGrid(ngItem);
 
@@ -473,12 +480,12 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 			if (this._centerToScreen) {
 				this.screenMargin = this._getScreenMargin();
 
-				this._items.forEach((item: NgGridItem) => {
+				this._items.forEach((item: NgGridItemDirective) => {
 					item.recalculateSelf();
 				});
 			}
 		} else if (this._autoResize) {
-			this._items.forEach((item: NgGridItem) => {
+			this._items.forEach((item: NgGridItemDirective) => {
 				item.recalculateSelf();
 			});
 		}
@@ -560,7 +567,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		}
 	}
 	private _updatePositionsAfterMaxChange(): void {
-		this._items.forEach((item: NgGridItem) => {
+		this._items.forEach((item: NgGridItemDirective) => {
 			var pos = item.getGridPosition();
 			var dims = item.getSize();
 
@@ -820,7 +827,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		if (!this._isWithinBoundsY(targetPos, calcSize))
 			calcSize = this._fixSizeToBoundsY(targetPos, calcSize);
 
-		calcSize = this._resizingItem.fixResize(calcSize);
+		calcSize = this._resizingItem.fixSize(calcSize);
 
 		if (calcSize.x != itemSize.x || calcSize.y != itemSize.y) {
 			this._resizingItem.setGridPosition(targetPos, this._fixToGrid);
@@ -938,13 +945,13 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 
 		if (positions == null || positions.length == 0) return false;
 
-		return positions.some((v: NgGridItem) => {
+		return positions.some((v: NgGridItemDirective) => {
 			return !(v === null);
 		});
 	}
 
-	private _getCollisions(pos: NgGridItemPosition, dims: NgGridItemSize): Array<NgGridItem> {
-		const returns: Array<NgGridItem> = [];
+	private _getCollisions(pos: NgGridItemPosition, dims: NgGridItemSize): Array<NgGridItemDirective> {
+		const returns: Array<NgGridItemDirective> = [];
 
 		if (!pos.col) { pos.col = 1; }
 		if (!pos.row) { pos.row = 1; }
@@ -955,7 +962,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		const bottomRow = pos.row + dims.y;
 
 		this._itemsInGrid.forEach((itemId: string) => {
-			const item: NgGridItem = this._items.get(itemId);
+			const item: NgGridItemDirective = this._items.get(itemId);
 
 			if (!item) {
 				this._itemsInGrid.delete(itemId);
@@ -979,7 +986,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	}
 
 	private _fixGridCollisions(pos: NgGridItemPosition, dims: NgGridItemSize): void {
-		const collisions: Array<NgGridItem> = this._getCollisions(pos, dims);
+		const collisions: Array<NgGridItemDirective> = this._getCollisions(pos, dims);
 		if (collisions.length === 0) { return; }
 
 		for (let collision of collisions) {
@@ -1027,7 +1034,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 			dims = this._resizingItem.getSize();
 		}
 
-		let itemsInGrid: NgGridItem[] = Array.from(this._itemsInGrid, (itemId: string) => this._items.get(itemId));
+		let itemsInGrid: NgGridItemDirective[] = Array.from(this._itemsInGrid, (itemId: string) => this._items.get(itemId));
 
 		switch (this.cascade) {
 			case 'up':
@@ -1193,8 +1200,8 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		return newPos;
 	}
 
-	private _getItemsInHorizontalPath(pos: NgGridItemPosition, dims: NgGridItemSize, startColumn: number = 0): NgGridItem[] {
-		const itemsInPath: NgGridItem[] = [];
+	private _getItemsInHorizontalPath(pos: NgGridItemPosition, dims: NgGridItemSize, startColumn: number = 0): NgGridItemDirective[] {
+		const itemsInPath: NgGridItemDirective[] = [];
 		const topRow: number = pos.row + dims.y - 1;
 
 		this._itemsInGrid.forEach((itemId: string) => {
@@ -1208,8 +1215,8 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		return itemsInPath;
 	}
 
-	private _getItemsInVerticalPath(pos: NgGridItemPosition, dims: NgGridItemSize, startRow: number = 0): NgGridItem[] {
-		const itemsInPath: NgGridItem[] = [];
+	private _getItemsInVerticalPath(pos: NgGridItemPosition, dims: NgGridItemSize, startRow: number = 0): NgGridItemDirective[] {
+		const itemsInPath: NgGridItemDirective[] = [];
 		const rightCol: number = pos.col + dims.x - 1;
 
 		this._itemsInGrid.forEach((itemId: string) => {
@@ -1275,7 +1282,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		return this._fixSizeToBoundsX(pos, this._fixSizeToBoundsY(pos, dims));
 	}
 
-	private _addToGrid(item: NgGridItem): void {
+	private _addToGrid(item: NgGridItemDirective): void {
 		let pos: NgGridItemPosition = item.getGridPosition();
 		const dims: NgGridItemSize = item.getSize();
 
@@ -1287,7 +1294,7 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		this._itemsInGrid.add(item.uid);
 	}
 
-	private _removeFromGrid(item: NgGridItem): void {
+	private _removeFromGrid(item: NgGridItemDirective): void {
 		this._itemsInGrid.delete(item.uid);
 	}
 
@@ -1379,8 +1386,8 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		return Math.floor((maxWidth - (this._maxCols * itemWidth)) / 2);;
 	}
 
-	private _getItemFromPosition(position: NgGridRawPosition): NgGridItem {
-		return Array.from(this._itemsInGrid, (itemId: string) => this._items.get(itemId)).find((item: NgGridItem) => {
+	private _getItemFromPosition(position: NgGridRawPosition): NgGridItemDirective {
+		return Array.from(this._itemsInGrid, (itemId: string) => this._items.get(itemId)).find((item: NgGridItemDirective) => {
 			if (!item) return false;
 
 			const size: NgGridItemDimensions = item.getDimensions();
@@ -1391,14 +1398,14 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 		});
 	}
 
-	private _createPlaceholder(item: NgGridItem): void {
+	private _createPlaceholder(item: NgGridItemDirective): void {
 		const pos: NgGridItemPosition = item.getGridPosition();
 		const dims: NgGridItemSize = item.getSize();
 
-		const factory = this.componentFactoryResolver.resolveComponentFactory(NgGridPlaceholder);
-		var componentRef: ComponentRef<NgGridPlaceholder> = item.containerRef.createComponent(factory);
+		const factory = this.componentFactoryResolver.resolveComponentFactory(NgGridPlaceholderComponent);
+		var componentRef: ComponentRef<NgGridPlaceholderComponent> = item.containerRef.createComponent(factory);
 		this._placeholderRef = componentRef;
-		const placeholder: NgGridPlaceholder = componentRef.instance;
+		const placeholder: NgGridPlaceholderComponent = componentRef.instance;
 		placeholder.registerGrid(this);
 		placeholder.setCascadeMode(this.cascade);
 		placeholder.setGridPosition({ col: pos.col, row: pos.row });
@@ -1408,8 +1415,8 @@ export class NgGrid implements OnInit, DoCheck, OnDestroy {
 	private _emitOnItemChange() {
 		const itemOutput: any[] = Array.from(this._itemsInGrid)
 			.map((itemId: string) => this._items.get(itemId))
-			.filter((item: NgGridItem) => !!item)
-			.map((item: NgGridItem) => item.getEventOutput());
+			.filter((item: NgGridItemDirective) => !!item)
+			.map((item: NgGridItemDirective) => item.getEventOutput());
 
 		this.onItemChange.emit(itemOutput);
 	}
