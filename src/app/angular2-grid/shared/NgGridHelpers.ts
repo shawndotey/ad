@@ -21,7 +21,7 @@ function completeAssign(target, ...sources) {
   }
 
 
-export function ExtendMixin(baseCtors: Function[]) {
+export function ExtendMixin(...baseCtors: Function[]) {
 	return function (derivedCtor: Function) {
 		baseCtors.forEach(baseCtor => {
 			const fieldCollector = {};

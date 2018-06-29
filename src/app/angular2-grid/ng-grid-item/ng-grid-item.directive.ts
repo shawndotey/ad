@@ -25,10 +25,10 @@ import {
 import {ExtendMixin} from "../shared/NgGridHelpers";
 import { NgGridItemDraghandleDirective } from "../ng-grid-item-draghandle/ng-grid-item-draghandle.directive";
 
-@ExtendMixin([
+@ExtendMixin(
   NgGridItemDirectiveDragMixin,
   NgGridItemDirectiveResizeMixin
-])
+)
 @Directive({
   selector: "[ngGridItem]",
   inputs: ["config: ngGridItem"]
@@ -45,16 +45,18 @@ export class NgGridItemDirective extends NgGridItemDirectiveBase
     protected _ngEl: ElementRef,
     protected _renderer: Renderer2,
     protected _ngGrid: NgGridDirective,
-    public containerRef: ViewContainerRef
+    public containerRef: ViewContainerRef,
   ) {
 	super(_differs, _ngEl, _renderer, _ngGrid, containerRef);
 	
 	
   }
-  @ContentChildren(NgGridItemDraghandleDirective, {descendants: true}) dragHandles: QueryList<NgGridItemDraghandleDirective>;
-  ngAfterContentInit() {
-	console.log('dragHandles', this.dragHandles);
-}
+  @ContentChildren(NgGridItemDraghandleDirective, {descendants: true}) 
+  dragHandles: QueryList<NgGridItemDraghandleDirective>;
+ 
+//   ngAfterContentInit() {
+// 	console.log('dragHandles', this.dragHandles);
+// }
   //	[ng-grid-item] handler
   set config(v: NgGridItemConfig) {
     this._userConfig = v;

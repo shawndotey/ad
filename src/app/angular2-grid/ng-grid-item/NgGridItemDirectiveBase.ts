@@ -10,8 +10,7 @@ export class NgGridItemDirectiveBase extends NgGridItem {
 		protected _ngGrid: NgGridDirective,
 		public containerRef: ViewContainerRef
 	  ) {
-		super();
-		
+			super();
 	  }
 	  @Output()
 	  public onItemChange: EventEmitter<NgGridItemEvent> = new EventEmitter<NgGridItemEvent>(false);

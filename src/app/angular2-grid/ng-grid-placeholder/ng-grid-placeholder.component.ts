@@ -2,6 +2,7 @@ import { NgGridItemSize } from "../model/NgGridItem/NgGridItemSize";
 import { NgGridItemPosition } from "../model/NgGridItem/NgGridItemPosition";
 import { Component, ElementRef, Renderer, OnInit } from '@angular/core';
 import { NgGridDirective } from '../ng-grid/ng-grid.directive';
+import { NgGridDirectiveBase } from "../ng-grid/NgGridDirectiveBase";
 
 @Component({
 	selector: 'ng-grid-placeholder',
@@ -10,12 +11,12 @@ import { NgGridDirective } from '../ng-grid/ng-grid.directive';
 export class NgGridPlaceholderComponent implements OnInit {
 	private _size: NgGridItemSize;
 	private _position: NgGridItemPosition;
-	private _ngGrid: NgGridDirective;
+	private _ngGrid: NgGridDirective | NgGridDirectiveBase;
 	private _cascadeMode: string;
 
 	constructor(private _ngEl: ElementRef, private _renderer: Renderer) { }
 
-	public registerGrid(ngGrid: NgGridDirective) {
+	public registerGrid(ngGrid: NgGridDirective | NgGridDirectiveBase) {
 		this._ngGrid = ngGrid;
 	}
 

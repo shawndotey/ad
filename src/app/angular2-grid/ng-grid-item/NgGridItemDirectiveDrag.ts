@@ -55,24 +55,24 @@ export abstract class NgGridItemDirectiveDragMixin extends NgGridItemDirectiveBa
 		this._renderer.addClass(this._ngEl.nativeElement, "moving");
 		const style: any = window.getComputedStyle(this._ngEl.nativeElement);
 		if (this._ngGrid.autoStyle)
-		  this._renderer.setStyle(
-			this._ngEl.nativeElement,
-			"z-index",
-			(parseInt(style.getPropertyValue("z-index")) + 1).toString()
-		  );
-	  }
-	
-	  public stopMoving(): void {
+			this._renderer.setStyle(
+				this._ngEl.nativeElement,
+				"z-index",
+				(parseInt(style.getPropertyValue("z-index")) + 1).toString()
+			);
+	}
+
+	public stopMoving(): void {
 		this._renderer.removeClass(this._ngEl.nativeElement, "moving");
 		const style: any = window.getComputedStyle(this._ngEl.nativeElement);
 		if (this._ngGrid.autoStyle)
-		  this._renderer.setStyle(
-			this._ngEl.nativeElement,
-			"z-index",
-			(parseInt(style.getPropertyValue("z-index")) - 1).toString()
-		  );
-	  }
-	  public getDragHandle(): string {
+			this._renderer.setStyle(
+				this._ngEl.nativeElement,
+				"z-index",
+				(parseInt(style.getPropertyValue("z-index")) - 1).toString()
+			);
+	}
+	public getDragHandle(): string {
 		return this._dragHandle;
-	  }
+	}
 }
