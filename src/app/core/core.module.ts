@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppLayoutModule } from '../layout/layout.module';
-import {SharedModule} from 'src/app/shared/shared.module';
+import {SharedModule} from '../shared/shared.module';
 import 'hammerjs';
 
 

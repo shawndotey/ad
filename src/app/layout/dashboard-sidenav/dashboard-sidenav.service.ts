@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MenuModel } from 'src/app/shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
+import { MenuModel } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 
 
 export interface MainMenu extends MenuModel{

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { NgGridDirective } from './ng-grid/ng-grid.directive';
-import { NgGridItemDirective } from './ng-grid-item/ng-grid-item.directive';
-import { NgGridPlaceholderComponent } from './ng-grid-placeholder/ng-grid-placeholder.component';
-import { NgGridItemDraghandleDirective } from './ng-grid-item-draghandle/ng-grid-item-draghandle.directive';
+import { AdGridDirective } from './ad-grid/ad-grid.directive';
+import { AdGridItemDirective } from './ad-grid-item/ad-grid-item.directive';
+import { AdGridPlaceholderComponent } from './ad-grid-placeholder/ad-grid-placeholder.component';
+import { AdGridItemDraghandleDirective } from './ad-grid-item-draghandle/ad-grid-item-draghandle.directive';
 
 @NgModule({
-  declarations:     [ NgGridDirective,  NgGridItemDirective, NgGridPlaceholderComponent, NgGridItemDraghandleDirective ],
-  entryComponents:  [ NgGridPlaceholderComponent ],
-  exports:          [ NgGridDirective, NgGridItemDirective, NgGridItemDraghandleDirective ]
+  declarations:     [ AdGridDirective,  AdGridItemDirective, AdGridPlaceholderComponent, AdGridItemDraghandleDirective ],
+  entryComponents:  [ AdGridPlaceholderComponent ],
+  exports:          [ AdGridDirective, AdGridItemDirective, AdGridItemDraghandleDirective ]
 })
 export class Angular2GridModule {}

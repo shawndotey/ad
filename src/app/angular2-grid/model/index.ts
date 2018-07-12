@@ -1,16 +1,16 @@
 
-export { NgConfigFixDirection } from './NgConfigFixDirection';
+export { AdConfigFixDirection } from './AdConfigFixDirection';
 export { ResizeHandle } from './ResizeHandle';
 
-export { NgGridConfig } from './NgGrid/NgGridConfig';
-export { NgGridRawPosition } from './NgGrid/NgGridRawPosition';
+export { AdGridConfig } from './AdGrid/AdGridConfig';
+export { AdGridRawPosition } from './AdGrid/AdGridRawPosition';
 
-export { NgGridItem } from './NgGridItem/NgGridItem';
-export { NgGridItemConfig } from './NgGridItem/NgGridItemConfig';
-export { GRID_ITEM_DEFAULT_CONFIG } from './NgGridItem/NgGridItemConfig.Default';
-export { NgGridItemDimensions } from './NgGridItem/NgGridItemDimensions';
-export { NgGridItemEvent } from './NgGridItem/NgGridItemEvent';
-export { NgGridItemPosition } from './NgGridItem/NgGridItemPosition';
-export { NgGridItemSize } from './NgGridItem/NgGridItemSize';
+export { AdGridItem } from './AdGridItem/AdGridItem';
+export { AdGridItemConfig } from './AdGridItem/AdGridItemConfig';
+export { GRID_ITEM_DEFAULT_CONFIG } from './AdGridItem/AdGridItemConfig.Default';
+export { AdGridItemDimensions } from './AdGridItem/AdGridItemDimensions';
+export { AdGridItemEvent } from './AdGridItem/AdGridItemEvent';
+export { AdGridItemPosition } from './AdGridItem/AdGridItemPosition';
+export { AdGridItemSize } from './AdGridItem/AdGridItemSize';
 
 

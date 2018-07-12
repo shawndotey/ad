@@ -10,7 +10,7 @@ import {
   MenuModel
 } from "./ad-nav-menu.service";
 import { AdNavItemDirective } from '../ad-nav-item/ad-nav-item.directive';
-import { AdNavNesterDirective } from './../ad-nav-nester/ad-nav-nester.directive';
+import { AdNavNesterDirective } from '../ad-nav-nester/ad-nav-nester.directive';
 
 
 

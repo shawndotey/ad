@@ -1,7 +1,7 @@
 
-<div [ngGrid]="gridConfig" >
-    <div [ngGridItem]="{'dragHandle': '.handle'}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
-        <div  ngGridItemDraghandle style='height:50px;border: 3px solid black;'>
+<div [adGrid]="gridConfig" >
+    <div [adGridItem]="{'dragHandle': '.handle'}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+        <div  adGridItemDraghandle style='height:50px;border: 3px solid black;'>
             <div  style='width: 100px;border: 3px solid black;'>
                 <!-- <div class="childHandle" style='width: 100px;border: 3px solid white;'> -->
                     <span  >This one</span>
@@ -13,7 +13,7 @@
         Max Cols - 2<br />
         Max Rows - 3<br />
     </div>
-    <!-- <div [ngGridItem]="{'dragHandle': '.handle', 'minCols': 2, 'minRows': 3}" (itemChange)="updateItem( $event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+    <!-- <div [adGridItem]="{'dragHandle': '.handle', 'minCols': 2, 'minRows': 3}" (itemChange)="updateItem( $event)" (resize)="onResize($event)" (drag)="onDrag($event)">
         <div class="handle">
             <div class="childHandle">
                 <span>Child handle</span>
@@ -22,7 +22,7 @@
         Min Cols - 2<br />
         Min Rows - 3<br />
     </div>
-    <div [ngGridItem]="{'dragHandle': '.handle', 'minCols': 2, 'minRows': 2, 'maxCols': 4, 'maxRows': 4}" (itemChange)="updateItem( $event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+    <div [adGridItem]="{'dragHandle': '.handle', 'minCols': 2, 'minRows': 2, 'maxCols': 4, 'maxRows': 4}" (itemChange)="updateItem( $event)" (resize)="onResize($event)" (drag)="onDrag($event)">
         <div class="handle">
             <div class="childHandle">
                 <span>Child handle</span>
@@ -33,12 +33,12 @@
     </div> -->
 
     
-    <!-- <div *ngFor="let box of boxes; let i = index" [(ngGridItem)]="box.config" (onItemChange)="updateItem(i, $event)" (onResize)="onResize($event)" (onDrag)="onDrag($event)">
+    <!-- <div *ngFor="let box of boxes; let i = index" [(adGridItem)]="box.config" (onItemChange)="updateItem(i, $event)" (onResize)="onResize($event)" (onDrag)="onDrag($event)">
         <div class="handle"></div>
         {{box.id}}
     </div>  -->
 
-<div class="example-card-holder" *ngFor="let box of boxes; let i = index" [(ngGridItem)]="box.config" (onItemChange)="updateItem(i, $event)" (onResize)="onResize($event)" (onDrag)="onDrag($event)">
+<div class="example-card-holder" *ngFor="let box of boxes; let i = index" [(adGridItem)]="box.config" (onItemChange)="updateItem(i, $event)" (onResize)="onResize($event)" (onDrag)="onDrag($event)">
 
     <mat-card  class="example-card">
         <mat-card-header class="handle">
@@ -64,19 +64,19 @@
 
 
 
-    <!-- <div [ngGridItem]="{'dragHandle': '.handle', 'fixed': true, 'col': 2, 'row': 3}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+    <!-- <div [adGridItem]="{'dragHandle': '.handle', 'fixed': true, 'col': 2, 'row': 3}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
         <div class="handle"></div>
         Fixed - moveable, resizable
     </div>
-    <div [ngGridItem]="{'dragHandle': '.handle', 'fixed': true, 'draggable': false, 'col': 1, 'row': 5}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+    <div [adGridItem]="{'dragHandle': '.handle', 'fixed': true, 'draggable': false, 'col': 1, 'row': 5}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
         <div class="handle"></div>
         Fixed - not moveable, resizable
     </div>
-    <div [ngGridItem]="{'dragHandle': '.handle', 'fixed': true, 'resizable': false, 'col': 5, 'row': 2}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+    <div [adGridItem]="{'dragHandle': '.handle', 'fixed': true, 'resizable': false, 'col': 5, 'row': 2}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
         <div class="handle"></div>
         Fixed - moveable, not resizable
     </div>
-    <div [ngGridItem]="{'dragHandle': '.handle', 'fixed': true, 'resizable': false, 'draggable': false, 'col': 3, 'row': 4}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+    <div [adGridItem]="{'dragHandle': '.handle', 'fixed': true, 'resizable': false, 'draggable': false, 'col': 3, 'row': 4}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
         <div class="handle"></div>
         Fixed - not moveable, not resizable
     </div> -->

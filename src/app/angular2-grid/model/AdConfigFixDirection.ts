@@ -1,0 +1,1 @@
+export type AdConfigFixDirection = "vertical" | "horizontal" | "cascade";

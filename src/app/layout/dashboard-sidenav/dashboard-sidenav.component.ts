@@ -1,4 +1,4 @@
-import { MenuModel } from 'src/app/shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
+import { MenuModel } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 import { Component, OnInit } from '@angular/core';
 import {of as observableOf} from 'rxjs';
 import {MENU_LIST} from './dashboard-sidenav.service';

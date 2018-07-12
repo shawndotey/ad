@@ -1,4 +1,4 @@
-import { MaterialModule } from 'src/app/shared/material/material.module';
+import { MaterialModule } from '../material/material.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {AdNavMenuComponent} from './ad-nav-menu/ad-nav-menu.component';

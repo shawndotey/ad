@@ -1,1 +1,0 @@
-export type NgConfigFixDirection = "vertical" | "horizontal" | "cascade";

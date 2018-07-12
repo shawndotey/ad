@@ -1,13 +1,14 @@
-import { NgGridConfig } from '../angular2-grid/model';
+import { AdGridConfig } from '../angular2-grid/model';
 import { Component, OnInit, Injectable, ViewChild, AfterViewInit  } from '@angular/core';
-import { NgGridItemConfig } from "src/app/angular2-grid/model";
-import { NgGridItemEvent } from "src/app/angular2-grid/model";
+import { AdGridItemConfig } from "../angular2-grid/model";
+import { AdGridItemEvent } from "../angular2-grid/model";
+import { getOrCreateChangeDetectorRef } from '@angular/core/src/render3/di';
  
 
 
 interface Box {
   id: number;
-  config: NgGridItemConfig;
+  config: AdGridItemConfig;
 }
 
 @Component({
@@ -24,13 +25,17 @@ export class HomeComponent implements OnInit {
         conf.payload = i;
         this.boxes[i - 1] = { id: i, config: conf };
     }
+
+
+
+
 }
   ngOnInit() {
   }
  
   public curNum = 3;
   public boxes: Array<Box> = [];
-  public gridConfig: NgGridConfig = <NgGridConfig>{
+  public gridConfig: AdGridConfig = <AdGridConfig>{
       'margins': [5],
       'draggable': true,
       'resizable': true,
@@ -77,12 +82,12 @@ export class HomeComponent implements OnInit {
       this.curItemCheck = v;
   }
 
-  get curItem(): NgGridItemConfig {
+  get curItem(): AdGridItemConfig {
       return this.boxes[this.curItemCheck] ? this.boxes[this.curItemCheck].config : {};
   }
 
   ngAfterViewInit(): void {
-      //  Do something with NgGrid instance here
+      //  Do something with AdGrid instance here
   }
 
   setMargin(marginSize: string): void {
@@ -90,7 +95,7 @@ export class HomeComponent implements OnInit {
   }
 
   addBox(): void {
-      const conf: NgGridItemConfig = this._generateDefaultItemConfig();
+      const conf: AdGridItemConfig = this._generateDefaultItemConfig();
       conf.payload = this.curNum++;
       this.boxes.push({ id: conf.payload, config: conf });
   }
@@ -101,15 +106,15 @@ export class HomeComponent implements OnInit {
       }
   }
 
-  updateItem(index: number, event: NgGridItemEvent): void {
+  updateItem(index: number, event: AdGridItemEvent): void {
       // Do something here
   }
 
-  onDrag(index: number, event: NgGridItemEvent): void {
+  onDrag(index: number, event: AdGridItemEvent): void {
     //console.log('onDrag')
   }
 
-  onResize(index: number, event: NgGridItemEvent): void {
+  onResize(index: number, event: AdGridItemEvent): void {
       // Do something here
   }
 
@@ -120,8 +125,11 @@ export class HomeComponent implements OnInit {
       }
   }
 
-  private _generateDefaultItemConfig(): NgGridItemConfig {
+  private _generateDefaultItemConfig(): AdGridItemConfig {
       return { 'dragHandle': '.handle', 'col': 1, 'row': 1, 'sizex': 1, 'sizey': 1 };
   }
 }
+
+
+
 
