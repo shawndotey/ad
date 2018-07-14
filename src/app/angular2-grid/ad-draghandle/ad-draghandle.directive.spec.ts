@@ -1,4 +1,4 @@
-import { AdGridItemDraghandleDirective } from './ad-grid-item-draghandle.directive';
+import { AdDraghandleDirective } from './ad-draghandle.directive';
 
 describe('AdGridItemDraghandleDirective', () => {
   it('should create an instance', () => {

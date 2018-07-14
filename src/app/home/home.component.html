@@ -1,17 +1,35 @@
 
 <div [adGrid]="gridConfig" >
     <div [adGridItem]="{'dragHandle': '.handle'}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
-        <div  adGridItemDraghandle style='height:50px;border: 3px solid black;'>
-            <div  style='width: 100px;border: 3px solid black;'>
+        <div style='height:50px;border: 3px solid black;'>
+            <div adDraghandle  style='width: 100px;border: 3px solid black;height:100%;'>
                 <!-- <div class="childHandle" style='width: 100px;border: 3px solid white;'> -->
-                    <span  >This one</span>
+                <span>This one</span>
                 <!-- </div> -->
             </div>
         </div>
-        
-       
-        Max Cols - 2<br />
-        Max Rows - 3<br />
+        <div>
+            Max Cols - 2
+            <br /> Max Rows - 3
+            <br />
+        </div>
+    </div>
+    
+    <div adResizehandle [adGridItem]="{'dragHandle': '.handle'}" (itemChange)="updateItem($event)" (resize)="onResize($event)" (drag)="onDrag($event)">
+        <div adDraghandle style='height:50px;border: 3px solid black;'>
+            <div style='width: 100px;border: 3px solid black;height:100%;'>
+                <!-- <div class="childHandle" style='width: 100px;border: 3px solid white;'> -->
+                <span>This TWO</span>
+                <!-- </div> -->
+            </div>
+        </div>
+    
+        <div>
+            Max Cols - 2
+            <br /> Max Rows - 3
+            <br />
+        </div>
+    
     </div>
     <!-- <div [adGridItem]="{'dragHandle': '.handle', 'minCols': 2, 'minRows': 3}" (itemChange)="updateItem( $event)" (resize)="onResize($event)" (drag)="onDrag($event)">
         <div class="handle">

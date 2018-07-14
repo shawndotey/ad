@@ -2,7 +2,19 @@
 	height: 100%;
   }
   
-  .sidenav {
+.sidenav {
 	width: 200px;
 	box-shadow: 3px 0 6px rgba(0,0,0,.24);
-  }
+}
+	
+
+
+.ad-draghandle-draggable{
+	
+	&.ad-draghandle-dragging{
+		cursor: grabbing;
+	}
+	&.ad-draghandle-hover{
+		cursor: move;
+	}
+}

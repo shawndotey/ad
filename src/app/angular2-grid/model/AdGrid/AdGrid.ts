@@ -5,23 +5,15 @@ import { AdGridPlaceholderComponent, AdGridItemDirective } from "../../main";
 
 export class AdGrid{
 //	Public variables
-public colWidth: number = 250;
-public rowHeight: number = 250;
-public minCols: number = 1;
-public minRows: number = 1;
-public marginTop: number = 10;
-public marginRight: number = 10;
-public marginBottom: number = 10;
-public marginLeft: number = 10;
-public screenMargin: number = 0;
-public isDragging: boolean = false;
+
+
+
 public isResizing: boolean = false;
 public autoStyle: boolean = true;
 public resizeEnable: boolean = true;
-public dragEnable: boolean = true;
+
 public cascade: string = 'up';
-public minWidth: number = 100;
-public minHeight: number = 100;
+
 
 //	Private variables
 
@@ -45,12 +37,11 @@ protected _destroyed: boolean = false;
 protected _maintainRatio: boolean = false;
 protected _aspectRatio: number;
 protected _preferNew: boolean = false;
-protected _zoomOnDrag: boolean = false;
 protected _limitToScreen: boolean = false;
 protected _centerToScreen: boolean = false;
 protected _curMaxRow: number = 0;
 protected _curMaxCol: number = 0;
-protected _dragReady: boolean = false;
+
 protected _resizeReady: boolean = false;
 protected _elementBasedDynamicRowHeight: boolean = false;
 protected _itemFixDirection: AdConfigFixDirection = "cascade";

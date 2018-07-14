@@ -12,7 +12,7 @@
 .grid {
   background-color: #efefef;
   transform-origin: top center;
-  transition: transform 3.5s;
+  transition: transform 1.5s;
 }
 
 .grid-item {
@@ -20,7 +20,7 @@
 //   -webkit-transition: width 0.25s, height 0.25s, transform 0.5s;
 //   -moz-transition: width 0.25s, height 0.25s, transform 0.5s;
 //   -o-transition: width 0.25s, height 0.25s, transform 0.5s;
-  transition: all 0.5s;
+  transition: all 0.3s;
   overflow: hidden;
   &:active,
   &.moving {
@@ -51,4 +51,9 @@
   .grid-item:last-child {
     margin-bottom: 0;
   }
+}
+
+.dragging{
+
+  border: 7px solid #970c0c;
 }

@@ -1,87 +1,83 @@
-import { AdGridItemDraghandleDirective } from '../ad-grid-item-draghandle/ad-grid-item-draghandle.directive';
+import { Subscription } from "rxjs";
+
+import { AdDraghandleDirective } from '../ad-draghandle/ad-draghandle.directive';
 // import  * as AdGridItemUtility  from './../shared/AdGridHelpers';
 import { EventEmitter, Output, ContentChildren, QueryList } from '@angular/core';
 import { AdGridItemEvent } from "../model";
 import { AdGridItemDirectiveBase } from "./AdGridItemDirectiveBase";
 import { MixinConstructor } from '../shared/ExtendMixin';
-import { hasSelectorFromStartToParentElement } from '../shared/AdGridHelpers';
-// 
+
 
 export function AdGridItemDirectiveDragMixin<T extends MixinConstructor<AdGridItemDirectiveBase>>(Base: T) {
-	class Mixin extends Base  {
-	  
-	  constructor(...args: any[]) {
-		super(...args)
-	  }
-	  @Output()
-	  public onDragStop: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
-	  @Output()
-	  public onDragAny: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
-	  @Output()
-	  public onDragStart: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
-	  @Output()
-	  public onDrag: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
-	   //	Public methods
-	   public canDrag(e: any): boolean {
-		if (!this.isDraggable) return false;
-	  
-		if (this._dragHandle) {
-		  return hasSelectorFromStartToParentElement(
-		  this._dragHandle,
-		  e.target,
-		  this._ngEl.nativeElement
-		  );
+	class Mixin extends Base {
+		
+		@ContentChildren(AdDraghandleDirective, { descendants: true })  dragHandles: QueryList<AdDraghandleDirective>;
+
+		constructor(...args: any[]) {
+			super(...args)
+
+			this.onNgAfterContentInit.subscribe(() => {
+				
+				this.dragHandles.changes.subscribe(() => {
+					
+					this.dragHandleSubscriptions.forEach(s => s.unsubscribe());
+					
+					
+					this.dragHandles.forEach(dragHandle => {
+						this.dragHandleSubscriptions.push(dragHandle.handleDragStart.subscribe((event) => {
+							this.onDragStartEvent(event);
+						}));
+					});
+					this.dragHandles.forEach(dragHandle => {
+						this.dragHandleSubscriptions.push(dragHandle.handleDragMove.subscribe((event) => {
+							this.onDragEvent(event);
+						}));
+					});
+					this.dragHandles.forEach(dragHandle => {
+						this.dragHandleSubscriptions.push(dragHandle.handlePointerUp.subscribe((event) => {
+							this.onDragStopEvent(event);
+						}));
+					});
+					
+				});
+				this.dragHandles.notifyOnChanges();
+			});
+
+
+			
 		}
-	  
-		return true;
+		@Output() public onDragStop: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
+		@Output() public onDragAny: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
+		@Output() public onDragStart: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
+		@Output() public onDrag: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
+		protected dragHandleSubscriptions: Subscription[] = [];
+		
+	   //	Private methods
+	   
+		private onDragStartEvent(event: AdGridItemEvent ): void {
+			this.setItemActiveOn();
+			this.onDragStart.emit(event);
+			this.onDragAny.emit(event);
+			this.onChangeStart.emit(event);
+			this.onChangeAny.emit(event);
 		}
-	  public onDragStartEvent(): void {
-		const event: AdGridItemEvent = this.getEventOutput();
-		this.onDragStart.emit(event);
-		this.onDragAny.emit(event);
-		this.onChangeStart.emit(event);
-		this.onChangeAny.emit(event);
-	  }
-	  public onDragEvent(): void {
-		const event: AdGridItemEvent = this.getEventOutput();
-		this.onDrag.emit(event);
-		this.onDragAny.emit(event);
-		this.onChange.emit(event);
-		this.onChangeAny.emit(event);
-	  }
-	  public onDragStopEvent(): void {
-		const event: AdGridItemEvent = this.getEventOutput();
-		this.onDragStop.emit(event);
-		this.onDragAny.emit(event);
-		this.onChangeStop.emit(event);
-		this.onChangeAny.emit(event);
-		this.onConfigChangeEvent();
-	  }
-	  
-	  public startMoving(): void {
-		this._renderer.addClass(this._ngEl.nativeElement, "moving");
-		const style: any = window.getComputedStyle(this._ngEl.nativeElement);
-		if (this._AdGrid.autoStyle)
-		  this._renderer.setStyle(
-			this._ngEl.nativeElement,
-			"z-index",
-			(parseInt(style.getPropertyValue("z-index")) + 1).toString()
-		  );
-	  }
-	
-	  public stopMoving(): void {
-		this._renderer.removeClass(this._ngEl.nativeElement, "moving");
-		const style: any = window.getComputedStyle(this._ngEl.nativeElement);
-		if (this._AdGrid.autoStyle)
-		  this._renderer.setStyle(
-			this._ngEl.nativeElement,
-			"z-index",
-			(parseInt(style.getPropertyValue("z-index")) - 1).toString()
-		  );
-	  }
-	  public getDragHandle(): string {
-		return this._dragHandle;
-	  }
-  }
-  return Mixin;
+		private onDragEvent(event: AdGridItemEvent ): void {
+			this.onDrag.emit(event);
+			this.onDragAny.emit(event);
+			this.onChange.emit(event);
+			this.onChangeAny.emit(event);
+		}
+		private onDragStopEvent(event: AdGridItemEvent ): void {
+			this.setItemActiveOff();
+			this.onDragStop.emit(event);
+			this.onDragAny.emit(event);
+			this.onChangeStop.emit(event);
+			this.onChangeAny.emit(event);
+			this.onConfigChangeEvent();
+		}
+
+		
+		
+	}
+	return Mixin;
 }

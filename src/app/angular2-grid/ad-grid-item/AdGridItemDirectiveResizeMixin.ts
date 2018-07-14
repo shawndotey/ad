@@ -24,7 +24,7 @@ export function AdGridItemDirectiveResizeMixin<T extends MixinConstructor<AdGrid
       super(...args);
       this.onMouseMove$.subscribe(event=>{
 
-console.log('onMouseMove event')
+// console.log('onMouseMove event')
       })
     }
     @Output() public onResizeStart: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();

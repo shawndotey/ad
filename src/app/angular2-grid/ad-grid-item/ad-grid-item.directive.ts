@@ -6,16 +6,13 @@ import {
 	OnDestroy,
 	OnInit,
 	Renderer2,
-	ViewContainerRef,
-	QueryList,
-	ContentChildren
+	ViewContainerRef
   } from "@angular/core";
-import { AdGridDirective } from "../ad-grid/ad-grid.directive";
+
 import {
   AdGridItemConfig,
   GRID_ITEM_DEFAULT_CONFIG
 } from "../model";
-import { AdGridItemDraghandleDirective } from "../ad-grid-item-draghandle/ad-grid-item-draghandle.directive";
 import { AdGridItemDirectiveWithMixins } from "./AdGridItemDirectiveWithMixins";
 
 
@@ -25,29 +22,22 @@ import { AdGridItemDirectiveWithMixins } from "./AdGridItemDirectiveWithMixins";
 })
 //
 export class AdGridItemDirective extends AdGridItemDirectiveWithMixins
-  implements OnInit, OnDestroy, DoCheck{
-  //	Event Emitters
-
-  //private dragControl :AdDrag = new AdDrag();
-  dragValue: string = "target drag";
+  implements OnInit, OnDestroy, DoCheck {
+   
   constructor(
     protected _differs: KeyValueDiffers,
     protected _ngEl: ElementRef,
     protected _renderer: Renderer2,
-    protected _AdGrid: AdGridDirective,
     public containerRef: ViewContainerRef,
   ) {
-	super(_differs, _ngEl, _renderer, _AdGrid, containerRef);
-	
-	
+    super(_differs, _ngEl, _renderer, containerRef);
   }
-  @ContentChildren(AdGridItemDraghandleDirective, {descendants: true}) 
-  dragHandles: QueryList<AdGridItemDraghandleDirective>;
- 
-//   ngAfterContentInit() {
-// 	console.log('dragHandles', this.dragHandles);
-// }
-  //	[ad-grid-item] handler
+  
+  ngAfterContentInit() {
+    this.onNgAfterContentInit.emit();
+    
+  }
+  
   set config(v: AdGridItemConfig) {
     this._userConfig = v;
 
@@ -66,13 +56,7 @@ export class AdGridItemDirective extends AdGridItemDirectiveWithMixins
       this._differ.diff(this._userConfig);
     }
 
-    if (!this._added) {
-      this._added = true;
-      this._AdGrid.addItem(this);
-    }
-
-    this._recalculateDimensions();
-    this._recalculatePosition();
+  
   }
 
   public onCascadeEvent(): void {
@@ -81,23 +65,42 @@ export class AdGridItemDirective extends AdGridItemDirectiveWithMixins
 
   public ngOnInit(): void {
     this._renderer.addClass(this._ngEl.nativeElement, "grid-item");
-    if (this._AdGrid.autoStyle)
+    if (this.autoStyle)
       this._renderer.setStyle(this._ngEl.nativeElement, "position", "absolute");
-    this._recalculateDimensions();
-    this._recalculatePosition();
+    //danger breaking
+      // this._recalculateDimensions(gridPosition);
+    // this._recalculatePosition();
 
     //	Force a config update in case there is no config assigned
     this.config = this._userConfig;
+
+
+
+// //danger breaking
+//     if (!this._added) {
+//       this._added = true;
+//       this._AdGrid.addItem(this);
+//     }
+//     if (this._added) {
+//       this._AdGrid.updateItem(this);
+//     }
+
+//     this._size = this.fixSize(this._size);
+
+  
+//     this._recalculateDimensions(gridPosition);
+//     this._recalculatePosition(gridPosition);
+
   }
 
-  public onMouseMove(event: any): void {
+  public onMouseMove(event: any,resizeEnable:boolean): void {
     this.onMouseMove$.emit(event);
-    if (this._AdGrid.autoStyle) {
+    if (this.autoStyle) {
       this._renderer.setStyle(this._ngEl.nativeElement, "cursor", "default");
     }
 
-    if (this._AdGrid.autoStyle) {
-      if (this._AdGrid.resizeEnable) {
+    if (this.autoStyle && resizeEnable) {
+      
         const resizeDirection = this.canResize(event);
 
         let cursor: string = "default";
@@ -119,26 +122,26 @@ export class AdGridItemDirective extends AdGridItemDirectiveWithMixins
             cursor = "ew-resize";
             break;
           default:
-            if (this._AdGrid.dragEnable && this.canDrag(event)) {
-              cursor = "move";
-            }
+            // if (this._AdGrid.dragEnable && this.canDrag(event)) {
+            //   cursor = "move";
+            // }
             break;
         }
 
         this._renderer.setStyle(this._ngEl.nativeElement, "cursor", cursor);
-      } 
+     
     }
 
-    if (this._AdGrid.autoStyle) {
-      if (this._AdGrid.dragEnable && this.canDrag(event)) {
-        this._renderer.setStyle(this._ngEl.nativeElement, "cursor", "move");
-      }
-    }
+    // if (this._AdGrid.autoStyle) {
+    //   if (this._AdGrid.dragEnable && this.canDrag(event)) {
+    //     this._renderer.setStyle(this._ngEl.nativeElement, "cursor", "move");
+    //   }
+    // }
 
   }
 
   public ngOnDestroy(): void {
-    if (this._added) this._AdGrid.removeItem(this);
+    //// need on destroy event, maybe
   }
 
   //	Getters
@@ -186,14 +189,7 @@ export class AdGridItemDirective extends AdGridItemDirectiveWithMixins
     if (this._minRows > 0 && this._maxRows > 0 && this._minRows > this._maxRows)
       this._minRows = 0;
 
-    if (this._added) {
-      this._AdGrid.updateItem(this);
-    }
-
-    this._size = this.fixSize(this._size);
-
-    this._recalculatePosition();
-    this._recalculateDimensions();
+   
   }
 
   public ngDoCheck(): boolean {

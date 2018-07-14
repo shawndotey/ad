@@ -1,13 +1,10 @@
-import { AdGridDirectiveDragMixin } from "./AdGridDirectiveDragMixin";
-
+import { GridDimensions } from "./../model/AdGrid/GridDimensions";
 import { AdGrid } from "../model/AdGrid/AdGrid";
-import { ContentChildren, QueryList, KeyValueDiffers, ElementRef, Renderer, ComponentFactoryResolver, ComponentRef, Output, EventEmitter } from "@angular/core";
-import { AdGridItemDraghandleDirective } from "../ad-grid-item-draghandle/ad-grid-item-draghandle.directive";
+import { KeyValueDiffers, ElementRef, Renderer, ComponentFactoryResolver, ComponentRef, Output, EventEmitter, QueryList, ContentChildren } from "@angular/core";
 import { Subscription } from "rxjs";
 import { AdGridItemDirective } from "../ad-grid-item/ad-grid-item.directive";
 import { AdGridRawPosition, AdGridItemDimensions, AdGridItemPosition, AdGridItemSize, AdGridItemEvent } from "../model";
 import { sortItemsByPositionVertical, sortItemsByPositionHorizontal } from "../shared/AdGridHelpers";
-import { ExtendMixin } from "../shared/ExtendMixin";
 import { AdGridPlaceholderComponent } from "../ad-grid-placeholder/ad-grid-placeholder.component";
 
 
@@ -24,15 +21,16 @@ export class AdGridDirectiveBase extends AdGrid{
 		super();
 
 	}
+	protected gridDimensions:GridDimensions = new GridDimensions();
+	public onNgAfterContentInit: EventEmitter<AdGrid> = new EventEmitter<AdGrid>();
 	
 	protected subscriptions: Subscription[] = [];
 	protected _items: Map<string, AdGridItemDirective> = new Map<string, AdGridItemDirective>();
-	protected _resizingItem: AdGridItemDirective = null;
 	focusedItem: AdGridItemDirective = null;
-	@ContentChildren(AdGridItemDraghandleDirective, {descendants: true}) movables: QueryList<AdGridItemDraghandleDirective>;
 	
 	@Output() public onItemChange: EventEmitter<Array<AdGridItemEvent>> = new EventEmitter<Array<AdGridItemEvent>>();
-
+	@ContentChildren(AdGridItemDirective, { descendants: true }) gridItems: QueryList<AdGridItemDirective>;
+	
 	
 	protected _createPlaceholder(item: AdGridItemDirective): void {
 		const pos: AdGridItemPosition = item.getGridPosition();
@@ -72,16 +70,14 @@ export class AdGridDirectiveBase extends AdGrid{
 		if (this.cascade == 'down') top = refPos.top + refPos.height - e.clientY;
 		if (this.cascade == 'right') left = refPos.left + refPos.width - e.clientX;
 
-		if (this.isDragging && this._zoomOnDrag) {
-			left *= 2;
-			top *= 2;
-		}
-
 		return {
 			left,
 			top
 		};
 	}
+
+
+	
 
 	protected _getItemFromPosition(position: AdGridRawPosition): AdGridItemDirective {
 		return Array.from(this._itemsInGrid, (itemId: string) => this._items.get(itemId)).find((item: AdGridItemDirective) => {
@@ -116,8 +112,8 @@ export class AdGridDirectiveBase extends AdGrid{
 	
 
 	protected _calculateGridPosition(left: number, top: number): AdGridItemPosition {
-		var col = Math.max(1, Math.round(left / (this.colWidth + this.marginLeft + this.marginRight)) + 1);
-		var row = Math.max(1, Math.round(top / (this.rowHeight + this.marginTop + this.marginBottom)) + 1);
+		var col = Math.max(1, Math.round(left / (this.gridDimensions.colWidth + this.gridDimensions.marginLeft + this.gridDimensions.marginRight)) + 1);
+		var row = Math.max(1, Math.round(top / (this.gridDimensions.rowHeight + this.gridDimensions.marginTop + this.gridDimensions.marginBottom)) + 1);
 
 		if (!this._isWithinBoundsX({ col: col, row: row }, { x: 1, y: 1 })) col = this._maxCols;
 		if (!this._isWithinBoundsY({ col: col, row: row }, { x: 1, y: 1 })) row = this._maxRows;
@@ -517,9 +513,9 @@ export class AdGridDirectiveBase extends AdGrid{
 			this._curMaxRow = maxRow;
 		}
 
-		this._renderer.setElementStyle(this._ngEl.nativeElement, 'width', '100%');//(maxCol * (this.colWidth + this.marginLeft + this.marginRight))+'px');
+		this._renderer.setElementStyle(this._ngEl.nativeElement, 'width', '100%');//(maxCol * (this.gridDimensions.colWidth + this.gridDimensions.marginLeft + this.gridDimensions.marginRight))+'px');
 		if (!this._elementBasedDynamicRowHeight) {
-			this._renderer.setElementStyle(this._ngEl.nativeElement, 'height', (maxRow * (this.rowHeight + this.marginTop + this.marginBottom)) + 'px');
+			this._renderer.setElementStyle(this._ngEl.nativeElement, 'height', (maxRow * (this.gridDimensions.rowHeight + this.gridDimensions.marginTop + this.gridDimensions.marginBottom)) + 'px');
 		}
 	}
 

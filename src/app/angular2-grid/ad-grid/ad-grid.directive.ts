@@ -1,25 +1,14 @@
-import { AdGridDirectiveBase } from "./AdGridDirectiveBase";
-
-import { AdGridDirectiveDragMixin } from "./AdGridDirectiveDragMixin";
-
-import { Component, Directive, ElementRef, Renderer, EventEmitter, ComponentFactoryResolver, Host, ViewEncapsulation, Type, ComponentRef, KeyValueDiffer, KeyValueDiffers, OnInit, OnDestroy, DoCheck, ViewContainerRef, Output, QueryList, ContentChildren, HostListener } from '@angular/core';
-import { Subscription, Observable, fromEvent } from 'rxjs';
-
-import { AdGridItemEvent } from "../model/AdGridItem/AdGridItemEvent";
+import { AdGridDirectiveWithMixins } from "./AdGridDirectiveWithMixins";
+import { Directive, ElementRef, Renderer, EventEmitter, ComponentFactoryResolver, KeyValueDiffers, OnInit, OnDestroy, DoCheck, Output } from '@angular/core';
+import { Subscription, fromEvent } from 'rxjs';
 import { AdGridItemSize } from "../model/AdGridItem/AdGridItemSize";
 import { AdGridItemPosition } from "../model/AdGridItem/AdGridItemPosition";
 import { AdGridRawPosition } from "../model/AdGrid/AdGridRawPosition";
-import { AdGridItemDimensions } from "../model/AdGridItem/AdGridItemDimensions";
 import { AdConfigFixDirection } from "../model/AdConfigFixDirection";
 import { AdGridConfig } from "../model/AdGrid/AdGridConfig";
-import { AdGridPlaceholderComponent } from '../ad-grid-placeholder/ad-grid-placeholder.component';
 import { AdGridItemDirective } from '../ad-grid-item/ad-grid-item.directive';
 import * as AdGridHelper from "../shared/AdGridHelpers";
-import {ExtendMixin} from "../shared/ExtendMixin";
-import { AdGridItemDraghandleDirective } from "../ad-grid-item-draghandle/ad-grid-item-draghandle.directive";
 
-
-@ExtendMixin(AdGridDirectiveDragMixin)
 @Directive({
 	selector: '[adGrid]',
 	inputs: ['config: adGrid'],
@@ -27,38 +16,26 @@ import { AdGridItemDraghandleDirective } from "../ad-grid-item-draghandle/ad-gri
 		'(window:resize)': 'resizeEventHandler($event)',
 	}
 })
-export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCheck, OnDestroy, AdGridDirectiveDragMixin {
+export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit, DoCheck, OnDestroy {
 	//_draggingItem: AdGridItemDirective;
-	_drag(arg0: any): any {
-		console.log("################ERROR")
-		throw new Error("Method not implemented.");
-	}
-	_dragStop(e: any): void	{
-		throw new Error("Method not implemented.");
-	}
-	_cleanDrag(): void {
-		throw new Error("Method not implemented.");
-	}
-	_onMoveGridCascade(): void {
-		throw new Error("Method not implemented.");
-	}
-	_subscribeDragEvents(): void {
-		console.log("################ERROR")
-		throw new Error("Method not implemented.");
-	}
+
 	ngAfterContentInit(): void {
 		
-		this._subscribeDragEvents();
 		
+		this.registerGridItems();
+		this.onNgAfterContentInit.emit();
+	}
+	protected registerGridItems() {
+		// need to make reactive
+		this.gridItems.forEach(gridItem=>{
+
+			gridItem.autoStyle = this.autoStyle;
+			this.addItem(gridItem);
+		})
+
 	}
 
-//Drag  stand-in properties
-
-	_dragStart:(e: any) => void;
-	@Output() public onDragStart: EventEmitter<AdGridItemDirective>;
-	@Output() public onDrag: EventEmitter<AdGridItemDirective>;
-	@Output() public onDragStop: EventEmitter<AdGridItemDirective>;
-	//Drag to refactor
+	
 
 
 	//	Event Emitters
@@ -132,10 +109,10 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 					this.setMargins(val);
 					break;
 				case 'col_width':
-					this.colWidth = Math.max(intVal, 1);
+					this.gridDimensions.colWidth = Math.max(intVal, 1);
 					break;
 				case 'row_height':
-					this.rowHeight = Math.max(intVal, 1);
+					this.gridDimensions.rowHeight = Math.max(intVal, 1);
 					break;
 				case 'auto_style':
 					this.autoStyle = val ? true : false;
@@ -164,16 +141,16 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 					this._visibleCols = Math.max(intVal, 0);
 					break;
 				case 'min_rows':
-					this.minRows = Math.max(intVal, 1);
+					this.gridDimensions.minRows = Math.max(intVal, 1);
 					break;
 				case 'min_cols':
-					this.minCols = Math.max(intVal, 1);
+					this.gridDimensions.minCols = Math.max(intVal, 1);
 					break;
 				case 'min_height':
-					this.minHeight = Math.max(intVal, 1);
+					this.gridDimensions.minHeight = Math.max(intVal, 1);
 					break;
 				case 'min_width':
-					this.minWidth = Math.max(intVal, 1);
+					this.gridDimensions.minWidth = Math.max(intVal, 1);
 					break;
 				case 'zoom_on_drag':
 					this._zoomOnDrag = val ? true : false;
@@ -235,14 +212,14 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		}
 
 		if (this._limitToScreen && this._centerToScreen) {
-			this.screenMargin = this._getScreenMargin();
+			this.gridDimensions.screenMargin = this._getScreenMargin();
 		} else {
-			this.screenMargin = 0;
+			this.gridDimensions.screenMargin = 0;
 		}
 
 		if (this._maintainRatio) {
-			if (this.colWidth && this.rowHeight) {
-				this._aspectRatio = this.colWidth / this.rowHeight;
+			if (this.gridDimensions.colWidth && this.gridDimensions.rowHeight) {
+				this._aspectRatio = this.gridDimensions.colWidth / this.gridDimensions.rowHeight;
 			} else {
 				this._maintainRatio = false;
 			}
@@ -269,17 +246,17 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		this._calculateColWidth();
 		this._calculateRowHeight();
 
-		var maxWidth = this._maxCols * this.colWidth;
-		var maxHeight = this._maxRows * this.rowHeight;
+		var maxWidth = this._maxCols * this.gridDimensions.colWidth;
+		var maxHeight = this._maxRows * this.gridDimensions.rowHeight;
 
-		if (maxWidth > 0 && this.minWidth > maxWidth) this.minWidth = 0.75 * this.colWidth;
-		if (maxHeight > 0 && this.minHeight > maxHeight) this.minHeight = 0.75 * this.rowHeight;
+		if (maxWidth > 0 && this.gridDimensions.minWidth > maxWidth) this.gridDimensions.minWidth = 0.75 * this.gridDimensions.colWidth;
+		if (maxHeight > 0 && this.gridDimensions.minHeight > maxHeight) this.gridDimensions.minHeight = 0.75 * this.gridDimensions.rowHeight;
 
-		if (this.minWidth > this.colWidth) this.minCols = Math.max(this.minCols, Math.ceil(this.minWidth / this.colWidth));
-		if (this.minHeight > this.rowHeight) this.minRows = Math.max(this.minRows, Math.ceil(this.minHeight / this.rowHeight));
+		if (this.gridDimensions.minWidth > this.gridDimensions.colWidth) this.gridDimensions.minCols = Math.max(this.gridDimensions.minCols, Math.ceil(this.gridDimensions.minWidth / this.gridDimensions.colWidth));
+		if (this.gridDimensions.minHeight > this.gridDimensions.rowHeight) this.gridDimensions.minRows = Math.max(this.gridDimensions.minRows, Math.ceil(this.gridDimensions.minHeight / this.gridDimensions.rowHeight));
 
-		if (this._maxCols > 0 && this.minCols > this._maxCols) this.minCols = 1;
-		if (this._maxRows > 0 && this.minRows > this._maxRows) this.minRows = 1;
+		if (this._maxCols > 0 && this.gridDimensions.minCols > this._maxCols) this.gridDimensions.minCols = 1;
+		if (this._maxRows > 0 && this.gridDimensions.minRows > this._maxRows) this.gridDimensions.minRows = 1;
 
 		this._updateRatio();
 
@@ -289,7 +266,7 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		});
 
 		this._items.forEach((item: AdGridItemDirective) => {
-			item.recalculateSelf();
+			item.recalculateSelf(this.gridDimensions);
 			this._addToGrid(item);
 		});
 
@@ -320,10 +297,10 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 	}
 
 	public setMargins(margins: Array<string>): void {
-		this.marginTop = Math.max(parseInt(margins[0]), 0);
-		this.marginRight = margins.length >= 2 ? Math.max(parseInt(margins[1]), 0) : this.marginTop;
-		this.marginBottom = margins.length >= 3 ? Math.max(parseInt(margins[2]), 0) : this.marginTop;
-		this.marginLeft = margins.length >= 4 ? Math.max(parseInt(margins[3]), 0) : this.marginRight;
+		this.gridDimensions.marginTop = Math.max(parseInt(margins[0]), 0);
+		this.gridDimensions.marginRight = margins.length >= 2 ? Math.max(parseInt(margins[1]), 0) : this.gridDimensions.marginTop;
+		this.gridDimensions.marginBottom = margins.length >= 3 ? Math.max(parseInt(margins[2]), 0) : this.gridDimensions.marginTop;
+		this.gridDimensions.marginLeft = margins.length >= 4 ? Math.max(parseInt(margins[3]), 0) : this.gridDimensions.marginRight;
 	}
 
 	public enableDrag(): void {
@@ -360,7 +337,7 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		this._updateSize();
 
 		this.triggerCascade().then(() => {
-			ngItem.recalculateSelf();
+			ngItem.recalculateSelf(this.gridDimensions);
 			ngItem.onCascadeEvent();
 
 			this._emitOnItemChange();
@@ -377,7 +354,7 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 
 		this.triggerCascade().then(() => {
 			this._updateSize();
-			this._items.forEach((item: AdGridItemDirective) => item.recalculateSelf());
+			this._items.forEach((item: AdGridItemDirective) => item.recalculateSelf(this.gridDimensions));
 			this._emitOnItemChange();
 		});
 	}
@@ -407,10 +384,10 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 	}
 
 	public triggerResize(): void {
-		this.resizeEventHandler(null);
+		this.resizeEventHandler();
 	}
 
-	public resizeEventHandler(e: any): void {
+	public resizeEventHandler(): void {
 		this._calculateColWidth();
 		this._calculateRowHeight();
 
@@ -425,15 +402,15 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 			}
 
 			if (this._centerToScreen) {
-				this.screenMargin = this._getScreenMargin();
+				this.gridDimensions.screenMargin = this._getScreenMargin();
 
 				this._items.forEach((item: AdGridItemDirective) => {
-					item.recalculateSelf();
+					item.recalculateSelf(this.gridDimensions);
 				});
 			}
 		} else if (this._autoResize) {
 			this._items.forEach((item: AdGridItemDirective) => {
-				item.recalculateSelf();
+				item.recalculateSelf(this.gridDimensions);
 			});
 		}
 
@@ -450,20 +427,13 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 
 		if (this.resizeEnable && resizeDirection) {
 			this._resizeReady = true;
-			this._resizingItem = item;
+			this.focusedItem = item;
 			this.focusedItem = item;
 			this._resizeDirection = resizeDirection;
 
 			e.preventDefault();
-		} else if (this.dragEnable && item.canDrag(e)) {
-			this._dragReady = true;
-			this.focusedItem = item;
-
-			const itemPos = item.getPosition();
-			this._posOffset = { 'left': (mousePos.left - itemPos.left), 'top': (mousePos.top - itemPos.top) }
-
-			e.preventDefault();
-		}
+		} 
+		
 	}
 
 	public mouseUpEventHandler(e: MouseEvent | TouchEvent): void {
@@ -471,34 +441,29 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		// 	this._dragStop(e);
 		// } else 
 		if (this.isResizing) {
-			this._resizeStop(e);
-		} else if (this._dragReady || this._resizeReady) {
+			this._resizeStop();
+		} else if ( this._resizeReady) {
 			// this._cleanDrag();
 			this._cleanResize();
 		}
 	}
 
 	public mouseMoveEventHandler(e: MouseEvent | TouchEvent): void {
+		// console.log('mouseMoveEventHandler')
 		if (this._resizeReady) {
-			this._resizeStart(e);
+			this._resizeStart();
 			e.preventDefault();
 			return;
-		} else if (this._dragReady) {
-			this._dragStart(e);
-			e.preventDefault();
-			return;
-		}
-
-		if (this.isDragging) {
-			this._drag(e);
-		} else if (this.isResizing) {
+		} 
+		
+		if (this.isResizing) {
 			this._resize(e);
 		} else {
 			var mousePos = this._getMousePosition(e);
 			var item = this._getItemFromPosition(mousePos);
 
 			if (item) {
-				item.onMouseMove(e);
+				item.onMouseMove(e, this.resizeEnable);
 			}
 		}
 	}
@@ -528,10 +493,10 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 
 			if (this._maxCols > 0 && dims.x > this._maxCols) {
 				dims.x = this._maxCols;
-				item.setSize(dims);
+				item.setSize(dims, this.gridDimensions);
 			} else if (this._maxRows > 0 && dims.y > this._maxRows) {
 				dims.y = this._maxRows;
-				item.setSize(dims);
+				item.setSize(dims, this.gridDimensions);
 			}
 
 			if (this._hasGridCollision(pos, dims) || !this._isWithinBounds(pos, dims, true)) {
@@ -550,14 +515,14 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 				var maxWidth: number = this._ngEl.nativeElement.getBoundingClientRect().width;
 
 				var colWidth: number = Math.floor(maxWidth / maxCols);
-				colWidth -= (this.marginLeft + this.marginRight);
-				if (colWidth > 0) this.colWidth = colWidth;
+				colWidth -= (this.gridDimensions.marginLeft + this.gridDimensions.marginRight);
+				if (colWidth > 0) this.gridDimensions.colWidth = colWidth;
 
 			}
 		}
 
-		if (this.colWidth < this.minWidth || this.minCols > this._config.min_cols) {
-			this.minCols = Math.max(this._config.min_cols, Math.ceil(this.minWidth / this.colWidth));
+		if (this.gridDimensions.colWidth < this.gridDimensions.minWidth || this.gridDimensions.minCols > this._config.min_cols) {
+			this.gridDimensions.minCols = Math.max(this._config.min_cols, Math.ceil(this.gridDimensions.minWidth / this.gridDimensions.colWidth));
 		}
 	}
 
@@ -570,18 +535,18 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 				if (this._elementBasedDynamicRowHeight) {
 					maxHeight = this._ngEl.nativeElement.getBoundingClientRect().height;
 				} else {
-					maxHeight = window.innerHeight - this.marginTop - this.marginBottom;
+					maxHeight = window.innerHeight - this.gridDimensions.marginTop - this.gridDimensions.marginBottom;
 				}
 
-				var rowHeight: number = Math.max(Math.floor(maxHeight / maxRows), this.minHeight);
-				rowHeight -= (this.marginTop + this.marginBottom);
-				if (rowHeight > 0) this.rowHeight = rowHeight;
+				var rowHeight: number = Math.max(Math.floor(maxHeight / maxRows), this.gridDimensions.minHeight);
+				rowHeight -= (this.gridDimensions.marginTop + this.gridDimensions.marginBottom);
+				if (rowHeight > 0) this.gridDimensions.rowHeight = rowHeight;
 
 			}
 		}
 
-		if (this.rowHeight < this.minHeight || this.minRows > this._config.min_rows) {
-			this.minRows = Math.max(this._config.min_rows, Math.ceil(this.minHeight / this.rowHeight));
+		if (this.gridDimensions.rowHeight < this.gridDimensions.minHeight || this.gridDimensions.minRows > this._config.min_rows) {
+			this.gridDimensions.minRows = Math.max(this._config.min_rows, Math.ceil(this.gridDimensions.minHeight / this.gridDimensions.rowHeight));
 		}
 	}
 
@@ -589,14 +554,14 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		if (!this._autoResize || !this._maintainRatio) return;
 
 		if (this._maxCols > 0 && this._visibleRows <= 0) {
-			this.rowHeight = this.colWidth / this._aspectRatio;
+			this.gridDimensions.rowHeight = this.gridDimensions.colWidth / this._aspectRatio;
 		} else if (this._maxRows > 0 && this._visibleCols <= 0) {
-			this.colWidth = this._aspectRatio * this.rowHeight;
+			this.gridDimensions.colWidth = this._aspectRatio * this.gridDimensions.rowHeight;
 		} else if (this._maxCols == 0 && this._maxRows == 0) {
 			if (this._visibleCols > 0) {
-				this.rowHeight = this.colWidth / this._aspectRatio;
+				this.gridDimensions.rowHeight = this.gridDimensions.colWidth / this._aspectRatio;
 			} else if (this._visibleRows > 0) {
-				this.colWidth = this._aspectRatio * this.rowHeight;
+				this.gridDimensions.colWidth = this._aspectRatio * this.gridDimensions.rowHeight;
 			}
 		}
 	}
@@ -609,21 +574,21 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		this.setConfig(this._config);
 	}
 
-	protected _resizeStart(e: any): void {
-		if (!this.resizeEnable || !this._resizingItem) return;
+	protected _resizeStart(): void {
+		if (!this.resizeEnable || !this.focusedItem) return;
 
 		//	Setup
-		this._resizingItem.startMoving();
-		this._removeFromGrid(this._resizingItem);
-		this._createPlaceholder(this._resizingItem);
+		this.focusedItem.setItemActiveOn();
+		this._removeFromGrid(this.focusedItem);
+		this._createPlaceholder(this.focusedItem);
 
 		//	Status Flags
 		this.isResizing = true;
 		this._resizeReady = false;
 
 		//	Events
-		this.onResizeStart.emit(this._resizingItem);
-		this._resizingItem.onResizeStartEvent();
+		this.onResizeStart.emit(this.focusedItem);
+		this.focusedItem.onResizeStartEvent();
 	}
 
 	
@@ -644,8 +609,8 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		}
 
 		const mousePos = this._getMousePosition(e);
-		const itemPos = this._resizingItem.getPosition();
-		const itemDims = this._resizingItem.getDimensions();
+		const itemPos = this.focusedItem.getPosition();
+		const itemDims = this.focusedItem.getDimensions();
 		const endCorner = {
 			left: itemPos.left + itemDims.width,
 			top: itemPos.top + itemDims.height,
@@ -668,14 +633,14 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 				? (endCorner.top - mousePos.top + 1)
 				: itemDims.height;
 
-		if (newW < this.minWidth)
-			newW = this.minWidth;
-		if (newH < this.minHeight)
-			newH = this.minHeight;
-		if (newW < this._resizingItem.minWidth)
-			newW = this._resizingItem.minWidth;
-		if (newH < this._resizingItem.minHeight)
-			newH = this._resizingItem.minHeight;
+		if (newW < this.gridDimensions.minWidth)
+			newW = this.gridDimensions.minWidth;
+		if (newH < this.gridDimensions.minHeight)
+			newH = this.gridDimensions.minHeight;
+		if (newW < this.focusedItem.minWidth)
+			newW = this.focusedItem.minWidth;
+		if (newH < this.focusedItem.minHeight)
+			newH = this.focusedItem.minHeight;
 
 		let newX = itemPos.left;
 		let newY = itemPos.top;
@@ -686,8 +651,8 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 			newY = endCorner.top - newH;
 
 		let calcSize = this._calculateGridSize(newW, newH);
-		const itemSize = this._resizingItem.getSize();
-		const iGridPos = this._resizingItem.getGridPosition();
+		const itemSize = this.focusedItem.getSize();
+		const iGridPos = this.focusedItem.getGridPosition();
 		const bottomRightCorner = {
 			col: iGridPos.col + itemSize.x,
 			row: iGridPos.row + itemSize.y,
@@ -705,12 +670,19 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		if (!this._isWithinBoundsY(targetPos, calcSize))
 			calcSize = this._fixSizeToBoundsY(targetPos, calcSize);
 
-		calcSize = this._resizingItem.fixSize(calcSize);
+		calcSize = this.focusedItem.fixSize(calcSize, this.gridDimensions);
 
 		if (calcSize.x != itemSize.x || calcSize.y != itemSize.y) {
-			this._resizingItem.setGridPosition(targetPos, this._fixToGrid);
+			this.focusedItem.setGridPosition(targetPos);
+			if(this._fixToGrid){
+				this.focusedItem.updateDimensionsgridDimensions(this.gridDimensions)
+			}
+
 			this._placeholderRef.instance.setGridPosition(targetPos);
-			this._resizingItem.setSize(calcSize, this._fixToGrid);
+			this.focusedItem.setSize(calcSize,this.gridDimensions );
+			if(this._fixToGrid){
+				this.focusedItem.updateDimensionsgridDimensions(this.gridDimensions)
+			}
 			this._placeholderRef.instance.setSize(calcSize);
 
 			if (['up', 'down', 'left', 'right'].indexOf(this.cascade) >= 0) {
@@ -720,34 +692,34 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 		}
 
 		if (!this._fixToGrid) {
-			this._resizingItem.setDimensions(newW, newH);
-			this._resizingItem.setPosition(newX, newY);
+			this.focusedItem.setDimensions(newW, newH);
+			this.focusedItem.setPosition(newX, newY);
 		}
 
-		this.onResize.emit(this._resizingItem);
-		this._resizingItem.onResizeEvent();
+		this.onResize.emit(this.focusedItem);
+		this.focusedItem.onResizeEvent();
 	}
 
 	
-	protected _resizeStop(e: any): void {
+	protected _resizeStop(): void {
 		if (!this.isResizing) return;
 
 		this.isResizing = false;
 
-		const itemDims = this._resizingItem.getSize();
-		this._resizingItem.setSize(itemDims);
+		const itemDims = this.focusedItem.getSize();
+		this.focusedItem.setSize(itemDims, this.gridDimensions);
 
-		const itemPos = this._resizingItem.getGridPosition();
-		this._resizingItem.setGridPosition(itemPos);
+		const itemPos = this.focusedItem.getGridPosition();
+		this.focusedItem.setGridPosition(itemPos);
 
-		this._addToGrid(this._resizingItem);
+		this._addToGrid(this.focusedItem);
 
 		this._cascadeGrid();
 		this._updateSize();
 
-		this._resizingItem.stopMoving();
-		this._resizingItem.onResizeStopEvent();
-		this.onResizeStop.emit(this._resizingItem);
+		this.focusedItem.setItemActiveOff();
+		this.focusedItem.onResizeStopEvent();
+		this.onResizeStop.emit(this.focusedItem);
 
 		this._cleanResize();
 		this._placeholderRef.destroy();
@@ -758,7 +730,7 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 	
 
 	protected _cleanResize(): void {
-		this._resizingItem = null;
+		this.focusedItem = null;
 		this.focusedItem = null;
 		this._resizeDirection = null;
 		this.isResizing = false;
@@ -766,11 +738,11 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 	}
 
 	protected _calculateGridSize(width: number, height: number): AdGridItemSize {
-		width += this.marginLeft + this.marginRight;
-		height += this.marginTop + this.marginBottom;
+		width += this.gridDimensions.marginLeft + this.gridDimensions.marginRight;
+		height += this.gridDimensions.marginTop + this.gridDimensions.marginBottom;
 
-		var sizex = Math.max(this.minCols, Math.round(width / (this.colWidth + this.marginLeft + this.marginRight)));
-		var sizey = Math.max(this.minRows, Math.round(height / (this.rowHeight + this.marginTop + this.marginBottom)));
+		var sizex = Math.max(this.gridDimensions.minCols, Math.round(width / (this.gridDimensions.colWidth + this.gridDimensions.marginLeft + this.gridDimensions.marginRight)));
+		var sizey = Math.max(this.gridDimensions.minRows, Math.round(height / (this.gridDimensions.rowHeight + this.gridDimensions.marginTop + this.gridDimensions.marginBottom)));
 
 		if (!this._isWithinBoundsX({ col: 1, row: 1 }, { x: sizex, y: sizey })) sizex = this._maxCols;
 		if (!this._isWithinBoundsY({ col: 1, row: 1 }, { x: sizex, y: sizey })) sizey = this._maxRows;
@@ -795,18 +767,18 @@ export class AdGridDirective extends AdGridDirectiveBase implements OnInit, DoCh
 
 	protected _getContainerColumns(): number {
 		const maxWidth: number = this._ngEl.nativeElement.getBoundingClientRect().width;
-		const itemWidth: number = this.colWidth + this.marginLeft + this.marginRight;
+		const itemWidth: number = this.gridDimensions.colWidth + this.gridDimensions.marginLeft + this.gridDimensions.marginRight;
 		return Math.floor(maxWidth / itemWidth);
 	}
 
 	protected _getContainerRows(): number {
-		const maxHeight: number = window.innerHeight - this.marginTop - this.marginBottom;
-		return Math.floor(maxHeight / (this.rowHeight + this.marginTop + this.marginBottom));
+		const maxHeight: number = window.innerHeight - this.gridDimensions.marginTop - this.gridDimensions.marginBottom;
+		return Math.floor(maxHeight / (this.gridDimensions.rowHeight + this.gridDimensions.marginTop + this.gridDimensions.marginBottom));
 	}
 
 	protected _getScreenMargin(): number {
 		const maxWidth: number = this._ngEl.nativeElement.getBoundingClientRect().width;
-		const itemWidth: number = this.colWidth + this.marginLeft + this.marginRight;
+		const itemWidth: number = this.gridDimensions.colWidth + this.gridDimensions.marginLeft + this.gridDimensions.marginRight;
 		return Math.floor((maxWidth - (this._maxCols * itemWidth)) / 2);;
 	}
 
