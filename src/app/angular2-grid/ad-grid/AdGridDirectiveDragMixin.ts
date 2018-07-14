@@ -31,12 +31,13 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 
 		_subscribeDragEvents() {
 
-			this.movables.changes.subscribe(() => {
+			this.gridItems.changes.subscribe(() => {
 				
 				this.subscriptions.forEach(s => s.unsubscribe());
 
-				this.movables.forEach(movable => {
+				this.gridItems.forEach(movable => {
 					this.subscriptions.push(movable.onDragStart.subscribe((event) => {
+			
 						let mousePos = this._getMousePosition(event);
 						let item = this._getItemFromPosition(mousePos);
 
@@ -53,16 +54,18 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 					}));
 					
 					this.subscriptions.push(movable.onDrag.subscribe(() => {
+					
 						this._drag(event);
 					}));
 					this.subscriptions.push(movable.onDragStop.subscribe((event) => {
+						
 						this._dragStop(event);
 						this._cleanDrag();
 					}));
 
 				});
 			});
-			this.movables.notifyOnChanges();
+			this.gridItems.notifyOnChanges();
 
 		}
 		// protected _getDraggingMousePosition(e: any): AdGridRawPosition {
@@ -127,6 +130,7 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 		}
 
 		_drag(event: Event): void {
+			
 			if (!this.isDragging) return;
 
 			if (window.getSelection) {
@@ -154,8 +158,13 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 			}
 
 			if (gridPos.col != itemPos.col || gridPos.row != itemPos.row) {
-				this.focusedItem.setGridPosition(gridPos, this._fixToGrid);
-				this._placeholderRef.instance.setGridPosition(gridPos);
+				
+				this.focusedItem.setGridPosition(gridPos);
+				if(this._fixToGrid){
+
+					this.focusedItem.updateDimensions(this.gridDimensions);
+				}
+				this._placeholderRef.instance.setGridPosition(gridPos, this.gridDimensions);
 
 				if (['up', 'down', 'left', 'right'].indexOf(this.cascade) >= 0) {
 					this._fixGridCollisions(gridPos, dims);

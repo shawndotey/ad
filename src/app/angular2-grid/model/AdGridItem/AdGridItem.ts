@@ -21,7 +21,7 @@ export abstract class AdGridItem {
 	protected _elemHeight: number;
 	protected _elemLeft: number;
 	protected _elemTop: number;
-	protected _added: boolean = false;
+	//protected _added: boolean = false;
 	protected _differ: KeyValueDiffer<string, any>;
 	protected _cascadeMode: string;
 	protected _maxCols: number = 0;

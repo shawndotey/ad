@@ -263,9 +263,14 @@ export class AdGridItemDirectiveBase extends AdGridItem {
 		this.onItemChange.emit(this.getEventOutput());
 		gridDimensions = null;
 	}
-	public updateDimensionsgridDimensions(gridDimensions:GridDimensions){
+	public updateDimensions(gridDimensions:GridDimensions){
 
 		this._recalculateDimensions(gridDimensions);
+		gridDimensions = null;
+	}
+	public updatePosition(gridDimensions:GridDimensions){
+
+		this._recalculatePosition(gridDimensions);
 		gridDimensions = null;
 	}
 	public setGridPosition( gridPosition: AdGridItemPosition): void {

@@ -40,10 +40,10 @@ export class AdGridDirectiveBase extends AdGrid{
 		var componentRef: ComponentRef<AdGridPlaceholderComponent> = item.containerRef.createComponent(factory);
 		this._placeholderRef = componentRef;
 		const placeholder: AdGridPlaceholderComponent = componentRef.instance;
-		placeholder.registerGrid(this);//refactor
+		
 		placeholder.setCascadeMode(this.cascade);
-		placeholder.setGridPosition({ col: pos.col, row: pos.row });
-		placeholder.setSize({ x: dims.x, y: dims.y });
+		placeholder.setGridPosition({ col: pos.col, row: pos.row }, this.gridDimensions);
+		placeholder.setSize({ x: dims.x, y: dims.y }, this.gridDimensions);
 	}
 
 
@@ -228,8 +228,9 @@ export class AdGridDirectiveBase extends AdGrid{
 		// 	dims = this._resizingItem.getSize();
 		// }
 
-		let itemsInGrid: AdGridItemDirective[] = Array.from(this._itemsInGrid, (itemId: string) => this._items.get(itemId));
-
+		// let itemsInGrid: AdGridItemDirective[] = Array.from(this._itemsInGrid, (itemId: string) => this._items.get(itemId));
+		let itemsInGrid = this.gridItems.toArray();
+		console.log('_cascadeGrid', 'itemsInGrid', itemsInGrid)
 		switch (this.cascade) {
 			case 'up':
 			case 'down':

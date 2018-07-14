@@ -22,8 +22,9 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 	ngAfterContentInit(): void {
 		
 		
-		this.registerGridItems();
+		
 		this.onNgAfterContentInit.emit();
+		this.registerGridItems();
 	}
 	protected registerGridItems() {
 		// need to make reactive
@@ -31,6 +32,12 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 
 			gridItem.autoStyle = this.autoStyle;
 			this.addItem(gridItem);
+			this.updateItem(gridItem);
+			gridItem.fixSize(gridItem.getSize(), this.gridDimensions)
+			gridItem.recalculateSelf(this.gridDimensions)
+		
+			gridItem = null;
+
 		})
 
 	}
@@ -428,7 +435,6 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 		if (this.resizeEnable && resizeDirection) {
 			this._resizeReady = true;
 			this.focusedItem = item;
-			this.focusedItem = item;
 			this._resizeDirection = resizeDirection;
 
 			e.preventDefault();
@@ -675,15 +681,15 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 		if (calcSize.x != itemSize.x || calcSize.y != itemSize.y) {
 			this.focusedItem.setGridPosition(targetPos);
 			if(this._fixToGrid){
-				this.focusedItem.updateDimensionsgridDimensions(this.gridDimensions)
+				this.focusedItem.updateDimensions(this.gridDimensions)
 			}
 
-			this._placeholderRef.instance.setGridPosition(targetPos);
+			this._placeholderRef.instance.setGridPosition(targetPos, this.gridDimensions);
 			this.focusedItem.setSize(calcSize,this.gridDimensions );
 			if(this._fixToGrid){
-				this.focusedItem.updateDimensionsgridDimensions(this.gridDimensions)
+				this.focusedItem.updateDimensions(this.gridDimensions)
 			}
-			this._placeholderRef.instance.setSize(calcSize);
+			this._placeholderRef.instance.setSize(calcSize, this.gridDimensions);
 
 			if (['up', 'down', 'left', 'right'].indexOf(this.cascade) >= 0) {
 				this._fixGridCollisions(targetPos, calcSize);

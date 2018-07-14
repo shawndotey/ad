@@ -3,6 +3,7 @@ import { AdGridItemPosition } from "../model/AdGridItem/AdGridItemPosition";
 import { Component, ElementRef, Renderer, OnInit } from '@angular/core';
 import { AdGridDirective } from '../ad-grid/ad-grid.directive';
 import { AdGridDirectiveBase } from "../ad-grid/AdGridDirectiveBase";
+import { GridDimensions } from "../model/AdGrid/GridDimensions";
 
 @Component({
 	selector: 'ad-grid-placeholder',
@@ -13,26 +14,26 @@ export class AdGridPlaceholderComponent implements OnInit {
 	private _position: AdGridItemPosition;
 	private _AdGrid: AdGridDirective | AdGridDirectiveBase;
 	private _cascadeMode: string;
-
+	autoStyle = true;
 	constructor(private _ngEl: ElementRef, private _renderer: Renderer) { }
 
-	public registerGrid(AdGrid: AdGridDirective | AdGridDirectiveBase) {
-		this._AdGrid = AdGrid;
-	}
+	
 
 	public ngOnInit(): void {
 		this._renderer.setElementClass(this._ngEl.nativeElement, 'grid-placeholder', true);
-		if (this._AdGrid.autoStyle) this._renderer.setElementStyle(this._ngEl.nativeElement, 'position', 'absolute');
+		if (this.autoStyle) this._renderer.setElementStyle(this._ngEl.nativeElement, 'position', 'absolute');
 	}
 
-	public setSize(newSize: AdGridItemSize): void {
+	public setSize(newSize: AdGridItemSize, gridDimensions:GridDimensions): void {
 		this._size = newSize;
-		this._recalculateDimensions();
+		this._recalculateDimensions(gridDimensions);
+		gridDimensions= null;
 	}
 
-	public setGridPosition(newPosition: AdGridItemPosition): void {
+	public setGridPosition(newPosition: AdGridItemPosition, gridDimensions:GridDimensions): void {
 		this._position = newPosition;
-		this._recalculatePosition();
+		this._recalculatePosition(gridDimensions);
+		gridDimensions= null;
 	}
 
 	public setCascadeMode(cascade: string): void {
@@ -83,15 +84,17 @@ export class AdGridPlaceholderComponent implements OnInit {
 		}
 	}
 
-	private _recalculatePosition(): void {
-		const x: number = (this._AdGrid.colWidth + this._AdGrid.marginLeft + this._AdGrid.marginRight) * (this._position.col - 1) + this._AdGrid.marginLeft + this._AdGrid.screenMargin;
-		const y: number = (this._AdGrid.rowHeight + this._AdGrid.marginTop + this._AdGrid.marginBottom) * (this._position.row - 1) + this._AdGrid.marginTop;
+	private _recalculatePosition(gridDimensions:GridDimensions): void {
+		const x: number = (gridDimensions.colWidth + gridDimensions.marginLeft + gridDimensions.marginRight) * (this._position.col - 1) + gridDimensions.marginLeft + gridDimensions.screenMargin;
+		const y: number = (gridDimensions.rowHeight + gridDimensions.marginTop + gridDimensions.marginBottom) * (this._position.row - 1) + gridDimensions.marginTop;
 		this._setPosition(x, y);
+		gridDimensions = null;
 	}
 
-	private _recalculateDimensions(): void {
-		const w: number = (this._AdGrid.colWidth * this._size.x) + ((this._AdGrid.marginLeft + this._AdGrid.marginRight) * (this._size.x - 1));
-		const h: number = (this._AdGrid.rowHeight * this._size.y) + ((this._AdGrid.marginTop + this._AdGrid.marginBottom) * (this._size.y - 1));
+	private _recalculateDimensions(gridDimensions:GridDimensions): void {
+		const w: number = (gridDimensions.colWidth * this._size.x) + ((gridDimensions.marginLeft + gridDimensions.marginRight) * (this._size.x - 1));
+		const h: number = (gridDimensions.rowHeight * this._size.y) + ((gridDimensions.marginTop + gridDimensions.marginBottom) * (this._size.y - 1));
 		this._setDimensions(w, h);
+		gridDimensions = null;
 	}
 }
