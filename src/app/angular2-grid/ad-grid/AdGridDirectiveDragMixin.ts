@@ -14,14 +14,14 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 		@Output() public onDragStart: EventEmitter<AdGridItemDirective> = new EventEmitter<AdGridItemDirective>();
 		@Output() public onDrag: EventEmitter<AdGridItemDirective> = new EventEmitter<AdGridItemDirective>();
 		@Output() public onDragStop: EventEmitter<AdGridItemDirective> = new EventEmitter<AdGridItemDirective>();
-		
+		protected dragSubscriptions: Subscription[] = [];
 		constructor(...args: any[]) {
 			super(...args)
 
 			this.onNgAfterContentInit.subscribe(() => {
 				this._subscribeDragEvents();
 			});
-
+			
 		}
 
 
@@ -33,10 +33,10 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 
 			this.gridItems.changes.subscribe(() => {
 				
-				this.subscriptions.forEach(s => s.unsubscribe());
+				this.dragSubscriptions.forEach(s => s.unsubscribe());
 
 				this.gridItems.forEach(movable => {
-					this.subscriptions.push(movable.onDragStart.subscribe((event) => {
+					this.dragSubscriptions.push(movable.onDragStart.subscribe((event) => {
 			
 						let mousePos = this._getMousePosition(event);
 						let item = this._getItemFromPosition(mousePos);
@@ -46,18 +46,18 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 						if (this.dragEnable) {
 							
 							this.focusedItem = item;
-							const itemPos = item.getPosition();
-							this._posOffset = { 'left': (mousePos.left - itemPos.left), 'top': (mousePos.top - itemPos.top) }
+							const itemPos = item.getRawPosition();
+							this._posOffset = { 'x': (mousePos.x - itemPos.x), 'y': (mousePos.y - itemPos.y) }
 							this._dragStart(event);
 							event.preventDefault();
 						}
 					}));
 					
-					this.subscriptions.push(movable.onDrag.subscribe(() => {
+					this.dragSubscriptions.push(movable.onDrag.subscribe(() => {
 					
 						this._drag(event);
 					}));
-					this.subscriptions.push(movable.onDragStop.subscribe((event) => {
+					this.dragSubscriptions.push(movable.onDragStop.subscribe((event) => {
 						
 						this._dragStop(event);
 						this._cleanDrag();
@@ -102,6 +102,10 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 			if (this._zoomOnDrag) {
 				this._resetZoom();
 			}
+			this.recalcutateItemDimensionsAsNeeded();
+			this.recalcutateItemRawPositionAsNeeded();
+			this.moveItemsElementAsNeeded();
+			
 		}
 		_cleanDrag(): void {
 			this.focusedItem = null;
@@ -144,12 +148,12 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 			}
 
 			var mousePos = this._getMousePosition(event);
-			var newL = (mousePos.left - this._posOffset.left);
-			var newT = (mousePos.top - this._posOffset.top);
+			var newL = (mousePos.x - this._posOffset.x);
+			var newT = (mousePos.y - this._posOffset.y);
 
 			var itemPos = this.focusedItem.getGridPosition();
-			var gridPos = this._calculateGridPosition(newL, newT);
-			var dims = this.focusedItem.getSize();
+			var gridPos = this._calculateGridPositionByRawPosition(newL, newT);
+			var dims = this.focusedItem.getGridDimension();
 
 			gridPos = this._fixPosToBoundsX(gridPos, dims);
 
@@ -161,8 +165,9 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 				
 				this.focusedItem.setGridPosition(gridPos);
 				if(this._fixToGrid){
-
-					this.focusedItem.updateDimensions(this.gridDimensions);
+					this.focusedItem.recalculateItemRawPositionByGrid(this.gridDimensions)
+					//this.focusedItem.moveElementToCurrentRawPosition();
+				
 				}
 				this._placeholderRef.instance.setGridPosition(gridPos, this.gridDimensions);
 
@@ -171,13 +176,14 @@ export function AdGridDirectiveDragMixin<T extends MixinConstructor<AdGridDirect
 					this._cascadeGrid(gridPos, dims);
 				}
 			}
-
+			this.recalcutateItemDimensionsAsNeeded();
+			this.recalcutateItemRawPositionAsNeeded();
 			if (!this._fixToGrid) {
-				this.focusedItem.setPosition(newL, newT);
+				this.focusedItem.setRawPosition(newL,newT);
 			}
-
-			this.onDrag.emit(this.focusedItem);
 			
+			this.onDrag.emit(this.focusedItem);
+			this.moveItemsElementAsNeeded();
 		}
 
 		_onMoveGridCascade() {

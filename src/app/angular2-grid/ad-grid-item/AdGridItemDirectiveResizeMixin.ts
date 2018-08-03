@@ -2,12 +2,14 @@ import { AdGridItemDirectiveBase } from "./AdGridItemDirectiveBase";
 import { EventEmitter, Output } from "@angular/core";
 import {
   AdGridItemEvent,
-  AdGridItemSize,
   ResizeHandle,
-  AdGridRawPosition
+  AdGridItemRawPosition,
+  GridDimensions,
+  AdGridItemGridDimension
 } from "../model";
 import * as AdGridItemUtility from "../shared/AdGridHelpers";
 import { MixinConstructor } from "../shared/ExtendMixin";
+import { AdGridItemElementDimension } from "../main";
 
 export function AdGridItemDirectiveResizeMixin<T extends MixinConstructor<AdGridItemDirectiveBase>>(Base: T) {
 
@@ -26,6 +28,16 @@ export function AdGridItemDirectiveResizeMixin<T extends MixinConstructor<AdGrid
 
 // console.log('onMouseMove event')
       })
+
+      this.itemRecalculationAsNeed.subscribe(() => {
+        
+
+			});
+			this.elementAdjustmentAsNeed.subscribe(() => {
+        this.resizeElementAsNeeded();
+
+			});
+
     }
     @Output() public onResizeStart: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
     @Output() public onResize: EventEmitter<AdGridItemEvent> = new EventEmitter<AdGridItemEvent>();
@@ -38,6 +50,13 @@ export function AdGridItemDirectiveResizeMixin<T extends MixinConstructor<AdGrid
       this.onChangeStart.emit(event);
       this.onChangeAny.emit(event);
     }
+    public isElementResizeNeeded() {
+			if (this._lastElemWidth !== this._elemWidth || this._lastElemHeight !== this._elemHeight) {
+				return true;
+			}
+			return false;
+		}
+
     public onResizeEvent(): void {
       const event: AdGridItemEvent = this.getEventOutput();
       this.onResize.emit(event);
@@ -53,6 +72,9 @@ export function AdGridItemDirectiveResizeMixin<T extends MixinConstructor<AdGrid
       this.onChangeAny.emit(event);
       this.onConfigChangeEvent();
     }
+
+    
+
     public getResizeHandle(): ResizeHandle {
       return this._resizeHandle;
     }
@@ -101,50 +123,166 @@ export function AdGridItemDirectiveResizeMixin<T extends MixinConstructor<AdGrid
 
       if (this._borderSize <= 0) return null;
 
-      const mousePos: AdGridRawPosition = this._getMousePosition(e);
+      const mousePos: AdGridItemRawPosition = this._getMousePosition(e);
 
       if (
-        mousePos.left < this._elemWidth &&
-        mousePos.left > this._elemWidth - this._borderSize &&
-        mousePos.top < this._elemHeight &&
-        mousePos.top > this._elemHeight - this._borderSize
+        mousePos.x < this._elemWidth &&
+        mousePos.x > this._elemWidth - this._borderSize &&
+        mousePos.y < this._elemHeight &&
+        mousePos.y > this._elemHeight - this._borderSize
       ) {
         return "bottomright";
       } else if (
-        mousePos.left < this._borderSize &&
-        mousePos.top < this._elemHeight &&
-        mousePos.top > this._elemHeight - this._borderSize
+        mousePos.x < this._borderSize &&
+        mousePos.y < this._elemHeight &&
+        mousePos.y > this._elemHeight - this._borderSize
       ) {
         return "bottomleft";
       } else if (
-        mousePos.left < this._elemWidth &&
-        mousePos.left > this._elemWidth - this._borderSize &&
-        mousePos.top < this._borderSize
+        mousePos.x < this._elemWidth &&
+        mousePos.x > this._elemWidth - this._borderSize &&
+        mousePos.y < this._borderSize
       ) {
         return "topright";
       } else if (
-        mousePos.left < this._borderSize &&
-        mousePos.top < this._borderSize
+        mousePos.x < this._borderSize &&
+        mousePos.y < this._borderSize
       ) {
         return "topleft";
       } else if (
-        mousePos.left < this._elemWidth &&
-        mousePos.left > this._elemWidth - this._borderSize
+        mousePos.x < this._elemWidth &&
+        mousePos.x > this._elemWidth - this._borderSize
       ) {
         return "right";
-      } else if (mousePos.left < this._borderSize) {
+      } else if (mousePos.x < this._borderSize) {
         return "left";
       } else if (
-        mousePos.top < this._elemHeight &&
-        mousePos.top > this._elemHeight - this._borderSize
+        mousePos.y < this._elemHeight &&
+        mousePos.y > this._elemHeight - this._borderSize
       ) {
         return "bottom";
-      } else if (mousePos.top < this._borderSize) {
+      } else if (mousePos.y < this._borderSize) {
         return "top";
       }
 
       return null;
     }
+    public recalculateAllItemDimensionsByGrid(gridDimensions:GridDimensions): void {
+      this._itemGridDimension = this.calculateItemDimensionsByGrid(this._itemGridDimension, gridDimensions);
+      this.recalculateRawDimensionsByGrid(gridDimensions)
+      gridDimensions = null;
+    }
+    private recalculateRawDimensionsByGrid(gridDimensions: GridDimensions) {
+			let { height, width } = this.calculateRawDimensionsByGrid(gridDimensions);
+			this.setRawDimensions(width, height);
+			gridDimensions = null;
+		}
+
+    // public recalculateRawDimensions(gridDimensions:GridDimensions): void {
+    //   this.setRawPositionByGrid(gridDimensions)
+      
+    //   this.xxrecalculateDimensionsByGridxx(gridDimensions);ng st
+    //   gridDimensions = null;
+    // }
+    public recalculateSelfDimensionsAsNeeded(gridDimensions: GridDimensions): void {
+			if (this.isGridDimensionsChanged()) {
+        this.recalculateRawDimensionsByGrid(gridDimensions);
+        this._lastItemGridDimension.col = this._itemGridDimension.col;
+        this._lastItemGridDimension.row = this._itemGridDimension.row;
+			}
+			gridDimensions = null;
+		}
+    public resizeElementAsNeeded() {
+
+			if (this.isElementResizeNeeded()) {
+				this._lastElemWidth = this._elemWidth;
+				this._lastElemHeight = this._elemHeight;
+				this.resizeElementDimensions(this._elemWidth, this._elemHeight);
+				this._elemWidth = this._elemWidth;
+				this._elemHeight = this._elemHeight;
+			}
+
+
+			this.onChangeEvent();
+    }
+    
+		protected resizeElementDimensions(w: number, h: number): void {
+
+			if (w < this.minWidth) w = this.minWidth;
+			if (h < this.minHeight) h = this.minHeight;
+
+			this._renderer.setStyle(this._ngEl.nativeElement, "width", w + "px");
+			this._renderer.setStyle(this._ngEl.nativeElement, "height", h + "px");
+			
+    }
+    
+    
+		public calculateItemDimensionsByGrid(originalDimensions: AdGridItemGridDimension, gridDimensions: GridDimensions): AdGridItemGridDimension {
+			
+			let newDimensions: AdGridItemGridDimension = Object.assign({},originalDimensions) ;
+			if (newDimensions.col< gridDimensions.minCols)
+				newDimensions.col= gridDimensions.minCols;
+			if (newDimensions.row < gridDimensions.minRows)
+				newDimensions.row = gridDimensions.minRows;
+			if (this._maxCols > 0 && newDimensions.col> this._maxCols)
+				newDimensions.col= this._maxCols;
+			if (this._maxRows > 0 && newDimensions.row > this._maxRows)
+				newDimensions.row = this._maxRows;
+
+			if (this._minCols > 0 && newDimensions.col< this._minCols)
+				newDimensions.col= this._minCols;
+			if (this._minRows > 0 && newDimensions.row < this._minRows)
+				newDimensions.row = this._minRows;
+
+			const itemWidth =
+				newDimensions.col* gridDimensions.colWidth +
+				(gridDimensions.marginLeft + gridDimensions.marginRight) * (newDimensions.col- 1);
+			if (itemWidth < this.minWidth)
+				newDimensions.col= Math.ceil(
+					(this.minWidth + gridDimensions.marginRight + gridDimensions.marginLeft) /
+					(gridDimensions.colWidth +
+						gridDimensions.marginRight +
+						gridDimensions.marginLeft)
+				);
+
+			const itemHeight =
+				newDimensions.row * gridDimensions.rowHeight +
+				(gridDimensions.marginTop + gridDimensions.marginBottom) * (newDimensions.row - 1);
+			if (itemHeight < this.minHeight)
+				newDimensions.row = Math.ceil(
+					(this.minHeight + gridDimensions.marginBottom + gridDimensions.marginTop) /
+					(gridDimensions.rowHeight +
+						gridDimensions.marginBottom +
+						gridDimensions.marginTop)
+				);
+			originalDimensions = null;
+			gridDimensions = null;
+			return newDimensions;
+		}
+	
+	
+		// public xxrecalculateDimensionsByGridxx(gridDimensions: GridDimensions): void {
+		// 	if (this._itemDimension.x < gridDimensions.minCols)
+		// 		this._itemDimension.x = gridDimensions.minCols;
+		// 	if (this._itemDimension.y < gridDimensions.minRows)
+		// 		this._itemDimension.y = gridDimensions.minRows;
+
+		// 	const newWidth: number =
+		// 		gridDimensions.colWidth * this._itemDimension.x +
+		// 		(gridDimensions.marginLeft + gridDimensions.marginRight) * (this._itemDimension.x - 1);
+		// 	const newHeight: number =
+		// 		gridDimensions.rowHeight * this._itemDimension.y +
+		// 		(gridDimensions.marginTop + gridDimensions.marginBottom) * (this._itemDimension.y - 1);
+
+		// 	const w: number = Math.max(this.minWidth, gridDimensions.minWidth, newWidth);
+		// 	const h: number = Math.max(
+		// 		this.minHeight,
+		// 		gridDimensions.minHeight,
+		// 		newHeight
+		// 	);
+		// 	gridDimensions = null;
+
+		// }
 	};
 	return Mixin;
 }

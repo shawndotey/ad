@@ -151,14 +151,17 @@ export class AdGridItemDirective extends AdGridItemDirectiveWithMixins
     this._config = config;
 
     this._payload = config.payload;
-    this._currentPosition.col = config.col
+    this._currentGridPosition.col = config.col
       ? config.col
       : GRID_ITEM_DEFAULT_CONFIG.col;
-    this._currentPosition.row = config.row
+    this._currentGridPosition.row = config.row
       ? config.row
       : GRID_ITEM_DEFAULT_CONFIG.row;
-    this._size.x = config.sizex ? config.sizex : GRID_ITEM_DEFAULT_CONFIG.sizex;
-    this._size.y = config.sizey ? config.sizey : GRID_ITEM_DEFAULT_CONFIG.sizey;
+
+    this._lastGridPosition.col =this._currentGridPosition.col
+    this._lastGridPosition.row =this._currentGridPosition.row
+    this._itemGridDimension.col = config.sizex ? config.sizex : GRID_ITEM_DEFAULT_CONFIG.sizex;
+    this._itemGridDimension.row = config.sizey ? config.sizey : GRID_ITEM_DEFAULT_CONFIG.sizey;
     this._dragHandle = config.dragHandle;
     this._resizeHandle = config.resizeHandle;
     this._borderSize = config.borderSize;

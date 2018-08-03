@@ -1,9 +1,8 @@
 import { AdGridDirectiveWithMixins } from "./AdGridDirectiveWithMixins";
 import { Directive, ElementRef, Renderer, EventEmitter, ComponentFactoryResolver, KeyValueDiffers, OnInit, OnDestroy, DoCheck, Output } from '@angular/core';
 import { Subscription, fromEvent } from 'rxjs';
-import { AdGridItemSize } from "../model/AdGridItem/AdGridItemSize";
-import { AdGridItemPosition } from "../model/AdGridItem/AdGridItemPosition";
-import { AdGridRawPosition } from "../model/AdGrid/AdGridRawPosition";
+import { AdGridItemGridPosition, AdGridItemElementDimension, AdGridItemGridDimension } from "../model";
+import { AdGridItemRawPosition } from "../model/AdGrid/AdGridItemRawPosition";
 import { AdConfigFixDirection } from "../model/AdConfigFixDirection";
 import { AdGridConfig } from "../model/AdGrid/AdGridConfig";
 import { AdGridItemDirective } from '../ad-grid-item/ad-grid-item.directive';
@@ -33,24 +32,21 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 			gridItem.autoStyle = this.autoStyle;
 			this.addItem(gridItem);
 			this.updateItem(gridItem);
-			gridItem.fixSize(gridItem.getSize(), this.gridDimensions)
-			gridItem.recalculateSelf(this.gridDimensions)
-		
+			gridItem.recalculateAllItemDimensionsByGrid(this.gridDimensions)
+			
+			gridItem.onElementAdjustmentNeeded();
 			gridItem = null;
 
 		})
+		this.recalcutateItemRawPositionAsNeeded();
+		this.recalcutateItemDimensionsAsNeeded();
+		this.moveItemsElementAsNeeded();
 
 	}
 
 	
 
 
-	//	Event Emitters
-	@Output() public onResizeStart: EventEmitter<AdGridItemDirective> = new EventEmitter<AdGridItemDirective>();
-	@Output() public onResize: EventEmitter<AdGridItemDirective> = new EventEmitter<AdGridItemDirective>();
-	@Output() public onResizeStop: EventEmitter<AdGridItemDirective> = new EventEmitter<AdGridItemDirective>();
-	
-	
 	
 	
 	protected _config = AdGridDirective.CONST_DEFAULT_CONFIG;
@@ -273,20 +269,22 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 		});
 
 		this._items.forEach((item: AdGridItemDirective) => {
-			item.recalculateSelf(this.gridDimensions);
+			
 			this._addToGrid(item);
+			item.recalculateAllItemDimensionsByGrid(this.gridDimensions);
+			item.moveElementAsNeeded();
 		});
 
-		this._cascadeGrid();
-		this._updateSize();
+		// this._cascadeGrid();
+		// this._updateSize();
 	}
 
-	public getItemPosition(itemId: string): AdGridItemPosition {
+	public getItemPosition(itemId: string): AdGridItemGridPosition {
 		return this._items.has(itemId) ? this._items.get(itemId).getGridPosition() : null;
 	}
 
-	public getItemSize(itemId: string): AdGridItemSize {
-		return this._items.has(itemId) ? this._items.get(itemId).getSize() : null;
+	public getItemSize(itemId: string): AdGridItemGridDimension {
+		return this._items.has(itemId) ? this._items.get(itemId).getGridDimension() : null;
 	}
 
 	public ngDoCheck(): boolean {
@@ -330,7 +328,7 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 		ngItem.setCascadeMode(this.cascade);
 
 		if (!this._preferNew) {
-			var newPos = this._fixGridPosition(ngItem.getGridPosition(), ngItem.getSize());
+			var newPos = this._fixGridPosition(ngItem.getGridPosition(), ngItem.getGridDimension());
 			ngItem.setGridPosition(newPos);
 		}
 
@@ -344,14 +342,14 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 		this._updateSize();
 
 		this.triggerCascade().then(() => {
-			ngItem.recalculateSelf(this.gridDimensions);
+			
 			ngItem.onCascadeEvent();
 
 			this._emitOnItemChange();
 		});
 
 	}
-
+	
 	public removeItem(ngItem: AdGridItemDirective): void {
 		this._removeFromGrid(ngItem);
 
@@ -361,7 +359,7 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 
 		this.triggerCascade().then(() => {
 			this._updateSize();
-			this._items.forEach((item: AdGridItemDirective) => item.recalculateSelf(this.gridDimensions));
+			this._items.forEach((item: AdGridItemDirective) => item.recalculateAllItemDimensionsByGrid(this.gridDimensions));
 			this._emitOnItemChange();
 		});
 	}
@@ -412,12 +410,12 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 				this.gridDimensions.screenMargin = this._getScreenMargin();
 
 				this._items.forEach((item: AdGridItemDirective) => {
-					item.recalculateSelf(this.gridDimensions);
+					item.recalculateAllItemDimensionsByGrid(this.gridDimensions);
 				});
 			}
 		} else if (this._autoResize) {
 			this._items.forEach((item: AdGridItemDirective) => {
-				item.recalculateSelf(this.gridDimensions);
+				item.recalculateAllItemDimensionsByGrid(this.gridDimensions);
 			});
 		}
 
@@ -489,20 +487,20 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 	protected _updatePositionsAfterMaxChange(): void {
 		this._items.forEach((item: AdGridItemDirective) => {
 			var pos = item.getGridPosition();
-			var dims = item.getSize();
+			var dims = item.getGridDimension();
 
-			if (!this._hasGridCollision(pos, dims) && this._isWithinBounds(pos, dims) && dims.x <= this._maxCols && dims.y <= this._maxRows) {
+			if (!this._hasGridCollision(pos, dims) && this._isWithinBounds(pos, dims) && dims.col <= this._maxCols && dims.row <= this._maxRows) {
 				return;
 			}
 
 			this._removeFromGrid(item);
 
-			if (this._maxCols > 0 && dims.x > this._maxCols) {
-				dims.x = this._maxCols;
-				item.setSize(dims, this.gridDimensions);
-			} else if (this._maxRows > 0 && dims.y > this._maxRows) {
-				dims.y = this._maxRows;
-				item.setSize(dims, this.gridDimensions);
+			if (this._maxCols > 0 && dims.col> this._maxCols) {
+				dims.col= this._maxCols;
+				item.setGridDimension(dims);
+			} else if (this._maxRows > 0 && dims.row > this._maxRows) {
+				dims.row = this._maxRows;
+				item.setGridDimension(dims);
 			}
 
 			if (this._hasGridCollision(pos, dims) || !this._isWithinBounds(pos, dims, true)) {
@@ -580,194 +578,22 @@ export class AdGridDirective extends AdGridDirectiveWithMixins implements OnInit
 		this.setConfig(this._config);
 	}
 
-	protected _resizeStart(): void {
-		if (!this.resizeEnable || !this.focusedItem) return;
 
-		//	Setup
-		this.focusedItem.setItemActiveOn();
-		this._removeFromGrid(this.focusedItem);
-		this._createPlaceholder(this.focusedItem);
-
-		//	Status Flags
-		this.isResizing = true;
-		this._resizeReady = false;
-
-		//	Events
-		this.onResizeStart.emit(this.focusedItem);
-		this.focusedItem.onResizeStartEvent();
-	}
 
 	
-
-	
-
-	protected _resize(e: any): void {
-		if (!this.isResizing) { return; }
-
-		if (window.getSelection) {
-			if (window.getSelection().empty) {
-				window.getSelection().empty();
-			} else if (window.getSelection().removeAllRanges) {
-				window.getSelection().removeAllRanges();
-			}
-		} else if ((<any>document).selection) {
-			(<any>document).selection.empty();
-		}
-
-		const mousePos = this._getMousePosition(e);
-		const itemPos = this.focusedItem.getPosition();
-		const itemDims = this.focusedItem.getDimensions();
-		const endCorner = {
-			left: itemPos.left + itemDims.width,
-			top: itemPos.top + itemDims.height,
-		}
-
-		const resizeTop = this._resizeDirection.includes('top');
-		const resizeBottom = this._resizeDirection.includes('bottom');
-		const resizeLeft = this._resizeDirection.includes('left')
-		const resizeRight = this._resizeDirection.includes('right');
-
-		//	Calculate new width and height based upon resize direction
-		let newW = resizeRight
-			? (mousePos.left - itemPos.left + 1)
-			: resizeLeft
-				? (endCorner.left - mousePos.left + 1)
-				: itemDims.width;
-		let newH = resizeBottom
-			? (mousePos.top - itemPos.top + 1)
-			: resizeTop
-				? (endCorner.top - mousePos.top + 1)
-				: itemDims.height;
-
-		if (newW < this.gridDimensions.minWidth)
-			newW = this.gridDimensions.minWidth;
-		if (newH < this.gridDimensions.minHeight)
-			newH = this.gridDimensions.minHeight;
-		if (newW < this.focusedItem.minWidth)
-			newW = this.focusedItem.minWidth;
-		if (newH < this.focusedItem.minHeight)
-			newH = this.focusedItem.minHeight;
-
-		let newX = itemPos.left;
-		let newY = itemPos.top;
-
-		if (resizeLeft)
-			newX = endCorner.left - newW;
-		if (resizeTop)
-			newY = endCorner.top - newH;
-
-		let calcSize = this._calculateGridSize(newW, newH);
-		const itemSize = this.focusedItem.getSize();
-		const iGridPos = this.focusedItem.getGridPosition();
-		const bottomRightCorner = {
-			col: iGridPos.col + itemSize.x,
-			row: iGridPos.row + itemSize.y,
-		};
-		const targetPos: AdGridItemPosition = Object.assign({}, iGridPos);
-
-		if (this._resizeDirection.includes("top"))
-			targetPos.row = bottomRightCorner.row - calcSize.y;
-		if (this._resizeDirection.includes("left"))
-			targetPos.col = bottomRightCorner.col - calcSize.x;
-
-		if (!this._isWithinBoundsX(targetPos, calcSize))
-			calcSize = this._fixSizeToBoundsX(targetPos, calcSize);
-
-		if (!this._isWithinBoundsY(targetPos, calcSize))
-			calcSize = this._fixSizeToBoundsY(targetPos, calcSize);
-
-		calcSize = this.focusedItem.fixSize(calcSize, this.gridDimensions);
-
-		if (calcSize.x != itemSize.x || calcSize.y != itemSize.y) {
-			this.focusedItem.setGridPosition(targetPos);
-			if(this._fixToGrid){
-				this.focusedItem.updateDimensions(this.gridDimensions)
-			}
-
-			this._placeholderRef.instance.setGridPosition(targetPos, this.gridDimensions);
-			this.focusedItem.setSize(calcSize,this.gridDimensions );
-			if(this._fixToGrid){
-				this.focusedItem.updateDimensions(this.gridDimensions)
-			}
-			this._placeholderRef.instance.setSize(calcSize, this.gridDimensions);
-
-			if (['up', 'down', 'left', 'right'].indexOf(this.cascade) >= 0) {
-				this._fixGridCollisions(targetPos, calcSize);
-				this._cascadeGrid(targetPos, calcSize);
-			}
-		}
-
-		if (!this._fixToGrid) {
-			this.focusedItem.setDimensions(newW, newH);
-			this.focusedItem.setPosition(newX, newY);
-		}
-
-		this.onResize.emit(this.focusedItem);
-		this.focusedItem.onResizeEvent();
-	}
-
-	
-	protected _resizeStop(): void {
-		if (!this.isResizing) return;
-
-		this.isResizing = false;
-
-		const itemDims = this.focusedItem.getSize();
-		this.focusedItem.setSize(itemDims, this.gridDimensions);
-
-		const itemPos = this.focusedItem.getGridPosition();
-		this.focusedItem.setGridPosition(itemPos);
-
-		this._addToGrid(this.focusedItem);
-
-		this._cascadeGrid();
-		this._updateSize();
-
-		this.focusedItem.setItemActiveOff();
-		this.focusedItem.onResizeStopEvent();
-		this.onResizeStop.emit(this.focusedItem);
-
-		this._cleanResize();
-		this._placeholderRef.destroy();
-
-		this._emitOnItemChange();
-	}
-
-	
-
-	protected _cleanResize(): void {
-		this.focusedItem = null;
-		this.focusedItem = null;
-		this._resizeDirection = null;
-		this.isResizing = false;
-		this._resizeReady = false;
-	}
-
-	protected _calculateGridSize(width: number, height: number): AdGridItemSize {
-		width += this.gridDimensions.marginLeft + this.gridDimensions.marginRight;
-		height += this.gridDimensions.marginTop + this.gridDimensions.marginBottom;
-
-		var sizex = Math.max(this.gridDimensions.minCols, Math.round(width / (this.gridDimensions.colWidth + this.gridDimensions.marginLeft + this.gridDimensions.marginRight)));
-		var sizey = Math.max(this.gridDimensions.minRows, Math.round(height / (this.gridDimensions.rowHeight + this.gridDimensions.marginTop + this.gridDimensions.marginBottom)));
-
-		if (!this._isWithinBoundsX({ col: 1, row: 1 }, { x: sizex, y: sizey })) sizex = this._maxCols;
-		if (!this._isWithinBoundsY({ col: 1, row: 1 }, { x: sizex, y: sizey })) sizey = this._maxRows;
-
-		return { 'x': sizex, 'y': sizey };
-	}
 
 	
 	
 	
 	
-	protected _getAbsoluteMousePosition(e: any): AdGridRawPosition {
+	protected _getAbsoluteMousePosition(e: any): AdGridItemRawPosition {
 		if (((<any>window).TouchEvent && e instanceof TouchEvent) || (e.touches || e.changedTouches)) {
 			e = e.touches.length > 0 ? e.touches[0] : e.changedTouches[0];
 		}
 
 		return {
-			left: e.clientX,
-			top: e.clientY
+			x: e.clientX,
+			y: e.clientY
 		};
 	}
 

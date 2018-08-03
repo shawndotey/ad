@@ -1,4 +1,4 @@
-import { AdGridConfig, AdConfigFixDirection, AdGridRawPosition } from "..";
+import { AdGridConfig, AdConfigFixDirection, AdGridItemRawPosition } from "..";
 import { Observable, Subscription } from "rxjs";
 import { KeyValueDiffer, ComponentRef } from "@angular/core";
 import { AdGridPlaceholderComponent, AdGridItemDirective } from "../../main";
@@ -25,9 +25,9 @@ protected _maxCols: number = 0;
 protected _maxRows: number = 0;
 protected _visibleCols: number = 0;
 protected _visibleRows: number = 0;
-protected _setWidth: number = 250;
-protected _setHeight: number = 250;
-protected _posOffset: AdGridRawPosition = null;
+// protected _setWidth: number = 250;
+// protected _setHeight: number = 250;
+protected _posOffset: AdGridItemRawPosition = null;
 protected _adding: boolean = false;
 protected _placeholderRef: ComponentRef<AdGridPlaceholderComponent> = null;
 protected _fixToGrid: boolean = false;

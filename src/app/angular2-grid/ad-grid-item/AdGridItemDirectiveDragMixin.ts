@@ -40,9 +40,15 @@ export function AdGridItemDirectiveDragMixin<T extends MixinConstructor<AdGridIt
 					});
 					
 				});
+				
 				this.dragHandles.notifyOnChanges();
+
+				this.elementAdjustmentAsNeed.subscribe(() => {
+					this.moveElementAsNeeded();
+				});
 			});
 
+		
 
 			
 		}

@@ -1,17 +1,16 @@
-import { AdGridItemSize } from "../model/AdGridItem/AdGridItemSize";
-import { AdGridItemPosition } from "../model/AdGridItem/AdGridItemPosition";
 import { Component, ElementRef, Renderer, OnInit } from '@angular/core';
 import { AdGridDirective } from '../ad-grid/ad-grid.directive';
 import { AdGridDirectiveBase } from "../ad-grid/AdGridDirectiveBase";
 import { GridDimensions } from "../model/AdGrid/GridDimensions";
+import { AdGridItemGridPosition, AdGridItemGridDimension } from "../model";
 
 @Component({
 	selector: 'ad-grid-placeholder',
 	template: ''
 })
 export class AdGridPlaceholderComponent implements OnInit {
-	private _size: AdGridItemSize;
-	private _position: AdGridItemPosition;
+	private _size: AdGridItemGridDimension;
+	private _position: AdGridItemGridPosition;
 	private _AdGrid: AdGridDirective | AdGridDirectiveBase;
 	private _cascadeMode: string;
 	autoStyle = true;
@@ -24,13 +23,13 @@ export class AdGridPlaceholderComponent implements OnInit {
 		if (this.autoStyle) this._renderer.setElementStyle(this._ngEl.nativeElement, 'position', 'absolute');
 	}
 
-	public setSize(newSize: AdGridItemSize, gridDimensions:GridDimensions): void {
+	public setSize(newSize: AdGridItemGridDimension, gridDimensions:GridDimensions): void {
 		this._size = newSize;
 		this._recalculateDimensions(gridDimensions);
 		gridDimensions= null;
 	}
 
-	public setGridPosition(newPosition: AdGridItemPosition, gridDimensions:GridDimensions): void {
+	public setGridPosition(newPosition: AdGridItemGridPosition, gridDimensions:GridDimensions): void {
 		this._position = newPosition;
 		this._recalculatePosition(gridDimensions);
 		gridDimensions= null;
@@ -92,8 +91,8 @@ export class AdGridPlaceholderComponent implements OnInit {
 	}
 
 	private _recalculateDimensions(gridDimensions:GridDimensions): void {
-		const w: number = (gridDimensions.colWidth * this._size.x) + ((gridDimensions.marginLeft + gridDimensions.marginRight) * (this._size.x - 1));
-		const h: number = (gridDimensions.rowHeight * this._size.y) + ((gridDimensions.marginTop + gridDimensions.marginBottom) * (this._size.y - 1));
+		const w: number = (gridDimensions.colWidth * this._size.col) + ((gridDimensions.marginLeft + gridDimensions.marginRight) * (this._size.col - 1));
+		const h: number = (gridDimensions.rowHeight * this._size.row) + ((gridDimensions.marginTop + gridDimensions.marginBottom) * (this._size.row - 1));
 		this._setDimensions(w, h);
 		gridDimensions = null;
 	}
