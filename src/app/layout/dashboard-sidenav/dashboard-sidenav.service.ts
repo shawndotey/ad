@@ -2,32 +2,28 @@ import { Injectable } from '@angular/core';
 import { MenuModel } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 
 
-export interface MainMenu extends MenuModel{
-  description:String;
+export interface MainMenu extends MenuModel {
+  description: String;
+  route:string;
   children?: Partial<MainMenu>[];
 }
 
 
-const DEFAULT_NEST_NODE_TEMPLATE_URL = '';
-const DEFAULT_END_NODE_TEMPLATE_URL = '';
-export const MENU_LIST:Partial<MainMenu>[] = [
+
+export const MENU_LIST: Partial<MainMenu>[] = [
   {
     name: 'Documentation',
-    templateLocation:DEFAULT_NEST_NODE_TEMPLATE_URL,
     children: [
       {
         name: 'Angular',
-        description:'Nan',
-        templateLocation:DEFAULT_NEST_NODE_TEMPLATE_URL,
+        description: 'Nan',
         children: [
-              {
-                name: 'Core',
-                templateLocation:DEFAULT_END_NODE_TEMPLATE_URL
-              },
-              {
-                name: 'Compiler',
-                templateLocation:DEFAULT_END_NODE_TEMPLATE_URL
-              }
+          {
+            name: 'Core',
+          },
+          {
+            name: 'Compiler',
+          }
         ]
       },
       {
@@ -37,20 +33,16 @@ export const MENU_LIST:Partial<MainMenu>[] = [
   },
   {
     name: 'Examples',
-    templateLocation:DEFAULT_NEST_NODE_TEMPLATE_URL,
     children: [
       {
         name: 'Angular',
-        templateLocation:DEFAULT_NEST_NODE_TEMPLATE_URL,
         children: [
-              {
-                name: 'Core',
-                templateLocation:DEFAULT_END_NODE_TEMPLATE_URL
-              },
-              {
-                name: 'Compiler',
-                templateLocation:DEFAULT_END_NODE_TEMPLATE_URL
-              }
+          {
+            name: 'Core'
+          },
+          {
+            name: 'Compiler'
+          }
         ]
       },
       {
@@ -59,8 +51,16 @@ export const MENU_LIST:Partial<MainMenu>[] = [
     ]
   },
   {
-    name: 'Settings',
-    templateLocation:DEFAULT_END_NODE_TEMPLATE_URL
+    name: 'Login',
+    route: '/login'
+  },
+  {
+    name: 'Home',
+    route: '/home'
+  },
+  {
+    name: 'About',
+    route: '/about'
   },
 ]
 
@@ -71,12 +71,12 @@ export const MENU_LIST:Partial<MainMenu>[] = [
   providedIn: 'root',
 })
 export class AppDashboardSideNavService {
-  
+
   constructor() {
     this.initialize();
   }
   initialize() {
-   
+
   }
-  
+
 }

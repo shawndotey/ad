@@ -21,8 +21,6 @@ export class MenuFlatNode implements MenuModel {
   name: string;
   level: number;
   isExpandable: boolean;
-  template?: string;
-  templateLocation?: string;
   constructor(init?: Partial<MenuFlatNode> | Partial<MenuModel>) {
     Object.assign(this, init);
   }

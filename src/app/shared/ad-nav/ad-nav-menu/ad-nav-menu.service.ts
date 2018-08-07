@@ -24,7 +24,7 @@ export class AdNavMenuService {
   }
   transformer = (node: MenuNode, level: number) => {
     let flatNode = new MenuFlatNode();
-    flatNode.name = node.name;
+    Object.assign(flatNode, node);
     flatNode.level = level;
     flatNode.isExpandable = (node.children.length !== 0);
     return flatNode;

@@ -1,5 +1,6 @@
 import { Component, OnInit, Injectable, ViewChild, AfterViewInit  } from '@angular/core';
 import { getOrCreateChangeDetectorRef } from '@angular/core/src/render3/di';
+import { ActivatedRoute, Router } from '@angular/router';
  
 
 
@@ -11,7 +12,7 @@ import { getOrCreateChangeDetectorRef } from '@angular/core/src/render3/di';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() {
+  constructor(private route: ActivatedRoute, private router: Router) {
    
 }
   ngOnInit() {
@@ -25,8 +26,7 @@ export class HomeComponent implements OnInit {
       //  Do something with AdGrid instance here
   }
 
-  
-
+ 
  
 }
 

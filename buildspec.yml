@@ -1,0 +1,16 @@
+version: 0.2
+phases:
+ install:
+   commands:
+     - echo "install step"
+     - npm i
+ pre_build:
+   commands:
+     - echo "pre_build step"
+ build:
+   commands:
+     - aws s3 sync --delete . "s3://<your-static-website-bucket>"
+     - ng build --prod
+ post_build:
+   commands:
+     - echo "post_build step"

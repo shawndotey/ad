@@ -20,6 +20,7 @@ export class AppDashboardSideNavComponent implements OnInit {
   }
   ngOnInit() {
     this.mainMenu = MENU_LIST;
+    
   }
   
  
