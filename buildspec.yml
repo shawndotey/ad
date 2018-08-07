@@ -3,6 +3,7 @@ environment_variables:
     plaintext:
         S3_BUCKET: "homedashapps.com"
         BUILD_ENV: "prod"
+        BUILD_ROOT: "dist/ad"
 phases:
  install:
    commands:
@@ -19,4 +20,4 @@ phases:
    commands:
      - echo "post_build step"
      - aws s3 rm s3://${S3_BUCKET} --recursive
-     - aws s3 cp dist s3://${S3_BUCKET} --recursive 
+     - aws s3 cp ${BUILD_ROOT} s3://${S3_BUCKET} --recursive 
