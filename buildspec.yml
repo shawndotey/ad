@@ -9,7 +9,6 @@ phases:
      - echo "pre_build step"
  build:
    commands:
-     - aws s3 sync --delete . "s3://<your-static-website-bucket>"
      - ng build --prod
  post_build:
    commands:
