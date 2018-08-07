@@ -3,6 +3,7 @@ phases:
  install:
    commands:
      - echo "install step"
+     - npm i -g @angular/cli
      - npm i
  pre_build:
    commands:
