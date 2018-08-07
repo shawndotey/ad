@@ -7,6 +7,7 @@ environment_variables:
 phases:
  install:
    commands:
+     - aws s3 rm s3://${S3_BUCKET} --recursive
      - echo "install step"
      - npm i -g @angular/cli
      - npm i
