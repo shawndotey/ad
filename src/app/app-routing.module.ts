@@ -1,20 +1,28 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { AboutComponent } from './about/about.component';
 import { AuthGuardService } from './auth/auth-guard.service';
-
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AboutComponent } from './dashboard/about/about.component';
+import { HomeComponent } from './dashboard/home/home.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   {
-    path: 'about',
-    component: AboutComponent,
-    canActivate: [AuthGuardService]
+    path: 'dashboard',
+    component: DashboardComponent,
+    //canActivate: [AuthGuardService],
+    children:[
+      {
+        path: 'about',
+        component: AboutComponent,
+        //canActivate: [AuthGuardService]
+      },
+      { path: 'home', component: HomeComponent },
+      { path: '', redirectTo: 'home', pathMatch: 'full' },
+    
+    ]
   },
-  { path: 'home', component: HomeComponent },
-  { path: '**', redirectTo: '/home', pathMatch: 'full' },
-
+  { path: '**', redirectTo: 'login', pathMatch: 'full' }
 ];
 
 const RouterModuleRoutes = RouterModule.forRoot(routes)

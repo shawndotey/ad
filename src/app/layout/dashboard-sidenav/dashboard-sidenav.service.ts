@@ -56,11 +56,11 @@ export const MENU_LIST: Partial<MainMenu>[] = [
   },
   {
     name: 'Home',
-    route: '/home'
+    route: './home'
   },
   {
     name: 'About',
-    route: '/about'
+    route: './about'
   },
 ]
 

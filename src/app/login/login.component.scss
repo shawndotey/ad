@@ -19,11 +19,14 @@
   font-family: roboto;
 }
 
-.loginmodal-container input[type=submit] {
+.loginmodal-container .button-submit {
   width: 100%;
   display: block;
   margin-bottom: 10px;
   position: relative;
+  text-align: center;
+  font-size: 1.1em;
+  font-family: roboto;
 }
 
 .loginmodal-container input[type=text], input[type=password] {
