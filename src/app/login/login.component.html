@@ -1,18 +1,13 @@
-<div class="app-header">
-  <h1 class="app-heading">{{title}}</h1>
-</div>
-<header>
-  <mat-toolbar color="primary">Angular 6 Bootstrap 4 Example</mat-toolbar>
-</header>
-
-<section class="container">
-  <div class="row">
-    <mat-card class="col-md-6">1</mat-card> <!-- we use mat-card instead of div -->
-    <mat-card class="col-md-6">2</mat-card>
-    <mat-card class="col-md-6 d-block d-lg-none">3</mat-card> <!-- will be hidden on large screens -->
-    <mat-card class="col-md-6 d-block d-lg-none">4</mat-card>
+<div class="loginmodal-container">
+  <h1>Login to Your Account</h1><br>
+  <form>
+  <input type="text" name="user" placeholder="Username">
+  <input type="password" name="pass" placeholder="Password">
+  <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+  </form>
+  
+  <div class="login-help">
+  <a href="#">Register</a> - <a href="#">Forgot Password</a>
   </div>
-</section>
-
-<footer></footer>
+</div>
 <!-- Application header ends -->
