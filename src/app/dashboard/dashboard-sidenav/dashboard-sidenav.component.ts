@@ -8,7 +8,7 @@ import {MENU_LIST} from './dashboard-sidenav.service';
   templateUrl: './dashboard-sidenav.component.html',
   styleUrls: ['./dashboard-sidenav.component.scss']
 })
-export class AppDashboardSideNavComponent implements OnInit {
+export class DashboardSideNavComponent implements OnInit {
 
   
   public mainMenu: Partial<MenuModel>[];

@@ -1,16 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { AppLayoutModule } from '../layout/layout.module';
-import {SharedModule} from '../shared/shared.module';
 import 'hammerjs';
 
 
 @NgModule({
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
-    AppLayoutModule
+    BrowserAnimationsModule
 
   ],
   declarations: [
@@ -18,8 +15,7 @@ import 'hammerjs';
   ],
   exports:[
     CommonModule,
-    BrowserAnimationsModule,
-    AppLayoutModule
+    BrowserAnimationsModule
   ]
 })
 export class CoreModule { }
