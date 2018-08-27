@@ -3,13 +3,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from './material/material.module';
 import { AdNavModule } from './ad-nav/ad-nav.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
 @NgModule({
   imports: [
     CommonModule,
     MaterialModule,
-    AdNavModule
+    AdNavModule,
+    FontAwesomeModule
     
   ],
   declarations: [
@@ -17,7 +19,8 @@ import { AdNavModule } from './ad-nav/ad-nav.module';
   ],
   exports:[
     MaterialModule,
-    AdNavModule
+    AdNavModule,
+    FontAwesomeModule
   
   ]
 })

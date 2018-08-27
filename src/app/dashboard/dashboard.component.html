@@ -1,35 +1,32 @@
 <mat-sidenav-container class="sidenav-container">
-	<mat-sidenav
-	  #drawer
-	  class="sidenav"
-	  fixedInViewport="true"
-	  [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-	  [mode]="(isHandset$ | async) ? 'over' : 'side'"
-	  [opened]="!(isHandset$ | async)">
-	  <mat-toolbar color="primary">Menu</mat-toolbar>
-	  
-	   <app-dashboard-sidenav></app-dashboard-sidenav>
-	</mat-sidenav>
-	<mat-sidenav-content >
-		
-	  <mat-toolbar color="primary" >
-			
-			<button
-				type="button"
-				aria-label="Toggle sidenav"
-				mat-icon-button
-				(click)="drawer.toggle()"
-				>
-				<mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-			</button>
-			<span style="flex: 1 1 auto;">Angular Dash</span>
-			<div class="" >
-				<mat-slide-toggle [color]="'warn'" (change)="onAppAuthorizationSlideToggle($event)" [checked]="appAuthorization.isAuthenticated" >Logged in</mat-slide-toggle>
-			</div>
-		
-		</mat-toolbar>
-	
-	  <router-outlet></router-outlet>
-	</mat-sidenav-content>
-  </mat-sidenav-container>
-  
+	<mat-sidenav #left 
+		class="sidenav" 
+		fixedInViewport="true" 
+		[attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" 
+		[mode]="(isHandset$ | async) ? 'over' : 'side'"
+		[opened]="!(isHandset$ | async)" [position]="'start'">
+		<mat-toolbar color="primary">Menu</mat-toolbar>
+		<app-dashboard-sidenav></app-dashboard-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+			<button type="button" 
+				aria-label="Toggle sidenav" 
+				mat-icon-button (click)="left.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span style="flex: 1 1 auto;">Angular Dash</span>
+      <div class="">
+				<mat-slide-toggle 
+					[color]="'warn'" 
+					(change)="onAppAuthorizationSlideToggle($event)" 
+					[checked]="appAuthorization.isAuthenticated">
+					Logged in
+				</mat-slide-toggle>
+      </div>
+    </mat-toolbar>
+    <app-dashboard-demo-sidenav #demo></app-dashboard-demo-sidenav>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -11,22 +11,22 @@ import { LoginComponent } from '../login/login.component';
 import { DashboardModule } from '../dashboard/dashboard.module';
 import { AppRoutingModule } from './app-routing.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LoginModule } from '../login/login.module';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LoginComponent      
+    AppComponent     
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     CoreModule,
     LayoutModule,
+    LoginModule,
     DashboardModule,
-    AppRoutingModule,
-    FontAwesomeModule
+    AppRoutingModule
   ],
   exports:[
 

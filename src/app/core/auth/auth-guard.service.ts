@@ -13,13 +13,11 @@ export class AuthGuardService implements CanActivate {
     return this.standardDashboardCheck();
   }
   canActivateChild() {
-    console.log('checking child route access');
     return this.standardDashboardCheck();
   }
   standardDashboardCheck(){
 
     if (!this.auth.isAuthenticated) {
-      console.log('redirect to login')
       this.router.navigate(['login']);
       return false;
     }

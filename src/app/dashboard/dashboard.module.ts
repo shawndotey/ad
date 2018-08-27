@@ -5,6 +5,8 @@ import { HomeComponent } from './views/home/home.component';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardSideNavComponent } from './dashboard-sidenav/dashboard-sidenav.component';
 import { AppRoutingModule } from '../core/app-routing.module';
+import { DashboardDemoSidenavComponent } from './dashboard-demo-sidenav/dashboard-demo-sidenav.component';
+import { DemoToggleButtonComponent } from './dashboard-demo-sidenav/demo-toggle-button/demo-toggle-button.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { AppRoutingModule } from '../core/app-routing.module';
   declarations: [
     HomeComponent,
     DashboardComponent,
-    DashboardSideNavComponent
+    DashboardSideNavComponent,
+    DashboardDemoSidenavComponent,
+    DemoToggleButtonComponent
 
   ],
   exports:[

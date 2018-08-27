@@ -1,0 +1,56 @@
+$rotateBy:130deg;
+@mixin transform($property) {
+	-webkit-transform: $property;
+		-ms-transform: $property;
+			transform: $property;
+  }
+
+  @keyframes open-animation {
+    100% {
+      @include transform(rotate(-#{$rotateBy}));
+    }
+  }
+
+  @keyframes close-animation {
+    100% {
+      @include transform(rotate(#{$rotateBy}));
+    }
+  }
+
+  .settings-toggle {
+    width: 100px;
+    position: absolute;
+	background-color: #eff2f5;
+	z-index: 50;
+	visibility: visible;
+	border-radius: 20px;
+	padding: 0 0 2px 12px;
+	border-color: #888787;
+	border-style: solid;
+	border-width: 4px;
+	font-size: 3rem;
+	z-index: 10;
+	cursor: pointer;
+	>.icon-container {
+	  line-height: 100%;
+	  display: inline-block;
+	  &.icon-container-open{
+		animation-name: open-animation;
+		animation-duration: .3s;
+		// animation-iteration-count: 1;
+		animation-timing-function: linear;
+	  }
+	  &.icon-container-close{
+		animation-name: close-animation;
+		animation-duration: .3s;
+		// animation-iteration-count: 1;
+		animation-timing-function: linear;
+	}
+	  &:hover {
+		transition: color 0.5s ease;
+		color: rgb(0, 0, 139);
+		
+	  }
+	}
+  
+	}

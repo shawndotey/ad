@@ -1,7 +1,7 @@
 import { MenuModel } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 import { Component, OnInit } from '@angular/core';
 import {of as observableOf} from 'rxjs';
-import {MENU_LIST} from './dashboard-sidenav.service';
+import { MENU_LIST } from "./dashbaord-sidenav.menu-list.model";
 
 @Component({
   selector: 'app-dashboard-sidenav',

@@ -1,0 +1,29 @@
+<mat-sidenav-container class="sidenav-container">
+	<mat-sidenav
+	  #right
+	  class="sidenav right-sidenav"
+	  fixedInViewport="true"
+	  [attr.role]="'dialog'"
+	  [mode]="'over'"
+		[opened]="true"
+    [position]="'end'"
+    
+		>
+	  
+			<div class="demo-content">This is demo config
+
+					
+			</div>
+			
+      
+				<div class="extended-toggler">
+						<app-demo-toggle-button #demoButton (onButtonPress)="onDemoButtonPressed($event)" [isOpen]="sideNav.opened" ></app-demo-toggle-button>
+				</div>
+			
+		
+      
+    </mat-sidenav>
+
+	
+  </mat-sidenav-container>
+  
