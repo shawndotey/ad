@@ -1,0 +1,47 @@
+@import '../dashboard.variables.scss';
+
+@mixin sideBorder {
+  border-right-color: $app-sidnav-border-color;
+  border-right-style: solid;
+  border-right-width: $app-sidnav-border-width;
+ // box-shadow: 3px 0 6px $app-sidnav-border-color;
+}
+
+.app-sidenav-container {
+
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    height: $app-sidnav-toolbar-height;
+  }
+
+  .app-left-sidenav-content {
+    display: flex;
+    flex-flow: column;
+    width: 100%;
+    height: 100%;
+
+    // // height: 300px;
+    //box-shadow: 3px 0 6px rgba(0,0,0,.24);
+    >.app-sidenav-content-top {
+      overflow: none;
+    }
+
+    >.app-sidenav-content-middle {
+      flex: 2;
+      overflow: auto;
+      @include sideBorder();
+    }
+
+    >.app-sidenav-content-bottom {
+      overflow: none;
+      border-top-color: $app-sidnav-border-color;
+      border-top-style: solid;
+      border-top-width: $app-sidnav-border-width;
+      height: 40px;
+      //background-color: red;
+      //background-color: rgb(9, 0, 128);
+      box-shadow: none;
+      @include sideBorder();
+    }
+  }
+}

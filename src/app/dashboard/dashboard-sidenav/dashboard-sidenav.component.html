@@ -1,14 +1,28 @@
-<ad-nav-menu [menuSource]='mainMenu'>
-	<div *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
-		<mat-icon class="mat-icon-rtl-mirror">
-			{{treeControl.isExpanded(menuNode) ? 'expand_more' : 'chevron_right'}}
-		</mat-icon>
-		<span>{{menuNode.name}} : {{menuNode.level}}</span>
-	</div>
-	<div *ad-nav-item="let menuNode=menuNode;">
-		<div [routerLink]="menuNode.route">
-			<mat-icon>accessible</mat-icon>
-			<span> {{menuNode.name}}</span>
-		</div>
-	</div>
-</ad-nav-menu>
+
+<div class="app-left-sidenav-content">
+  <mat-toolbar color="primary">Menu</mat-toolbar>
+  <div class="app-sidenav-content-middle">
+	  
+		<ad-nav-menu [menuSource]='mainMenu' class="">
+				<div *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
+				  <mat-icon class="mat-icon-rtl-mirror">
+					{{treeControl.isExpanded(menuNode) ? 'expand_more' : 'chevron_right'}}
+				  </mat-icon>
+				  <span>{{menuNode.name}} : {{menuNode.level}}</span>
+				</div>
+				<div *ad-nav-item="let menuNode=menuNode;">
+				  <div [routerLink]="menuNode.route">
+					<mat-icon>accessible</mat-icon>
+					<span> {{menuNode.name}}</span>
+				  </div>
+				</div>
+			  </ad-nav-menu>
+  </div>
+  <div class="app-sidenav-content-bottom">
+
+  </div>
+
+</div>
+
+
+

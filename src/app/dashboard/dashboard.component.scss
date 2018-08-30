@@ -1,11 +1,17 @@
-.sidenav-container {
-	height: 100%;
+@import './dashboard.variables.scss';
+
+.app-sidenav-container {
+  height: 100%;
+
+  .app-left-sidenav {
+    width: 200px;
+    //box-shadow: 3px 0 6px rgba(0,0,0,.24);
+    //background-color: green;
+    box-shadow: none;
+    
   }
-  
-.sidenav {
-	width: 200px;
-	box-shadow: 3px 0 6px rgba(0,0,0,.24);
 }
+
 	
 
 

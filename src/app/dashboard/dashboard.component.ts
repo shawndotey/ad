@@ -1,11 +1,12 @@
 import { AppAuthorization } from '../shared/model/AppAuthorization.class';
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, Output, ViewChild } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../core/auth/auth.service';
 import { IAppAuthorization } from '../shared/model/IAppAuthorization.interface';
+import { MatSidenav } from '@angular/material';
 
 
 
@@ -16,7 +17,8 @@ import { IAppAuthorization } from '../shared/model/IAppAuthorization.interface';
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent {
-
+  @ViewChild(MatSidenav) sideNav: MatSidenav;
+  
   constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService){
     authService.login();
     authService.authorizationChange$.subscribe({
@@ -42,5 +44,8 @@ export class DashboardComponent {
     }
     
   }
-  
+  @Output()
+  toggleSideNav(){
+    this.sideNav.toggle();
+  }
 }

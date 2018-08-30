@@ -1,0 +1,24 @@
+@import './style/shared-mixins.scss';
+@import './app.bootstrap.scss';
+@import './app.component.variables.scss';
+
+* {
+  &:active,
+  :focus {
+    outline: none !important;
+  }
+}
+
+label {
+  margin-bottom: 0;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+  box-shadow: none;
+}
+

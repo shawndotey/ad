@@ -1,11 +1,12 @@
-import { Component, OnInit, ContentChild, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ContentChild, Output, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { DemoToggleButtonComponent } from './demo-toggle-button/demo-toggle-button.component';
 
 @Component({
   selector: 'app-dashboard-demo-sidenav',
   templateUrl: './dashboard-demo-sidenav.component.html',
-  styleUrls: ['./dashboard-demo-sidenav.component.scss']
+  styleUrls: ['./dashboard-demo-sidenav.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DashboardDemoSidenavComponent implements OnInit {
   @ViewChild(MatSidenav) sideNav: MatSidenav;

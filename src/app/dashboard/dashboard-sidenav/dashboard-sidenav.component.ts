@@ -1,18 +1,19 @@
+import { Component, OnInit, ViewEncapsulation, Output, ViewChild } from '@angular/core';
 import { MenuModel } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
-import { Component, OnInit } from '@angular/core';
 import {of as observableOf} from 'rxjs';
 import { MENU_LIST } from "./dashbaord-sidenav.menu-list.model";
+import { MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'app-dashboard-sidenav',
   templateUrl: './dashboard-sidenav.component.html',
-  styleUrls: ['./dashboard-sidenav.component.scss']
+  styleUrls: ['./dashboard-sidenav.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class DashboardSideNavComponent implements OnInit {
 
   
   public mainMenu: Partial<MenuModel>[];
-  
   constructor() { 
 
     
@@ -22,6 +23,7 @@ export class DashboardSideNavComponent implements OnInit {
     this.mainMenu = MENU_LIST;
     
   }
+ 
   
  
 }

@@ -1,34 +1,27 @@
-.right-sidenav{
-	overflow: visible;
-	box-shadow: none;
-	border-left-color: #888787;
-	border-left-style: solid;
-	border-left-width: 4px;
+
+@import '../dashboard.variables.scss';
+.app-sidenav-container{
+
+	.right-sidenav{
+		overflow: visible;
+		box-shadow: none;
+		border-left-color: $app-sidnav-border-color;
+		border-left-style: solid;
+		border-left-width: $app-sidnav-border-width;
+	}
+	
+	.extended-toggler{
+		position: absolute;
+		top: 144px;
+		margin-left: -72px;
+	}
+	
+	.demo-content {
+	  z-index: 20;
+	  width: 100%;
+	  height: 100%;
+	  background-color: #eff2f5;
+	  position: relative;
+	}
 }
 
-.extended-toggler{
-	position: absolute;
-	top: 144px;
-	margin-left: -72px;
-}
-
-.demo-content {
-  z-index: 20;
-  width: 100%;
-  height: 100%;
-  background-color: #eff2f5;
-  position: relative;
-}
-
-
-// 100%  {
-// 	-moz-transform: rotate(#{rotateBy}); 
-// 	transform: rotate(#{rotateBy}); 
-// 	-webkit-transform: rotate(#{rotateBy}); 
-// }
-
-// 100%  {
-// 	-moz-transform: rotate(180deg); 
-// 	transform: rotate(180deg); 
-// 	-webkit-transform: rotate(180deg); 
-// }
