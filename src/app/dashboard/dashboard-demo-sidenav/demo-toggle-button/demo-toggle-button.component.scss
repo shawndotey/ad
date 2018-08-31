@@ -18,7 +18,7 @@ $rotateBy:'130deg';
 .settings-toggle {
   width: 100px;
   position: absolute;
-  background-color: #eff2f5;
+  background-color: $dashboard-demo-sidenav-background-color;
   z-index: 50;
   visibility: visible;
   border-radius: 20px;

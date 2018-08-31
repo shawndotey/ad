@@ -1,28 +1,40 @@
 <mat-sidenav-container class="app-sidenav-container">
-  <mat-sidenav #left class="app-left-sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  <mat-sidenav #left class="app-left-sidenav" fixedInViewport="true" 
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)" [position]="'start'">
 
     <app-dashboard-sidenav #left></app-dashboard-sidenav>
   </mat-sidenav>
+<mat-sidenav-content>
+<mat-toolbar color="primary" class="app-main-toolbar">
 
+  <div style="order:1; " class="sidebar-left-control">
 
-  <mat-sidenav-content>
-    <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    <div [ngClass]="{'icon-item':true, 'active':!isSideNavOpen} ">
+      <button type="button" class="" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+        <fa-icon [icon]="faBars"></fa-icon>
       </button>
-      <span style="flex: 1 1 auto;">Angular Dash</span>
-      <div class="">
-        <mat-slide-toggle [color]="'warn'" (change)="onAppAuthorizationSlideToggle($event)" [checked]="appAuthorization.isAuthenticated">
-          Logged in
-        </mat-slide-toggle>
-      </div>
+    </div>
+
+    <div [ngClass]="{'icon-item':true, 'active':isSideNavOpen, 'second-icon-item':true} ">
+      <button type="button" class="" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+        <fa-icon [icon]="faTimes"></fa-icon>
+      </button>
+    </div>
+
+<!-- <span style="font-size: 2em"> A</span> -->
+  </div>
+  <div style="flex: 1 1 auto;order:2;">Angular Dash</div>
+
+
+  <div style="order:3;" class="">
+    <mat-slide-toggle [color]="'warn'" (change)="onAppAuthorizationSlideToggle($event)" [checked]="appAuthorization.isAuthenticated">
+      Logged in
+    </mat-slide-toggle>
+    </div>
     </mat-toolbar>
 
-    <mat-sidenav-container class="">
-      <app-dashboard-demo-sidenav #demo></app-dashboard-demo-sidenav>
-    </mat-sidenav-container>
-
+    <app-dashboard-demo-sidenav #demo></app-dashboard-demo-sidenav>
     <router-outlet></router-outlet>
 
   </mat-sidenav-content>

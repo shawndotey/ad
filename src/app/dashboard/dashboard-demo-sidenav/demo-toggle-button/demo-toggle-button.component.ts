@@ -41,6 +41,7 @@ export class DemoToggleButtonComponent implements OnInit {
 
   @Output()
   toggle(){
+    console.log('toggle')
     if(this.isOpen){
       this.close();
     }

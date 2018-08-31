@@ -12,7 +12,7 @@ import { MatSidenav } from '@angular/material';
 })
 export class DashboardSideNavComponent implements OnInit {
 
-  
+  @ViewChild(MatSidenav) sideNav: MatSidenav;
   public mainMenu: Partial<MenuModel>[];
   constructor() { 
 
@@ -23,7 +23,16 @@ export class DashboardSideNavComponent implements OnInit {
     this.mainMenu = MENU_LIST;
     
   }
- 
+  @Output()
+  toggleSideNav(){
+    console.log("left toggle")
+    if(this.sideNav.opened){
+    }
+    else{
+      
+    }
+    this.sideNav.toggle();
+  }
   
  
 }

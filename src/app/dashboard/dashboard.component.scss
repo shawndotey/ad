@@ -1,26 +1,57 @@
 @import './dashboard.variables.scss';
+@import '../style/shared-mixins.scss';
 
 .app-sidenav-container {
-  height: 100%;
+  height: 100vh;
+  display: flex;
+
+  .app-main-toolbar {
+    display: flex;
+    // flex-direction: column;
+    justify-content: center;
+
+    >div {
+      padding-right: 12px;
+    }
+
+    .sidebar-left-control {
+      display: flex;
+      // justify-content: center;
+      flex-basis: 28px;
+      background-color: green;
+
+      .icon-item {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        display: cell;
+
+        button {
+          font-size: 1.7rem;
+        }
+
+        // margin-bottom: -100%;
+        animation: icon-switch-animation-off .3s linear forwards;
+
+        &.active {
+          animation: icon-switch-animation-on .3s linear forwards;
+        }
+      }
+    }
+  }
 
   .app-left-sidenav {
     width: 200px;
-    //box-shadow: 3px 0 6px rgba(0,0,0,.24);
-    //background-color: green;
     box-shadow: none;
-    
   }
 }
 
-	
+.ad-draghandle-draggable {
+  &.ad-draghandle-dragging {
+    cursor: grabbing;
+  }
 
-
-.ad-draghandle-draggable{
-	
-	&.ad-draghandle-dragging{
-		cursor: grabbing;
-	}
-	&.ad-draghandle-hover{
-		cursor: move;
-	}
+  &.ad-draghandle-hover {
+    cursor: move;
+  }
 }

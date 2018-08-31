@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { AuthService } from '../core/auth/auth.service';
 import { IAppAuthorization } from '../shared/model/IAppAuthorization.interface';
 import { MatSidenav } from '@angular/material';
-
+import {faBars, faTimes} from '@fortawesome/free-solid-svg-icons'
 
 
 @Component({
@@ -18,11 +18,17 @@ import { MatSidenav } from '@angular/material';
 })
 export class DashboardComponent {
   @ViewChild(MatSidenav) sideNav: MatSidenav;
-  
-  constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService){
+  faBars = faBars;
+  faTimes = faTimes;
+  get isSideNavOpen(): boolean {
+
+    return this.sideNav.opened;
+  }
+  constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService) {
+
     authService.login();
     authService.authorizationChange$.subscribe({
-      next:(latestAuth) =>{
+      next: (latestAuth) =>{
         Object.assign(this.appAuthorization, latestAuth);
       }
     })
