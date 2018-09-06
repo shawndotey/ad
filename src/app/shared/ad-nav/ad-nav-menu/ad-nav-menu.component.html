@@ -3,11 +3,13 @@
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
 
       <mat-tree-node *matTreeNodeDef="let node;when: isMenuExpandable">
-        <mat-list-item matTreeNodeToggle matTreeNodePadding [matTreeNodePaddingIndent]='20'>
           
+        <mat-list-item matTreeNodeToggle matTreeNodePadding [matTreeNodePaddingIndent]='20'>
+            
             <ng-container *ngTemplateOutlet="nesterTemplate.tpl; context:{menuNode:node, treeControl:treeControl, dataSource:dataSource}"></ng-container>
-         
+        
         </mat-list-item>
+     
       </mat-tree-node>
 
       <mat-tree-node *matTreeNodeDef="let node">

@@ -4,7 +4,7 @@
     <ad-nav-menu [menuSource]='mainMenu' class="app-sidenav-menu">
 
       <div class="app-sidenav-menu-item" *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
-        <div class="app-sidenav-menu-item-inner-container">
+        <div class="app-sidenav-menu-item-inner-container" [routerLink]="" >
           <div class="app-sidenav-menu-icon {{treeControl.isExpanded(menuNode) ? 'expanded' : ''}}">
             <fa-icon [icon]="faChevronRight"></fa-icon>
 
@@ -18,8 +18,9 @@
       </div>
 
       <div class="app-sidenav-menu-item" *ad-nav-item="let menuNode=menuNode;">
-
-        <div class="app-sidenav-menu-item-inner-container" [routerLink]="menuNode.route">
+        
+        <div class="app-sidenav-menu-item-inner-container" [routerLink]="menuNode.route" >
+          
           <div class="app-sidenav-menu-icon">
             <div>
               <fa-icon [icon]="menuNode.icon || defaultIcon"></fa-icon>
@@ -29,8 +30,9 @@
           <div class="app-sidenav-menu-title">
             <span class="menu-title-text"> {{menuNode.name}}</span>
           </div>
+        
         </div>
-
+      
       </div>
     </ad-nav-menu>
   </div>
