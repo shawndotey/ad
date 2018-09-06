@@ -1,7 +1,15 @@
 import { MainMenu } from './dashboard-sidenav.service';
+import {faHome, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
+
 export const MENU_LIST: Partial<MainMenu>[] = [
   {
-    name: 'Documentation',
+    name: 'Home',
+    route: './home',
+    icon:faHome
+  },
+  {
+    
+    name: 'Angular Material 2',
     children: [
       {
         name: 'Angular',
@@ -9,6 +17,7 @@ export const MENU_LIST: Partial<MainMenu>[] = [
         children: [
           {
             name: 'Core',
+
           },
           {
             name: 'Compiler',
@@ -21,7 +30,7 @@ export const MENU_LIST: Partial<MainMenu>[] = [
     ]
   },
   {
-    name: 'Examples',
+    name: 'Bootstrap 4',
     children: [
       {
         name: 'Angular',
@@ -39,12 +48,10 @@ export const MENU_LIST: Partial<MainMenu>[] = [
       }
     ]
   },
-  {
-    name: 'Home',
-    route: './home'
-  },
+  
   {
     name: 'About',
-    route: './about'
+    route: './about',
+    icon:faInfoCircle
   },
 ];

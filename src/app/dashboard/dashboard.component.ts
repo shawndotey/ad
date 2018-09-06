@@ -5,9 +5,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../core/auth/auth.service';
-import { IAppAuthorization } from '../shared/model/IAppAuthorization.interface';
 import { MatSidenav } from '@angular/material';
-import {faBars, faTimes} from '@fortawesome/free-solid-svg-icons'
+import {faBars as sidenavMenuClosed, faCaretLeft as sidenavMenuOpen} from '@fortawesome/free-solid-svg-icons'
 
 
 @Component({
@@ -18,8 +17,8 @@ import {faBars, faTimes} from '@fortawesome/free-solid-svg-icons'
 })
 export class DashboardComponent {
   @ViewChild(MatSidenav) sideNav: MatSidenav;
-  faBars = faBars;
-  faTimes = faTimes;
+  sidenavMenuClosed = sidenavMenuClosed;
+  sidenavMenuOpen = sidenavMenuOpen;
   get isSideNavOpen(): boolean {
 
     return this.sideNav.opened;
@@ -40,16 +39,7 @@ export class DashboardComponent {
   .pipe(
     map(result => result.matches)
   );
-  onAppAuthorizationSlideToggle(event){
-    let {checked} = event;
-    if(checked){
-      this.authService.login();
-    }
-    else{
-      this.authService.logout();
-    }
-    
-  }
+  
   @Output()
   toggleSideNav(){
     this.sideNav.toggle();

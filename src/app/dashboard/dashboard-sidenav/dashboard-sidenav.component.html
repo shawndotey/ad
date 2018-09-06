@@ -1,29 +1,41 @@
-
 <div class="app-left-sidenav-content">
-  <mat-toolbar color="primary">Menu</mat-toolbar>
+  <mat-toolbar color="primary"><span class="menu-title">Menu</span></mat-toolbar>
   <div class="app-sidenav-content-middle">
-	  
-		<ad-nav-menu [menuSource]='mainMenu' class="">
-				<div *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
-				  <mat-icon class="mat-icon-rtl-mirror">
-					{{treeControl.isExpanded(menuNode) ? 'expand_more' : 'chevron_right'}}
-				  </mat-icon>
-				  <span>{{menuNode.name}} : {{menuNode.level}}</span>
-				</div>
-				<div *ad-nav-item="let menuNode=menuNode;">
-				  <div [routerLink]="menuNode.route">
-					<mat-icon>accessible</mat-icon>
-					<span> {{menuNode.name}}</span>
-				  </div>
-				</div>
-			  </ad-nav-menu>
+    <ad-nav-menu [menuSource]='mainMenu' class="app-sidenav-menu">
+
+      <div class="app-sidenav-menu-item" *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
+        <div class="app-sidenav-menu-item-inner-container">
+          <div class="app-sidenav-menu-icon {{treeControl.isExpanded(menuNode) ? 'expanded' : ''}}">
+            <fa-icon [icon]="faChevronRight"></fa-icon>
+
+          </div>
+          <div class="app-sidenav-menu-title">
+            <span class="menu-title-text" matBadge="11" matBadgePosition="after">{{menuNode.name}}</span>
+          </div>
+
+
+        </div>
+      </div>
+
+      <div class="app-sidenav-menu-item" *ad-nav-item="let menuNode=menuNode;">
+
+        <div class="app-sidenav-menu-item-inner-container" [routerLink]="menuNode.route">
+          <div class="app-sidenav-menu-icon">
+            <div>
+              <fa-icon [icon]="menuNode.icon || defaultIcon"></fa-icon>
+
+            </div>
+          </div>
+          <div class="app-sidenav-menu-title">
+            <span class="menu-title-text"> {{menuNode.name}}</span>
+          </div>
+        </div>
+
+      </div>
+    </ad-nav-menu>
   </div>
   <div class="app-sidenav-content-bottom">
 
   </div>
 
 </div>
-
-
-
-

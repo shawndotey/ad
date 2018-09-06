@@ -12,13 +12,13 @@
 
     <div [ngClass]="{'icon-item':true, 'active':!isSideNavOpen} ">
       <button type="button" class="" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
-        <fa-icon [icon]="faBars"></fa-icon>
+        <fa-icon [icon]="sidenavMenuClosed"></fa-icon>
       </button>
     </div>
 
     <div [ngClass]="{'icon-item':true, 'active':isSideNavOpen, 'second-icon-item':true} ">
       <button type="button" class="" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
-        <fa-icon [icon]="faTimes"></fa-icon>
+        <fa-icon [icon]="sidenavMenuOpen"></fa-icon>
       </button>
     </div>
 
@@ -28,14 +28,15 @@
 
 
   <div style="order:3;" class="">
-    <mat-slide-toggle [color]="'warn'" (change)="onAppAuthorizationSlideToggle($event)" [checked]="appAuthorization.isAuthenticated">
-      Logged in
-    </mat-slide-toggle>
+    
     </div>
     </mat-toolbar>
 
     <app-dashboard-demo-sidenav #demo></app-dashboard-demo-sidenav>
-    <router-outlet></router-outlet>
+    <div class="dashboard-view-container">
+        <router-outlet></router-outlet>
+    </div>
+    
 
   </mat-sidenav-content>
 </mat-sidenav-container>

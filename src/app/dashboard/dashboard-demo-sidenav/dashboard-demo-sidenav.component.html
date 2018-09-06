@@ -9,14 +9,19 @@
     [position]="'end'"
     
 		>
-	  
-			<div class="demo-content">
-				This is demo config
-
-				
-		
+		<div class="container-fluid demo-content h-100">
+			<div class="row" matTooltip="Use this toogle to simulate a session timeout. Click on a different view on the navigation bar after toggling off. Notice how you return to your last view after logging back in." matTooltipPosition="before">
+				<div class="col col-sm">
+					<h5>
+						Emulate Login
+					</h5>
+					<mat-slide-toggle [color]="'warn'" (change)="appAuthorizationSlideToggle($event)" [checked]="appAuthorization.isAuthenticated">
+						Logged in
+					</mat-slide-toggle>
+				</div>
 			</div>
-			
+			<mat-divider></mat-divider>
+		</div>
       
 				<div class="extended-toggler">
 						<app-demo-toggle-button #demoButton (onButtonPress)="onDemoButtonPressed($event)" [isOpen]="sideNav.opened" ></app-demo-toggle-button>

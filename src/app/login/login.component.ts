@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../core/auth/auth.service';
 import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
 
@@ -12,14 +12,15 @@ import { faFacebook, faGoogle } from '@fortawesome/free-brands-svg-icons'
 export class LoginComponent implements OnInit {
   faGoogle = faGoogle;
   faFacebook = faFacebook;
-  constructor(public auth: AuthService, public router: Router) {
-
+  returnUrl: string;
+  constructor(public auth: AuthService, private router: Router, private route: ActivatedRoute) {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
   ngOnInit() {
     
   }
-  goLogin(goHere: string) {
+  goLogin(goHereByDefault: string) {
     this.auth.login();
-    this.router.navigate([goHere]);
+    this.router.navigateByUrl(this.returnUrl || goHereByDefault);;
   }
 }

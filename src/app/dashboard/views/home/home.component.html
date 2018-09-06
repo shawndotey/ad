@@ -1,7 +1,21 @@
-<p>
-    Home works!
-  </p>
-<div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm">
+      <h3 matBadge="11" matBadgeOverlap="false" matBadgeColor="accent">
+        Home!
+      </h3>
+      <form class="example-form">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Favorite food" value="Sushi">
+        </mat-form-field>
 
-    <a [routerLink]="'/login'">Login</a>
-</div>
+        <mat-form-field class="example-full-width">
+          <textarea matInput placeholder="Leave a comment"></textarea>
+        </mat-form-field>
+      </form>
+      <div>
+
+        <a [routerLink]="'/login'">Login</a>
+      </div>
+    </div>
+  </div>

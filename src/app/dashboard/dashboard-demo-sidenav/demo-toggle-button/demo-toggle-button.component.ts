@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, ElementRef, ViewChild, EventEmitter, Input } from '@angular/core';
-import {faCog} from '@fortawesome/free-solid-svg-icons'
+import {faCog} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-demo-toggle-button',

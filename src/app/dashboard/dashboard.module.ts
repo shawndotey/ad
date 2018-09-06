@@ -1,6 +1,5 @@
 import { SharedModule } from './../shared/shared.module';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardSideNavComponent } from './dashboard-sidenav/dashboard-sidenav.component';
 import { AppRoutingModule } from '../app-routing.module';
@@ -11,7 +10,6 @@ import { DemoToggleButtonComponent } from './dashboard-demo-sidenav/demo-toggle-
 
 @NgModule({
   imports: [
-    CommonModule,
     SharedModule,
     AppRoutingModule,
     ViewsModule

@@ -1,27 +1,26 @@
 
 @import '../dashboard.variables.scss';
-.app-sidenav-container{
+.app-sidenav-container {
+  .right-sidenav {
+    overflow: visible;
+    box-shadow: none;
+    border-left-color: $app-sidnav-border-color;
+    border-left-style: solid;
+    border-left-width: $app-sidnav-border-width;
+  }
 
-	.right-sidenav{
-		overflow: visible;
-		box-shadow: none;
-		border-left-color: $app-sidnav-border-color;
-		border-left-style: solid;
-		border-left-width: $app-sidnav-border-width;
-	}
-	
-	.extended-toggler{
-		position: absolute;
-		top: 144px;
-		margin-left: -72px;
-	}
-	
-	.demo-content {
-	  z-index: 20;
-	  width: 100%;
-	  height: 100%;
-	  background-color: $dashboard-demo-sidenav-background-color;
-	  position: relative;
-	}
+  .extended-toggler {
+    position: absolute;
+    top: 144px;
+    margin-left: -72px;
+  }
+
+  .demo-content {
+    z-index: 20;
+    width: 100%;
+    //   height: 100%;
+    padding-top: 8px;
+    background-color: $dashboard-demo-sidenav-background-color;
+    position: relative;
+  }
 }
-

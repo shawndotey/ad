@@ -3,6 +3,7 @@ import { MenuModel } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 import {of as observableOf} from 'rxjs';
 import { MENU_LIST } from "./dashbaord-sidenav.menu-list.model";
 import { MatSidenav } from '@angular/material';
+import {faQuestion as defaultIcon, faChevronRight, faChevronDown} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard-sidenav',
@@ -13,6 +14,9 @@ import { MatSidenav } from '@angular/material';
 export class DashboardSideNavComponent implements OnInit {
 
   @ViewChild(MatSidenav) sideNav: MatSidenav;
+  defaultIcon = defaultIcon;
+  faChevronRight = faChevronRight;
+  faChevronDown = faChevronDown;
   public mainMenu: Partial<MenuModel>[];
   constructor() { 
 

@@ -1,5 +1,5 @@
 @import './style/shared-mixins.scss';
-@import './app.bootstrap.scss';
+@import './style/bootstrap/bootstrap.scss';
 @import './app.component.variables.scss';
 
 * {
@@ -15,10 +15,5 @@ label {
 
 .sidenav-container {
   height: 100%;
-}
-
-.sidenav {
-  width: 200px;
-  box-shadow: none;
 }
 
