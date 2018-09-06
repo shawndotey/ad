@@ -1,6 +1,8 @@
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from './notification/notification.service';
+import { AuthService } from './auth/auth.service';
+import { AuthGuardService } from './auth/auth-guard.service';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        NotificationService
+        NotificationService,
+        AuthService,
+        AuthGuardService
       ]
     };
   }

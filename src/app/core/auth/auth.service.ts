@@ -14,6 +14,7 @@ export class AuthService {
   private _authorizationValues = new AppAuthorization();
   
   constructor() {
+    
     this._authorizationChange$ = new BehaviorSubject(
       this.getCloneAuthorizationValues()
     );
