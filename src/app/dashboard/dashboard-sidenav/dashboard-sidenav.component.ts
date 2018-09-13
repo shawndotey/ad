@@ -1,7 +1,7 @@
+import { DashboardSidenavMenuListService } from './dashboard-sidenav.menu-list.service';
 import { Component, OnInit, ViewEncapsulation, Output, ViewChild } from '@angular/core';
 import { MenuModel } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
 import {of as observableOf} from 'rxjs';
-import { MENU_LIST } from "./dashbaord-sidenav.menu-list.model";
 import { MatSidenav } from '@angular/material';
 import {faQuestion as defaultIcon, faChevronRight, faChevronDown} from '@fortawesome/free-solid-svg-icons';
 
@@ -17,19 +17,27 @@ export class DashboardSideNavComponent implements OnInit {
   defaultIcon = defaultIcon;
   faChevronRight = faChevronRight;
   faChevronDown = faChevronDown;
+  @Output() isFreshView = true;
   public mainMenu: Partial<MenuModel>[];
-  constructor() { 
+  constructor(private menuList:DashboardSidenavMenuListService) { 
 
     
 
   }
   ngOnInit() {
-    this.mainMenu = MENU_LIST;
+    this.mainMenu = this.menuList.MENU_LIST;
     
+  }
+  ngAfterContentInit(){
+   
+    setTimeout(() => {
+      this.isFreshView = false;
+    }, 500);
+   
   }
   @Output()
   toggleSideNav(){
-    console.log("left toggle")
+    
     if(this.sideNav.opened){
     }
     else{

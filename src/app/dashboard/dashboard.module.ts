@@ -6,6 +6,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { DashboardDemoSidenavComponent } from './dashboard-demo-sidenav/dashboard-demo-sidenav.component';
 import { ViewsModule } from './views/views.module';
 import { DemoToggleButtonComponent } from './dashboard-demo-sidenav/demo-toggle-button/demo-toggle-button.component';
+import { DashboardSidenavMenuListService } from './dashboard-sidenav/dashboard-sidenav.menu-list.service';
 
 
 @NgModule({
@@ -23,6 +24,9 @@ import { DemoToggleButtonComponent } from './dashboard-demo-sidenav/demo-toggle-
   ],
   exports:[
     DashboardComponent
+  ],
+  providers:[
+    DashboardSidenavMenuListService
   ]
 })
 export class DashboardModule { }

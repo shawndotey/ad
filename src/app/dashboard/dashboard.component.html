@@ -10,21 +10,21 @@
 
   <div style="order:1; " class="sidebar-left-control">
 
-    <div [ngClass]="{'icon-item':true, 'active':!isSideNavOpen} ">
-      <button type="button" class="" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+    <div [ngClass]="{'icon-item':true, 'active':!isSideNavOpen, 'fresh-view': isFreshView} ">
+      <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
         <fa-icon [icon]="sidenavMenuClosed"></fa-icon>
       </button>
     </div>
 
-    <div [ngClass]="{'icon-item':true, 'active':isSideNavOpen, 'second-icon-item':true} ">
-      <button type="button" class="" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+    <div [ngClass]="{'icon-item':true, 'active':isSideNavOpen, 'fresh-view': isFreshView} ">
+      <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
         <fa-icon [icon]="sidenavMenuOpen"></fa-icon>
       </button>
     </div>
 
 <!-- <span style="font-size: 2em"> A</span> -->
   </div>
-  <div style="flex: 1 1 auto;order:2;">Angular Dash (0.0.a2)</div>
+  <div style="flex: 1 1 auto;order:2;">Angular Dash (0.0.a3)</div>
 
 
   <div style="order:3;" class="">

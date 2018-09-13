@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import {BehaviorSubject, Observable, of as observableOf} from 'rxjs';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-import { MenuNode, MenuFlatNode, MenuModel } from './ad-nav-menu.model';
+import { MenuFlatNode } from "./shared/MenuFlatNode.class";
+import { MenuNode } from "./shared/MenuNode.class";
+import { MenuModel } from "./shared/MenuModel.class";
 export { MenuNode, MenuFlatNode, MenuModel } ;
 
 

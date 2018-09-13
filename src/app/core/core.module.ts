@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NotificationService } from './notification/notification.service';
 import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
+import { NotificationHttpService } from './notification/notification.mock-http.service';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ export class CoreModule {
       providers: [
         NotificationService,
         AuthService,
-        AuthGuardService
+        AuthGuardService,
+        NotificationHttpService
       ]
     };
   }

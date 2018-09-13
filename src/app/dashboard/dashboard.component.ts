@@ -19,6 +19,7 @@ export class DashboardComponent {
   @ViewChild(MatSidenav) sideNav: MatSidenav;
   sidenavMenuClosed = sidenavMenuClosed;
   sidenavMenuOpen = sidenavMenuOpen;
+  @Output() isFreshView = true;
   get isSideNavOpen(): boolean {
 
     return this.sideNav.opened;
@@ -43,5 +44,13 @@ export class DashboardComponent {
   @Output()
   toggleSideNav(){
     this.sideNav.toggle();
+    
+  }
+  ngAfterContentInit(){
+   
+    setTimeout(() => {
+      this.isFreshView = false;
+    }, 3500);
+   
   }
 }

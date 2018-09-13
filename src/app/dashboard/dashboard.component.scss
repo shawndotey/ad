@@ -4,12 +4,12 @@
 .app-sidenav-container {
   height: 100vh;
   display: flex;
+
   .app-left-sidenav {
     width: 225px;
     box-shadow: none;
   }
-  
-  
+
   .app-main-toolbar {
     display: flex;
     // flex-direction: column;
@@ -35,18 +35,38 @@
           font-size: 1.7rem;
         }
 
-        // margin-bottom: -100%;
-        animation: icon-switch-animation-off .3s linear forwards;
+        .fresh-view {
+          opacity: 0;
+        }
+
+        &:not(.fresh-view) {
+          animation: icon-switch-animation-off .3s linear forwards;
+        }
+
+        &.fresh-view {
+          opacity: 0;
+        }
 
         &.active {
-          animation: icon-switch-animation-on .3s linear forwards;
+          &:not(.fresh-view) {
+            animation: icon-switch-animation-on .3s linear forwards;
+          }
+
+          &.fresh-view {
+            opacity: 1;
+          }
         }
       }
-    }
-  }
 
- 
+      &.active {
+        animation: icon-switch-animation-on .3s linear forwards;
+      }
+    }
+
+    // margin-bottom: -100%;
+  }
 }
+
 
 .ad-draghandle-draggable {
   &.ad-draghandle-dragging {
@@ -58,6 +78,6 @@
   }
 }
 
-.dashboard-view-container{
-  padding-top:12px;
+.dashboard-view-container {
+  padding-top: 12px;
 }

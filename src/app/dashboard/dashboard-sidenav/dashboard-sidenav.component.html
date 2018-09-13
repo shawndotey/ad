@@ -1,16 +1,20 @@
 <div class="app-left-sidenav-content">
   <mat-toolbar color="primary"><span class="menu-title">Menu</span></mat-toolbar>
   <div class="app-sidenav-content-middle">
+     
     <ad-nav-menu [menuSource]='mainMenu' class="app-sidenav-menu">
 
       <div class="app-sidenav-menu-item" *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
+        
         <div class="app-sidenav-menu-item-inner-container" [routerLink]="" >
           <div class="app-sidenav-menu-icon {{treeControl.isExpanded(menuNode) ? 'expanded' : ''}}">
             <fa-icon [icon]="faChevronRight"></fa-icon>
 
           </div>
-          <div class="app-sidenav-menu-title">
-            <span class="menu-title-text" matBadge="11" matBadgePosition="after">{{menuNode.name}}</span>
+          <div class="app-sidenav-menu-title" >
+            
+            <span class="menu-title-text" >{{menuNode.name}}</span>
+            <span *ngIf="menuNode.badge" [matBadge]="menuNode.badgeValue | async" matBadgePosition="after"></span>
           </div>
 
 
@@ -29,6 +33,8 @@
           </div>
           <div class="app-sidenav-menu-title">
             <span class="menu-title-text"> {{menuNode.name}}</span>
+            <span *ngIf="menuNode.badge && ((menuNode.badgeValue | async) !== '0') " [matBadge]="menuNode.badgeValue | async" matBadgePosition="after"></span>
+            
           </div>
         
         </div>

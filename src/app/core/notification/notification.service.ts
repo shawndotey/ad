@@ -1,86 +1,72 @@
 import { Injectable } from '@angular/core';
-import { Observable, interval } from 'rxjs';
-import { concat, map } from 'rxjs/operators';
-
-export enum NoticationType {
-  General = 'general',
-  Email = 'message',
-  InstantMessage = 'im',
-  ToDo = 'todo'
-}
-
-export class Notification {
-  public constructor(init?: Notification) {
-    if (init) Object.assign(this, init);
-  }
-  notificationType?: NoticationType = NoticationType.General;
-  notificationMessage?: string = 'You have a new notification';
-  notificationDetails?: string = '';
-  isNotificationRead?: boolean = false;
-}
-export class EmailNotification extends Notification {
-  public constructor(init?: EmailNotification) {
-    super(init);
-    if (init) Object.assign(this, init);
-  }
-  notificationMessage: string = 'You have a new Email';
-}
-export class IMNotification extends Notification {
-  public constructor(init?: IMNotification) {
-    super(init);
-    if (init) Object.assign(this, init);
-  }
-  notificationMessage: string = 'You have a new Instant Message';
-}
-
-export class ToDoNotification extends Notification {
-  public constructor(init?: ToDoNotification) {
-    super(init);
-    if (init) Object.assign(this, init);
-  }
-  notificationMessage: string = 'You have a new Task';
-}
+import { Observable, interval, timer, of, from, merge, BehaviorSubject } from 'rxjs';
+import { concat, map, delay, mergeMap  } from 'rxjs/operators';
+import { ADNotification } from '../../shared/model/ADNotification.class';
+import { EmailNotification } from '../../shared/model/EmailNotification';
+import { IMNotification } from '../../shared/model/IMNotification';
+import { ToDoNotification } from '../../shared/model/ToDoNotification';
+import { NotificationHttpService } from './notification.mock-http.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NotificationService {
-  genericNotifications$: Observable<Notification[]>;
-  emailNotifications$: Observable<EmailNotification[]>;
-  imNotifications$: Observable<IMNotification[]>;
-  toDoNotifications$: Observable<ToDoNotification[]>;
-  allNotifications$: Observable<Notification[]>;
-  constructor() {
-    console.log('constructor NotificationService')
-    this.genericNotifications$ = interval(1000).pipe(
-      map(a => {
-        return new Array(
-          new Notification(<Notification>{
-            notificationDetails: 'this is genericNotifications ' + a
-          })
-        );
-      })
-    );
-    this.emailNotifications$ = new Observable<EmailNotification[]>(() => {});
-    this.imNotifications$ = new Observable<IMNotification[]>(() => {});
-    this.toDoNotifications$ = new Observable<ToDoNotification[]>(() => {});
-    this.allNotifications$ = new Observable<Notification[]>(() => {}).pipe(
-      concat(
-        this.genericNotifications$,
-        this.emailNotifications$,
-        this.imNotifications$,
-        this.toDoNotifications$
-      )
-    );
+  genericNotifications$: BehaviorSubject<ADNotification[]>;
+  emailNotifications$: BehaviorSubject<EmailNotification[]>;
+  imNotifications$: BehaviorSubject<IMNotification[]>;
+  toDoNotifications$: BehaviorSubject<ToDoNotification[]>;
+  allNotifications$: BehaviorSubject<ADNotification[]>;
+  constructor(notificationHttpService:NotificationHttpService) {
+    console.log('constructor NotificationService');
 
-    this.allNotifications$.subscribe(v => {
-      //console.log('allNotifications',v);
-    });
-    this.genericNotifications$.subscribe(v => {
-      //console.log('genericNotifications', v);
-    });
+    
+    
+    this.allNotifications$ = new BehaviorSubject<IMNotification[]>([]);
+    notificationHttpService.allHttpNotifications$.subscribe(notificationsArray=>{
+      console.log('allHttpNotifications subscribe internal')
+      this.allNotifications$.next(notificationsArray);
+    })
+
+    this.genericNotifications$ = new BehaviorSubject<IMNotification[]>([]);
+    this.emailNotifications$ = new BehaviorSubject<IMNotification[]>([]);
+    this.imNotifications$ = new BehaviorSubject<IMNotification[]>([]);
+    this.toDoNotifications$ = new BehaviorSubject<IMNotification[]>([]);
+
+
+  //   this.allNotifications$.subscribe(v => {
+  //     console.log('allNotifications',v);
+  //   },function (err) {
+  //     console.log('Error: ' + err);   
+  // },);
+
+    // this.toDoNotifications$.subscribe(v => {
+    //   console.log('toDoNotifications',v);
+    // });
+
+
+    // this.genericNotifications$.subscribe(v => {
+    //   console.log('genericNotifications', v);
+    // });
+    // this.emailNotifications$.subscribe(v => {
+    //   console.log('emailNotifications', v);
+    // });
+
+
+    // this.imNotifications$.subscribe(v => {
+    //     console.log('imNotifications', v);
+    //   });
+
+    // const sourceOne = of(1, 2, 3);//.pipe(timer(1500));
+    // //emits 4,5,6
+    // const sourceTwo = of(4, 5, 6);
+    // //emit values from sourceOne, when complete, subscribe to sourceTwo
+    // const example = sourceOne.pipe(concat(sourceTwo));
+    // //output: 1,2,3,4,5,6
+    // const subscribe = example.subscribe(val =>
+    //   console.log('Example: Basic concat:', val)
+    // );
   }
-  hello(){
+  hello() {
     //console.log('NotificationService hello')
   }
 }

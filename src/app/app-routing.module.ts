@@ -19,6 +19,12 @@ const routes: Routes = [
        // component: AboutComponent,
         loadChildren: './dashboard/views/about/about.module#AboutModule'
         //canActivate: [AuthGuardService]
+      },
+      {
+        path: 'notifications',
+       // component: AboutComponent,
+        loadChildren: './dashboard/views/notifications/notifications.module#NotificationsModule'
+        //canActivate: [AuthGuardService]
       }
     
     ],

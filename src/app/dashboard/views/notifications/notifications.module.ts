@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { AboutComponent } from './about.component';
-import { Routes, RouterModule } from '@angular/router';
+import { NotificationsComponent } from './notifications.component';
 import { SharedModule } from '../../../shared/shared.module';
+import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
     path: '',
-    component: AboutComponent
+    component: NotificationsComponent
   },
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
@@ -16,9 +16,9 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AboutComponent],
+  declarations: [NotificationsComponent],
   exports: [RouterModule],
   providers:[
   ]
 })
-export class AboutModule { }
+export class NotificationsModule { }
