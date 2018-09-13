@@ -12,7 +12,7 @@ export class MainMenu extends MenuModel {
   }
   route?: string;
   icon?: IconDefinition;
-  children?: MainMenu[] | [];
+  children?: MainMenu[];
   badge?: Observable<ADNotification[]>;
   private _badgeValue?:BehaviorSubject<string>;
   badgeValue?:Observable<string>;
@@ -21,7 +21,7 @@ export class MainMenu extends MenuModel {
     this.badge.subscribe(arrOfNotifications=>{
       console.log('arrOfNotifications',arrOfNotifications.length.toString() )
       this._badgeValue.next(arrOfNotifications.length.toString())
-    })
+    });
     this.badgeValue = this._badgeValue.asObservable();
   }
   
