@@ -19,6 +19,7 @@ export class DashboardDemoSidenavComponent implements OnInit {
   }
   
   ngOnInit() {
+    this.sideNav.close();
   }
   @Output()
   toggleSideNav(){

@@ -1,0 +1,86 @@
+@import '../../../scss/dashboard.common.scss';
+
+$dashboardColor: ad-dashboard-color();
+.ad-summary-card{
+	
+		margin-bottom: 60px;
+	
+	.ad-summary-card-inner {
+		border: 2px solid #48c7ec;
+		padding-left: 35px;
+		transition: .3s;
+	}
+	.ad-summary-card-count {
+		float: right;
+		left:28px;
+		margin-top: 28px;
+		position: relative;
+		width:68px;
+		height: 68px;
+		background: map-get($dashboardColor, 'content-background'); 
+		display: flex;
+		.ad-summary-card-count-inner{
+			border: 2px solid #48c7ec;
+			border-radius:50%;
+			margin: auto;
+			width:80%;
+			height: 80%;
+			display: flex;
+			background-color: #48c7ec;
+			.ad-summary-card-count-text{
+				color: #eeeeee;
+				margin: auto;
+				font-weight: bold;
+				font-size: 1.3em;
+			}
+		}
+		
+	}
+	.ad-summary-card-text {
+		padding-right: 10px;
+	
+		overflow: hidden;
+		padding: 28px 0 25px;
+		h4 {
+			color: map-get($dashboardColor, 'text'); 
+			font-size: 18px;
+			font-weight: 700;
+			letter-spacing: 1px;
+			margin-bottom: 8px;
+			padding-bottom: 10px;
+			position: relative;
+			text-transform: uppercase;
+			&::before {
+				background: #ec6d48 none repeat scroll 0 0;
+				bottom: 0;
+				content: "";
+				height: 1px;
+				position: absolute;
+				width: 35px;
+			}
+		}
+		p {
+			color: map-get($dashboardColor, 'secondary-color'); 
+			margin-bottom: 0;
+		}
+	}
+	
+	
+	&:hover{
+
+		.services-inner {
+			background: #fff none repeat scroll 0 0;
+			border: 2px solid transparent;
+			box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.2);
+		}
+	}
+	
+	p {
+		font-size: 14px;
+		font-weight: 400;
+		line-height: 26px;
+		color: #666;
+		margin-bottom: 15px;
+	}
+
+}

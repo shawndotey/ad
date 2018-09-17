@@ -1,5 +1,8 @@
-@import '../dashboard.variables.scss';
-@import '../../style/shared-mixins.scss';
+@import '../scss/dashboard.common.scss';
+@import '../scss/dashboard.tree-depth.mixin.scss';
+
+$dashboardColor: ad-dashboard-color();
+
 @mixin sideBorder {
   border-right-color: $app-sidnav-border-color;
   border-right-style: solid;
@@ -8,12 +11,12 @@
 }
 
 .app-sidenav-container {
-
-  .mat-toolbar-row,
-  .mat-toolbar-single-row {
-    height: $app-sidnav-toolbar-height;
-  }
-
+  background: map-get($dashboardColor, 'sidenav-background'); 
+  
+  .app-left-sidenav {
+    width: 225px;
+    box-shadow: none;
+  
   .app-left-sidenav-content {
     display: flex;
     flex-flow: column;
@@ -27,6 +30,7 @@
     }
     .app-sidenav-menu{
       display: flex;
+      @include ad-sidnav-tree-depth(map-get($dashboardColor, 'sidenav-background'));
       
       .app-sidenav-menu-nest{
         display: flex;
@@ -72,18 +76,18 @@
     }
     // // height: 300px;
     //box-shadow: 3px 0 6px rgba(0,0,0,.24);
-    >.app-sidenav-content-top {
+    .app-sidenav-content-top {
       overflow: none;
      
     }
 
-    >.app-sidenav-content-middle {
+    .app-sidenav-content-middle {
       flex: 1;
       overflow: auto;
       @include sideBorder();
     }
 
-    >.app-sidenav-content-bottom {
+    .app-sidenav-content-bottom {
       overflow: none;
       border-top-color: $app-sidnav-border-color;
       border-top-style: solid;
@@ -95,4 +99,5 @@
       @include sideBorder();
     }
   }
+}
 }

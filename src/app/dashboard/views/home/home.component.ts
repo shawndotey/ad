@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     private notificationService: NotificationService
   ) {}
   ngOnInit() {
-    this.notificationService.hello();
+   
   }
 
   ngAfterViewInit(): void {

@@ -1,26 +1,60 @@
+@import '../scss/dashboard.common.scss';
 
-@import '../dashboard.variables.scss';
+$dashboardColor: ad-dashboard-color();
+
+@mixin demo-sidenav-border() {
+  @include demo-sidenav-border-radius();
+
+  border-color: $app-sidnav-border-color;
+  border-style: solid;
+  border-width: $app-sidnav-border-width;
+}
+
+@mixin demo-sidenav-border-radius() {
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+
+}
+
 .app-sidenav-container {
-  .right-sidenav {
+
+  .demo-sidenav {
+    opacity: .5;
     overflow: visible;
     box-shadow: none;
-    border-left-color: $app-sidnav-border-color;
-    border-left-style: solid;
-    border-left-width: $app-sidnav-border-width;
+    margin-top: 10%;
+    height: 80%;
+    width: 300px;
+    @include transition(opacity .25s ease-in-out);
+    @include demo-sidenav-border();
+
+    &:hover {
+      opacity: 1;
+    }
+
   }
 
   .extended-toggler {
+
     position: absolute;
     top: 144px;
     margin-left: -72px;
+    background-color: map-get($dashboardColor, 'demo-sidenav-background'); 
+    @include demo-sidenav-border();
+    z-index: 10;
+    visibility: visible;
+    width: 75px;
+    height: 75px;
+
   }
 
   .demo-content {
+    @include demo-sidenav-border-radius();
     z-index: 20;
     width: 100%;
     //   height: 100%;
     padding-top: 8px;
-    background-color: $dashboard-demo-sidenav-background-color;
+    background-color: map-get($dashboardColor, 'demo-sidenav-background'); 
     position: relative;
   }
 }

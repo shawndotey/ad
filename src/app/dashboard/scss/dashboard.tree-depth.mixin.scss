@@ -1,0 +1,27 @@
+@import './dashboard.variables.scss';
+$is-dark: map-get($material-theme, 'is-dark');
+
+@mixin ad-sidnav-tree-depth($color) {
+    background-color:$color; 
+    .mat-list-item-level-1{
+        background-color:colorPhase($color, 4); 
+	}
+	.mat-list-item-level-3{
+        background-color:colorPhase($color, 8); 
+	}
+	.mat-list-item-level-5{
+    	background-color:colorPhase($color, 12); 
+	}
+	
+}
+
+@function colorPhase($color ,$intensity){
+	@if $is-dark{
+		@return lighten($color, $intensity); 
+	}
+	@else{
+		@return darken($color, $intensity); 
+	}
+
+}
+

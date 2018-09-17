@@ -1,42 +1,41 @@
 <mat-sidenav-container class="app-sidenav-container">
-  <mat-sidenav #left class="app-left-sidenav" fixedInViewport="true" 
-    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+  <mat-sidenav #left class="app-left-sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)" [position]="'start'">
 
     <app-dashboard-sidenav #left></app-dashboard-sidenav>
   </mat-sidenav>
-<mat-sidenav-content>
-<mat-toolbar color="primary" class="app-main-toolbar">
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" class="app-main-toolbar">
 
-  <div style="order:1; " class="sidebar-left-control">
+      <div style="order:1; " class="sidebar-left-control">
 
-    <div [ngClass]="{'icon-item':true, 'active':!isSideNavOpen, 'fresh-view': isFreshView} ">
-      <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
-        <fa-icon [icon]="sidenavMenuClosed"></fa-icon>
-      </button>
-    </div>
+        <div [ngClass]="{'icon-item':true, 'active':!isSideNavOpen, 'fresh-view': isFreshView} ">
+          <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+            <fa-icon [icon]="sidenavMenuClosed"></fa-icon>
+          </button>
+        </div>
 
-    <div [ngClass]="{'icon-item':true, 'active':isSideNavOpen, 'fresh-view': isFreshView} ">
-      <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
-        <fa-icon [icon]="sidenavMenuOpen"></fa-icon>
-      </button>
-    </div>
+        <div [ngClass]="{'icon-item':true, 'active':isSideNavOpen, 'fresh-view': isFreshView} ">
+          <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
+            <fa-icon [icon]="sidenavMenuOpen"></fa-icon>
+          </button>
+        </div>
 
-<!-- <span style="font-size: 2em"> A</span> -->
-  </div>
-  <div style="flex: 1 1 auto;order:2;">Angular Dash (0.0.a3)</div>
+        <!-- <span style="font-size: 2em"> A</span> -->
+      </div>
+      <div style="flex: 1 1 auto;order:2;">Angular Dash (0.0.a4)</div>
 
 
-  <div style="order:3;" class="">
-    
-    </div>
+      <div style="order:3;" class="">
+
+      </div>
     </mat-toolbar>
 
     <app-dashboard-demo-sidenav #demo></app-dashboard-demo-sidenav>
     <div class="dashboard-view-container">
-        <router-outlet></router-outlet>
+      <router-outlet></router-outlet>
     </div>
-    
+
 
   </mat-sidenav-content>
 </mat-sidenav-container>
