@@ -1,6 +1,13 @@
-@import './style/shared-mixins.scss';
+@import './style/shared.scss';
 @import './style/bootstrap/bootstrap.scss';
-@import './app.component.variables.scss';
+@import './app.variables.scss';
+
+@import '~@angular/material/theming';
+@include mat-core();
+
+
+
+@include angular-material-theme($material-theme);
 
 * {
   &:active,

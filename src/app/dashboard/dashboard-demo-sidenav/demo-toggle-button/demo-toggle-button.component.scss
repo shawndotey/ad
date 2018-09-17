@@ -1,5 +1,4 @@
-@import '../../../style/shared-mixins.scss';
-@import '../../dashboard.variables.scss';
+@import '../../scss/dashboard.common.scss';
 
 $rotateBy:'130deg';
 
@@ -16,20 +15,15 @@ $rotateBy:'130deg';
 }
 
 .settings-toggle {
-  width: 100px;
   position: absolute;
-  background-color: $dashboard-demo-sidenav-background-color;
-  z-index: 50;
   visibility: visible;
-  border-radius: 20px;
-  padding: 0 0 2px 12px;
-  border-color: #888787;
-  border-style: solid;
-  border-width: $app-sidnav-border-width;
+  padding: 0 0 0 12px;
   font-size: 3rem;
   z-index: 10;
   cursor: pointer;
   >.icon-container {
+    position: relative;
+    top:-2px;
     line-height: 100%;
     display: inline-block;
     &.icon-container-open {

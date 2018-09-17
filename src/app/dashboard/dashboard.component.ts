@@ -12,7 +12,7 @@ import {faBars as sidenavMenuClosed, faCaretLeft as sidenavMenuOpen} from '@fort
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./scss/dashboard.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class DashboardComponent {
@@ -25,7 +25,6 @@ export class DashboardComponent {
     return this.sideNav.opened;
   }
   constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService) {
-
     authService.login();
     authService.authorizationChange$.subscribe({
       next: (latestAuth) =>{

@@ -1,15 +1,19 @@
-@import './dashboard.variables.scss';
-@import '../style/shared-mixins.scss';
+@import './dashboard.common.scss';
+
+
+$dashboardColor: ad-dashboard-color();
 
 .app-sidenav-container {
   height: 100vh;
   display: flex;
-
-  .app-left-sidenav {
-    width: 225px;
-    box-shadow: none;
+  .mat-toolbar-row,
+  .mat-toolbar-single-row {
+    height: $app-sidnav-toolbar-height;
   }
-
+  
+  .mat-drawer-content{
+   background: map-get($dashboardColor, 'content-background'); 
+  }
   .app-main-toolbar {
     display: flex;
     // flex-direction: column;
@@ -21,7 +25,6 @@
 
     .sidebar-left-control {
       display: flex;
-      // justify-content: center;
       flex-basis: 28px;
       background-color: green;
 

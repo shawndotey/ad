@@ -1,0 +1,51 @@
+@import '../../app.variables.scss';
+
+
+
+
+
+
+
+$app-sidnav-border-width: 2px;
+$app-sidnav-border-color: #888787;
+$app-sidnav-toolbar-height: 44px;
+
+
+
+
+
+
+@function ad-dashboard-color() {
+	
+
+  //defaults
+  $dashboard-demo-sidenav-background-color: #eff2f5;
+  $dashboard-sidenav-background-color: #fafafa;
+  $material-foreground-data: map-get($material-theme, 'foreground');
+  $material-background-data: map-get($material-theme, 'background');
+
+  $dashboard-foreground-text-color: map-get($material-foreground-data, 'text');
+  $material-background-color: map-get($material-background-data, 'background');
+
+  $dashboard-content-background: $material-background-color;
+
+
+  @if map-get($material-theme, 'is-dark') {
+    $dashboard-sidenav-background-color: lighten($material-background-color, 5)
+  }
+
+  @else {
+    $dashboard-content-background: darken($material-background-color, .5)
+  }
+
+  $ad-dashboard-color-data:(
+	  demo-sidenav-background: $dashboard-demo-sidenav-background-color,
+		content-background: $dashboard-content-background,
+    text: $dashboard-foreground-text-color,
+    secondary-text:map-get($material-foreground-data, 'secondary-text'),
+		sidenav-background: $dashboard-sidenav-background-color
+	);
+  @return $ad-dashboard-color-data;
+}
+
+
