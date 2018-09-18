@@ -12,7 +12,7 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'badge-demo',
   templateUrl: 'badge-demo.html',
-  styleUrls: ['badge-demo.css'],
+  styleUrls: ['badge-demo.scss'],
 })
 export class BadgeDemo {
   visible = true;

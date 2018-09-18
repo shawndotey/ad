@@ -15,7 +15,7 @@ import {Observable} from 'rxjs';
   moduleId: module.id,
   selector: 'screen-type',
   templateUrl: 'screen-type-demo.html',
-  styleUrls: ['screen-type-demo.css'],
+  styleUrls: ['screen-type-demo.scss'],
 })
 export class ScreenTypeDemo {
   isHandset: Observable<BreakpointState>;

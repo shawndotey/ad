@@ -26,7 +26,7 @@ import {takeUntil} from 'rxjs/operators';
   moduleId: module.id,
   selector: 'datepicker-demo',
   templateUrl: 'datepicker-demo.html',
-  styleUrls: ['datepicker-demo.css'],
+  styleUrls: ['datepicker-demo.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DatepickerDemo {
@@ -60,7 +60,7 @@ export class DatepickerDemo {
   moduleId: module.id,
   selector: 'custom-header',
   templateUrl: 'custom-header.html',
-  styleUrls: ['custom-header.css'],
+  styleUrls: ['custom-header.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomHeader<D> implements OnDestroy {

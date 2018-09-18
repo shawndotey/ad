@@ -15,7 +15,7 @@ import {DynamicDataSource, DynamicFlatNode, DynamicDatabase} from './dynamic-dat
   moduleId: module.id,
   selector: 'dynamic-tree-demo',
   templateUrl: 'dynamic-tree-demo.html',
-  styleUrls: ['dynamic-tree-demo.css'],
+  styleUrls: ['dynamic-tree-demo.scss'],
   providers: [DynamicDatabase]
 })
 export class DynamicTreeDemo {

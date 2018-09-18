@@ -22,7 +22,7 @@ import {Component, TemplateRef, ViewChild, ViewContainerRef} from '@angular/core
   moduleId: module.id,
   selector: 'overlay-demo',
   templateUrl: 'connected-overlay-demo.html',
-  styleUrls: ['connected-overlay-demo.css'],
+  styleUrls: ['connected-overlay-demo.scss'],
 })
 export class ConnectedOverlayDemo {
   @ViewChild(CdkOverlayOrigin) _overlayOrigin: CdkOverlayOrigin;

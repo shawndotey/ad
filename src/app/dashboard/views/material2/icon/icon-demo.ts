@@ -15,7 +15,7 @@ import {DomSanitizer} from '@angular/platform-browser';
   moduleId: module.id,
   selector: 'mat-icon-demo',
   templateUrl: 'icon-demo.html',
-  styleUrls: ['icon-demo.css'],
+  styleUrls: ['icon-demo.scss'],
 })
 export class IconDemo {
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer) {

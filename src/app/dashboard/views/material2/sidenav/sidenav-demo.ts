@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'sidenav-demo',
   templateUrl: 'sidenav-demo.html',
-  styleUrls: ['sidenav-demo.css'],
+  styleUrls: ['sidenav-demo.scss'],
 
 })
 export class SidenavDemo {

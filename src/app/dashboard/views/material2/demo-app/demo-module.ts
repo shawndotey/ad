@@ -61,7 +61,6 @@ import {ToolbarDemo} from '../toolbar/toolbar-demo';
 import {TooltipDemo} from '../tooltip/tooltip-demo';
 import {TreeDemoModule} from '../tree/tree-demo-module';
 import {TypographyDemo} from '../typography/typography-demo';
-import {VirtualScrollDemo} from '../virtual-scroll/virtual-scroll-demo';
 import {DemoApp, Home} from './demo-app';
 import {DEMO_APP_ROUTES} from './routes';
 import { SharedModule } from '../../../../shared/shared.module';
@@ -128,8 +127,7 @@ import { SharedModule } from '../../../../shared/shared.module';
     TabsDemo,
     ToolbarDemo,
     TooltipDemo,
-    TypographyDemo,
-    VirtualScrollDemo,
+    TypographyDemo
   ],
   providers: [
     {provide: OverlayContainer, useClass: FullscreenOverlayContainer},

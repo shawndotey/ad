@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'progress-spinner-demo',
   templateUrl: 'progress-spinner-demo.html',
-  styleUrls: ['progress-spinner-demo.css'],
+  styleUrls: ['progress-spinner-demo.scss'],
 })
 export class ProgressSpinnerDemo {
   progressValue = 60;

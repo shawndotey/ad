@@ -23,7 +23,7 @@ const LOAD_MORE = 'LOAD_MORE';
   moduleId: module.id,
   selector: 'loadmore-tree-demo',
   templateUrl: 'loadmore-tree-demo.html',
-  styleUrls: ['loadmore-tree-demo.css'],
+  styleUrls: ['loadmore-tree-demo.scss'],
   providers: [LoadmoreDatabase]
 })
 export class LoadmoreTreeDemo {

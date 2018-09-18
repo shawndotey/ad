@@ -21,7 +21,7 @@ export interface DemoTab {
   moduleId: module.id,
   selector: 'tabs-demo',
   templateUrl: 'tabs-demo.html',
-  styleUrls: ['tabs-demo.css'],
+  styleUrls: ['tabs-demo.scss'],
 })
 export class TabsDemo {
   // Nav bar demo

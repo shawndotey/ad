@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'grid-list-demo',
   templateUrl: 'grid-list-demo.html',
-  styleUrls: ['grid-list-demo.css']
+  styleUrls: ['grid-list-demo.scss']
 })
 export class GridListDemo {
   tiles: {text: string, cols: number, rows: number, color: string}[] = [

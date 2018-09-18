@@ -19,7 +19,7 @@ import {ChecklistDatabase, TodoItemNode} from './checklist-database';
   moduleId: module.id,
   selector: 'checklist-nested-tree-demo',
   templateUrl: 'checklist-nested-tree-demo.html',
-  styleUrls: ['checklist-tree-demo.css'],
+  styleUrls: ['checklist-tree-demo.scss'],
   providers: [ChecklistDatabase],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

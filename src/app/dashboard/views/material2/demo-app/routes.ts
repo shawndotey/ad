@@ -46,7 +46,6 @@ import {ToolbarDemo} from '../toolbar/toolbar-demo';
 import {TooltipDemo} from '../tooltip/tooltip-demo';
 import {TreeDemo} from '../tree/tree-demo';
 import {TypographyDemo} from '../typography/typography-demo';
-import {VirtualScrollDemo} from '../virtual-scroll/virtual-scroll-demo';
 import {DemoApp, Home} from './demo-app';
 import {BadgeDemo} from '../badge/badge-demo';
 import {ConnectedOverlayDemo} from '../connected-overlay/connected-overlay-demo';
@@ -56,7 +55,7 @@ import {TableDemo} from '../table/table-demo';
 
 export const DEMO_APP_ROUTES: Routes = [
   {path: '', component: DemoApp, children: [
-    {path: '', component: Home},
+    {path: '', component: AutocompleteDemo},
     {path: 'autocomplete', component: AutocompleteDemo},
     {path: 'badge', component: BadgeDemo},
     {path: 'bottom-sheet', component: BottomSheetDemo},
@@ -100,8 +99,7 @@ export const DEMO_APP_ROUTES: Routes = [
     {path: 'expansion', component: ExpansionDemo},
     {path: 'stepper', component: StepperDemo},
     {path: 'screen-type', component: ScreenTypeDemo},
-    {path: 'connected-overlay', component: ConnectedOverlayDemo},
-    {path: 'virtual-scroll', component: VirtualScrollDemo}
+    {path: 'connected-overlay', component: ConnectedOverlayDemo}
     
   ]}
 ];

@@ -19,7 +19,6 @@ export class MainMenu extends MenuModel {
   subscribeToBadge(){
     this._badgeValue = new BehaviorSubject<string>("");
     this.badge.subscribe(arrOfNotifications=>{
-      console.log('arrOfNotifications',arrOfNotifications.length.toString() )
       this._badgeValue.next(arrOfNotifications.length.toString())
     });
     this.badgeValue = this._badgeValue.asObservable();

@@ -19,7 +19,7 @@ import {
 @Component({
   moduleId: module.id,
   selector: 'snack-bar-demo',
-  styleUrls: ['snack-bar-demo.css'],
+  styleUrls: ['snack-bar-demo.scss'],
   templateUrl: 'snack-bar-demo.html',
 })
 export class SnackBarDemo {

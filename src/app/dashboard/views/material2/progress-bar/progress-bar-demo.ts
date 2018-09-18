@@ -15,7 +15,7 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'progress-bar-demo',
   templateUrl: 'progress-bar-demo.html',
-  styleUrls: ['progress-bar-demo.css'],
+  styleUrls: ['progress-bar-demo.scss'],
 })
 export class ProgressBarDemo {
   color: string = 'primary';

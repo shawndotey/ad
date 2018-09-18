@@ -20,7 +20,7 @@ import {BehaviorSubject} from 'rxjs';
   moduleId: module.id,
   selector: 'checklist-tree-demo',
   templateUrl: 'checklist-tree-demo.html',
-  styleUrls: ['checklist-tree-demo.css'],
+  styleUrls: ['checklist-tree-demo.scss'],
   providers: [ChecklistDatabase],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

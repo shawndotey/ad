@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'list-demo',
   templateUrl: 'list-demo.html',
-  styleUrls: ['list-demo.css'],
+  styleUrls: ['list-demo.scss'],
 })
 export class ListDemo {
   items: string[] = [

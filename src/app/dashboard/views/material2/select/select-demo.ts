@@ -15,7 +15,7 @@ import {MatSelectChange} from '@angular/material';
     moduleId: module.id,
     selector: 'select-demo',
     templateUrl: 'select-demo.html',
-    styleUrls: ['select-demo.css'],
+    styleUrls: ['select-demo.scss'],
 })
 export class SelectDemo {
   drinksRequired = false;

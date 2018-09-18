@@ -21,7 +21,7 @@ import {FileDatabase, FileFlatNode, FileNode} from './file-database';
   moduleId: module.id,
   selector: 'tree-demo',
   templateUrl: 'tree-demo.html',
-  styleUrls: ['tree-demo.css'],
+  styleUrls: ['tree-demo.scss'],
   providers: [FileDatabase]
 })
 export class TreeDemo {

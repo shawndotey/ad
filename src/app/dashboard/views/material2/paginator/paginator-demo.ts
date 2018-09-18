@@ -13,7 +13,7 @@ import {PageEvent} from '@angular/material';
   moduleId: module.id,
   selector: 'paginator-demo',
   templateUrl: 'paginator-demo.html',
-  styleUrls: ['paginator-demo.css'],
+  styleUrls: ['paginator-demo.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class PaginatorDemo {

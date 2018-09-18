@@ -13,6 +13,6 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'toolbar-demo',
   templateUrl: 'toolbar-demo.html',
-  styleUrls: ['toolbar-demo.css'],
+  styleUrls: ['toolbar-demo.scss'],
 })
 export class ToolbarDemo {}

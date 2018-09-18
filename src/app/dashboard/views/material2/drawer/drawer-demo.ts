@@ -13,7 +13,7 @@ import {Component} from '@angular/core';
   moduleId: module.id,
   selector: 'drawer-demo',
   templateUrl: 'drawer-demo.html',
-  styleUrls: ['drawer-demo.css'],
+  styleUrls: ['drawer-demo.scss'],
 })
 export class DrawerDemo {
   invert = false;

@@ -15,7 +15,7 @@ import {Element, ELEMENT_DATA} from '../element-data';
   moduleId: module.id,
   selector: 'custom-table-demo',
   templateUrl: 'custom-table.html',
-  styleUrls: ['custom-table.css']
+  styleUrls: ['custom-table.scss']
 })
 export class CustomTableDemo implements OnInit {
   columnsToDisplay = ['name', 'weight', 'symbol', 'position'];

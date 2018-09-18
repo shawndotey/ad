@@ -42,7 +42,7 @@ export class Home {}
   moduleId: module.id,
   selector: 'demo-app',
   templateUrl: 'demo-app.html',
-  styleUrls: ['demo-app.css'],
+  styleUrls: ['demo-app.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class DemoApp {
