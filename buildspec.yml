@@ -1,24 +1,21 @@
 version: 0.2
 environment_variables:
-    plaintext:
-        S3_BUCKET: "homedashapps.com"
-        BUILD_ENV: "prod"
-        BUILD_ROOT: "dist/ad"
+  plaintext:
+    S3_BUCKET: 'homedashapps.com'
+    BUILD_ENV: 'prod'
+    BUILD_ROOT: 'dist/ad'
 phases:
- install:
-   commands:
-     - aws s3 rm s3://${S3_BUCKET} --recursive
-     - echo "install step"
-     - npm i -g @angular/cli
-     - npm i
- pre_build:
-   commands:
-     - echo "pre_build step"
- build:
-   commands:
-     - ng build --${BUILD_ENV}
- post_build:
-   commands:
-     - echo "post_build step"
-     - aws s3 rm s3://${S3_BUCKET} --recursive
-     - aws s3 cp ${BUILD_ROOT} s3://${S3_BUCKET} --recursive
+  install:
+    commands:
+      - npm i -g @angular/cli
+      - npm i
+  pre_build:
+    ? commands
+  build:
+    commands:
+      - ng build --${BUILD_ENV}
+  post_build:
+    commands:
+      - echo "post_build step"
+      - aws s3 rm s3://${S3_BUCKET} --recursive
+      - aws s3 cp ${BUILD_ROOT} s3://${S3_BUCKET} --recursive

@@ -20,17 +20,10 @@ export class DashboardSidenavMenuListService {
         name: 'Angular Material 2',
         children: [
           {
-            name: 'Angular',
+            name: 'Auto Complete',
             description: 'Nan',
-            children: [
-              {
-                name: 'Core',
-    
-              },
-              {
-                name: 'Compiler',
-              }
-            ]
+            route: './material2/autocomplete',
+            
           },
           {
             name: 'Applications'
