@@ -6,46 +6,37 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HomeComponent } from './dashboard/views/home/home.component';
 
 const routes: Routes = [
-  //{ path: 'login', component: LoginComponent },
   {
     path: 'dashboard',
     component: DashboardComponent,
     canActivateChild: [AuthGuardService],
-    children:[
-      
+    children: [
       { path: 'home', component: HomeComponent },
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       {
         path: 'about',
-       // component: AboutComponent,
         loadChildren: './dashboard/views/about/about.module#AboutModule'
-        //canActivate: [AuthGuardService]
       },
       {
         path: 'notifications',
-       // component: AboutComponent,
-        loadChildren: './dashboard/views/notifications/notifications.module#NotificationsModule'
-        //canActivate: [AuthGuardService]
+        loadChildren:
+          './dashboard/views/notifications/notifications.module#NotificationsModule'
       },
       {
         path: 'material2',
-       // component: AboutComponent,
-        loadChildren: './dashboard/views/material2/demo-app/demo-module#Material2DemoModule'
-        //canActivate: [AuthGuardService]
+        loadChildren:
+          './dashboard/views/material2/demo-app/demo-module#Material2DemoModule'
       }
-    
-    ],
-    
+    ]
   },
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
 ];
 
-const RouterModuleRoutes = RouterModule.forRoot(routes)
+const RouterModuleRoutes = RouterModule.forRoot(routes);
 
 @NgModule({
   imports: [RouterModuleRoutes],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -61,7 +61,6 @@ import {ToolbarDemo} from '../toolbar/toolbar-demo';
 import {TooltipDemo} from '../tooltip/tooltip-demo';
 import {TreeDemoModule} from '../tree/tree-demo-module';
 import {TypographyDemo} from '../typography/typography-demo';
-import {DemoApp, Home} from './demo-app';
 import {DEMO_APP_ROUTES} from './routes';
 import { SharedModule } from '../../../../shared/shared.module';
 
@@ -89,7 +88,6 @@ import { SharedModule } from '../../../../shared/shared.module';
     Counter,
     CustomHeader,
     DatepickerDemo,
-    DemoApp,
     DialogDemo,
     DrawerDemo,
     ExampleBottomSheet,
@@ -98,7 +96,6 @@ import { SharedModule } from '../../../../shared/shared.module';
     FoggyTabContent,
     GesturesDemo,
     GridListDemo,
-    Home,
     IFrameDialog,
     IconDemo,
     InputDemo,
@@ -135,7 +132,6 @@ import { SharedModule } from '../../../../shared/shared.module';
   entryComponents: [
     ContentElementDialog,
     CustomHeader,
-    DemoApp,
     ExampleBottomSheet,
     IFrameDialog,
     JazzDialog,

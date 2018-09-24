@@ -24,7 +24,6 @@ export class DashboardSidenavMenuListService {
             route: './material2/autocomplete',
             
           },
-          {name: 'Autocomplete', route: './material2/autocomplete'},
           {name: 'Badge', route: './material2/badge'},
           {name: 'Bottom sheet', route: './material2/bottom-sheet'},
           {name: 'Button Toggle', route: './material2/button-toggle'},
@@ -66,9 +65,7 @@ export class DashboardSidenavMenuListService {
           {name: 'Tooltip', route: './material2/tooltip'},
           {name: 'Tree', route: './material2/tree'},
           {name: 'Typography', route: './material2/typography'}
-          {
-            name: 'Applications'
-          }
+          
         ]
       },
       {
