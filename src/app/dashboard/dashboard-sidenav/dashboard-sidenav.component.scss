@@ -30,7 +30,10 @@ $dashboardColor: ad-dashboard-color();
     }
     .app-sidenav-menu{
       display: flex;
-      @include ad-sidnav-tree-depth(map-get($dashboardColor, 'sidenav-background'));
+      .mat-tree-node{
+        @include ad-sidnav-tree-depth(map-get($dashboardColor, 'sidenav-background'));
+      }
+    
       
       .app-sidenav-menu-nest{
         display: flex;

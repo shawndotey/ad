@@ -25,7 +25,7 @@ export class DashboardSidenavMenuListService {
             
           },
           {name: 'Badge', route: './material2/badge'},
-          {name: 'Bottom sheet', route: './material2/bottom-sheet'},
+         // {name: 'Bottom sheet', route: './material2/bottom-sheet'},
           {name: 'Button Toggle', route: './material2/button-toggle'},
           {name: 'Button', route: './material2/button'},
           {name: 'Card', route: './material2/card'},
