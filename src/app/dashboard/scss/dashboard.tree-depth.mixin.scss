@@ -2,26 +2,46 @@
 $is-dark: map-get($material-theme, 'is-dark');
 
 @mixin ad-sidnav-tree-depth($color) {
-    background-color:$color; 
-    .mat-list-item-level-1{
-        background-color:colorPhase($color, 4); 
-	}
-	.mat-list-item-level-3{
-        background-color:colorPhase($color, 8); 
-	}
-	.mat-list-item-level-5{
-    	background-color:colorPhase($color, 12); 
-	}
-	
+  background-color: $color;
+
+  .mat-list-item-level-1 {
+
+    // background-color:colorPhase($color, 4); 
+    >.mat-list-item-content {
+      border-left: solid colorPhase($color, 20) 2px;
+    }
+
+  }
+
+  .mat-list-item-level-2 {
+
+    // background-color:colorPhase($color, 4); 
+    >.mat-list-item-content {
+      border-left: solid colorPhase($color, 30) 2px;
+    }
+
+  }
+
+  .mat-list-item-level-3 {
+
+    // background-color:colorPhase($color, 4); 
+    >.mat-list-item-content {
+      border-left: solid colorPhase($color, 40) 2px;
+    }
+
+  }
+
+
+
 }
 
-@function colorPhase($color ,$intensity){
-	@if $is-dark{
-		@return lighten($color, $intensity); 
-	}
-	@else{
-		@return darken($color, $intensity); 
-	}
+@function colorPhase($color, $intensity) {
+  @if $is-dark {
+    @return lighten($color, $intensity);
+  }
+
+  @else {
+    @return darken($color, $intensity);
+  }
 
 }
-

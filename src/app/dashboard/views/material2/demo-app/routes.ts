@@ -46,7 +46,6 @@ import {ToolbarDemo} from '../toolbar/toolbar-demo';
 import {TooltipDemo} from '../tooltip/tooltip-demo';
 import {TreeDemo} from '../tree/tree-demo';
 import {TypographyDemo} from '../typography/typography-demo';
-import {DemoApp, Home} from './demo-app';
 import {BadgeDemo} from '../badge/badge-demo';
 import {ConnectedOverlayDemo} from '../connected-overlay/connected-overlay-demo';
 import {PaginatorDemo} from '../paginator/paginator-demo';
@@ -54,7 +53,7 @@ import {PaginatorDemo} from '../paginator/paginator-demo';
 import {TableDemo} from '../table/table-demo';
 
 export const DEMO_APP_ROUTES: Routes = [
-  {path: '', component: DemoApp, children: [
+  
     {path: '', component: AutocompleteDemo},
     {path: 'autocomplete', component: AutocompleteDemo},
     {path: 'badge', component: BadgeDemo},
@@ -101,10 +100,5 @@ export const DEMO_APP_ROUTES: Routes = [
     {path: 'screen-type', component: ScreenTypeDemo},
     {path: 'connected-overlay', component: ConnectedOverlayDemo}
     
-  ]}
-];
-
-export const ALL_ROUTES: Routes = [
-  {path: '',  component: DemoApp, children: DEMO_APP_ROUTES}
   
 ];
