@@ -1,3 +1,4 @@
+import { MenuFlatNode } from './shared/MenuFlatNode';
 import {
   Component,
   OnInit,
@@ -7,7 +8,8 @@ import {
   Renderer,
   AfterContentInit,
   TemplateRef,
-  Output
+  Output,
+  ContentChildren
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { MatTreeFlatDataSource } from '@angular/material/tree';
@@ -15,12 +17,12 @@ import { MatTreeFlatDataSource } from '@angular/material/tree';
 import {
   AdNavMenuService,
   MenuNode,
-  MenuFlatNode,
   MenuModel
 } from './ad-nav-menu.service';
 import { AdNavItemDirective } from '../ad-nav-item/ad-nav-item.directive';
 import { AdNavNesterDirective } from '../ad-nav-nester/ad-nav-nester.directive';
 import { CustomMatTreeControl } from '../../model/CustomMatTreeControl.class';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ad-nav-menu',
@@ -41,8 +43,11 @@ export class AdNavMenuComponent implements OnInit, AfterContentInit {
     MenuFlatNode[]
   >([]);
   treeControl: CustomMatTreeControl<MenuFlatNode>;
+  
 
   constructor(private navMenuService: AdNavMenuService) {}
+
+  @ContentChildren(RouterLink, {descendants:true}) linkRefs:RouterLink[];
 
   ngOnInit() {
     this.treeControl = this.navMenuService.buildTreeControl();
@@ -62,7 +67,7 @@ export class AdNavMenuComponent implements OnInit, AfterContentInit {
     //   console.log('expansionModel', stuff)
     // })
     let data: MenuNode[] = this.navMenuService.buildMenuTree(this.menuSource);
-    console.log('MenuNode data internal', data);
+    
     // this.menuData$.next(this.dataSource.data);
     // this.dataSource._flattenedData.subscribe(data=>{
     //   console.log('dataSource data internal', data)
@@ -75,13 +80,22 @@ export class AdNavMenuComponent implements OnInit, AfterContentInit {
     // });
     // this.dataSource._data.next(data)
 
-    console.log('_flattenedData data internal', data);
+   
   }
   ngAfterContentInit() {
     //Called after ngOnInit when the component's or directive's content has been initialized.
     //Add 'implements AfterContentInit' to the class.
+    console.log('linkRefs', this.linkRefs);
+    this.linkRefs.forEach(link=>{
+      
+    })
   }
   isMenuExpandable(_: number, _nodeData: MenuFlatNode) {
     return _nodeData.isExpandable;
+  }
+  isNodeSelected(menuNode:MenuFlatNode):boolean{
+
+    //return this.treeControl.expansionModel.isSelected(menuNode);
+    return true;
   }
 }

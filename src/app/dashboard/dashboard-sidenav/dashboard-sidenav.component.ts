@@ -54,8 +54,7 @@ export class DashboardSideNavComponent implements OnInit {
       if(data.length === 0 ) return;
       this.treeControl = this.adNavMenuComponent.treeControl;
 
-      console.log('menu data', data);
-
+     
     //   // this.adNavMenuComponent.dataSource._data.subscribe(data=>{
     //   //   console.log('data data data', data)
     //   // });
@@ -63,7 +62,7 @@ export class DashboardSideNavComponent implements OnInit {
 
       let nodeOfInterest = data.filter(n=> n.name === "Badge")[0]
 
-      console.log(this.treeControl)
+      
       this.treeControl.expand(nodeOfInterest);
       this.treeControl.expandParents(nodeOfInterest);
      

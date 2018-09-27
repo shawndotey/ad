@@ -1,10 +1,16 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, ContentChildren } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Directive({
   selector: '[ad-nav-item]'
 })
 export class AdNavItemDirective {
 
-  constructor(private tpl: TemplateRef<any>) { }
-
+  constructor(private tpl: TemplateRef<any>) { 
+    console.log('AdNavItemDirective constructed', tpl)
+  }
+  @ContentChildren(RouterLink, {descendants:true}) linkRefs:RouterLink[];
+  ngOnInit(): void {
+    console.log('ngAfterInit')
+  }
 }

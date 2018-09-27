@@ -1,17 +1,17 @@
-<mat-nav-list>
+
   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
 
     <mat-tree-node *matTreeNodeDef="let node;when: isMenuExpandable" [ngClass]="['mat-list-item-level-'+node.level, treeControl.isExpanded(node) ? 'expanded':'']" >
-      <mat-list-item matTreeNodeToggle matTreeNodePadding [matTreeNodePaddingIndent]='20' >
+      
             <ng-container *ngTemplateOutlet="nesterTemplate.tpl; context:{menuNode:node, treeControl:treeControl, dataSource:dataSource}"></ng-container>
-      </mat-list-item>
+     
     </mat-tree-node>
 
-    <mat-tree-node *matTreeNodeDef="let node" [ngClass]="['mat-list-item-level-'+node.level]">
-      <mat-list-item matTreeNodePadding [matTreeNodePaddingIndent]='20' >
+    <mat-tree-node *matTreeNodeDef="let node" >
+      
         <ng-container *ngTemplateOutlet="menuItemTemplate.tpl; context:{menuNode:node, treeControl:treeControl, dataSource:dataSource}"></ng-container>
-      </mat-list-item>
+      
     </mat-tree-node>
 
   </mat-tree>
-</mat-nav-list>
+
