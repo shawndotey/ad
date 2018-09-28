@@ -32,7 +32,6 @@ export class DashboardSidenavMenuListService {
           {name: 'Chips', route: './material2/chips'},
           {name: 'Connected Overlay', route: './material2/connected-overlay'},
           {name: 'Checkbox', route: './material2/checkbox'},
-          {name: 'Chips', route: './material2/chips'},
           {name: 'Datepicker', route: './material2/datepicker'},
           {name: 'Dialog', route: './material2/dialog'},
           {name: 'Drawer', route: './material2/drawer'},

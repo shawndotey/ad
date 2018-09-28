@@ -1,4 +1,4 @@
-import { MenuFlatNode } from './shared/MenuFlatNode';
+import { MenuFlatNode } from './shared/MenuFlatNode.class';
 import {
   Component,
   OnInit,
@@ -85,7 +85,7 @@ export class AdNavMenuComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     //Called after ngOnInit when the component's or directive's content has been initialized.
     //Add 'implements AfterContentInit' to the class.
-    console.log('linkRefs', this.linkRefs);
+    
     this.linkRefs.forEach(link=>{
       
     })

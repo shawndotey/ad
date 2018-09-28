@@ -1,32 +1,30 @@
 <div class="app-left-sidenav-content">
   <mat-toolbar color="primary"><span class="menu-title">Menu</span></mat-toolbar>
   <div class="app-sidenav-content-middle">
-      <mat-nav-list>
-    <ad-nav-menu [menuSource]='mainMenu' class="app-sidenav-menu">
+    <mat-nav-list>
+      <ad-nav-menu [menuSource]='mainMenu' class="app-sidenav-menu">
 
-      <div class="app-sidenav-menu-item" *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;">
-          <mat-list-item>
-        <div class="app-sidenav-menu-item-inner-container" [routerLink]="" [ngStyle]="{paddingLeft:menuNode.level * 20 + 'px'}">
-          <div class="app-sidenav-menu-icon {{treeControl.isExpanded(menuNode) ? 'expanded' : ''}}">
-            <fa-icon [icon]="faChevronRight"></fa-icon>
+        <mat-list-item [ngClass]="['app-sidenav-mat-list-item', 'mat-list-item-level-'+menuNode.level, treeControl.isExpanded(menuNode) ? 'expanded' : '']" *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;"  [routerLink]="" [ngStyle]="{paddingLeft:menuNode.level * 20 + 'px'}">
 
-          </div>
-          <div class="app-sidenav-menu-title">
+          
+            <div class="app-sidenav-menu-icon">
+              <fa-icon [icon]="faChevronRight"></fa-icon>
 
-            <span class="menu-title-text">{{menuNode.name}}</span>
-            <span *ngIf="menuNode.badge" [matBadge]="menuNode.badgeValue | async" matBadgePosition="after"></span>
-          </div>
+            </div>
+            <div class="app-sidenav-menu-title">
 
-        
-        </div>
-      </mat-list-item>
-      </div>
+              <span class="menu-title-text">{{menuNode.name}}</span>
+              <span *ngIf="menuNode.badge" [matBadge]="menuNode.badgeValue | async" matBadgePosition="after"></span>
+            </div>
 
-      <div [ngClass]="['app-sidenav-menu-item']" *ad-nav-item="let menuNode=menuNode;">
 
-        <div class="app-sidenav-menu-item-container" [routerLink]="menuNode.route" routerLinkActive="ACTIVW"  [ngStyle]="{paddingLeft:menuNode.level * 20 + 'px'}">
-          <div [ngClass]="['app-sidenav-menu-item-inner-container', 'mat-list-item-level-'+menuNode.level]">
-              <mat-list-item  >
+         
+        </mat-list-item>
+
+
+        <mat-list-item [ngClass]="['app-sidenav-mat-list-item', 'mat-list-item-level-'+menuNode.level]" *ad-nav-item="let menuNode=menuNode;" [routerLink]="menuNode.route" routerLinkActive="app-sidenav-item-selected" [ngStyle]="{paddingLeft:menuNode.level * 20 + 'px'}" >
+
+          
             <div class="app-sidenav-menu-icon">
               <div>
                 <fa-icon [icon]="menuNode.icon || defaultIcon"></fa-icon>
@@ -39,12 +37,11 @@
                 matBadgePosition="after"></span>
 
             </div>
-          </mat-list-item>
-          </div>
-        </div>
-      </div>
-    </ad-nav-menu>
-  </mat-nav-list>
+
+        
+        </mat-list-item>
+      </ad-nav-menu>
+    </mat-nav-list>
   </div>
   <div class="app-sidenav-content-bottom">
 

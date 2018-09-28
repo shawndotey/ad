@@ -7,10 +7,10 @@ import { RouterLink } from '@angular/router';
 export class AdNavItemDirective {
 
   constructor(private tpl: TemplateRef<any>) { 
-    console.log('AdNavItemDirective constructed', tpl)
+   
   }
   @ContentChildren(RouterLink, {descendants:true}) linkRefs:RouterLink[];
   ngOnInit(): void {
-    console.log('ngAfterInit')
+   
   }
 }

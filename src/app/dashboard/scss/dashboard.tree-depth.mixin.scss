@@ -6,14 +6,20 @@ $is-dark: map-get($material-theme, 'is-dark');
   &.mat-list-item-level-#{$level} {
     &.expanded{
       background-color:colorPhase($color, $intensity); 
+      &:hover{
+        background-color:colorPhase($color, $intensity * 1.4); 
+      }
+    }
+    &:hover{
+      background-color:colorPhase($color, $intensity * .7); 
     }
   }
   &.mat-list-item-level-#{ $level + 1 } {
-    >.mat-list-item{
+    
       >.mat-list-item-content {
         border-left: solid colorPhase($color, $intensity) 2px;
       }
-    }
+   
   }
    
   
@@ -26,25 +32,8 @@ $is-dark: map-get($material-theme, 'is-dark');
   
   @include ad-sidnav-tree-build-level($color, 0, 10);
   @include ad-sidnav-tree-build-level($color, 1, 20);
-  .mat-list-item-level-2 {
-
-    // background-color:colorPhase($color, 4); 
-    >.mat-list-item-content {
-      border-left: solid colorPhase($color, 30) 2px;
-    }
-
-  }
-
-  .mat-list-item-level-3 {
-
-    // background-color:colorPhase($color, 4); 
-    >.mat-list-item-content {
-      border-left: solid colorPhase($color, 40) 2px;
-    }
-
-  }
-
-
+  @include ad-sidnav-tree-build-level($color, 2, 30);
+  
 
 }
 
