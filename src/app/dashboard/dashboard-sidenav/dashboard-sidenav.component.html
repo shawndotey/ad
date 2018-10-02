@@ -5,7 +5,6 @@
       <ad-nav-menu [menuSource]='mainMenu' class="app-sidenav-menu">
 
         <mat-list-item [ngClass]="['app-sidenav-mat-list-item', 'mat-list-item-level-'+menuNode.level, treeControl.isExpanded(menuNode) ? 'expanded' : '']" *ad-nav-nester="let menuNode=menuNode;let treeControl=treeControl;"  [routerLink]="" [ngStyle]="{paddingLeft:menuNode.level * 20 + 'px'}">
-
           
             <div class="app-sidenav-menu-icon">
               <fa-icon [icon]="faChevronRight"></fa-icon>
@@ -16,12 +15,8 @@
               <span class="menu-title-text">{{menuNode.name}}</span>
               <span *ngIf="menuNode.badge" [matBadge]="menuNode.badgeValue | async" matBadgePosition="after"></span>
             </div>
-
-
-         
+        
         </mat-list-item>
-
-
         <mat-list-item [ngClass]="['app-sidenav-mat-list-item', 'mat-list-item-level-'+menuNode.level]" *ad-nav-item="let menuNode=menuNode;" [routerLink]="menuNode.route" routerLinkActive="app-sidenav-item-selected" [ngStyle]="{paddingLeft:menuNode.level * 20 + 'px'}" >
 
           
