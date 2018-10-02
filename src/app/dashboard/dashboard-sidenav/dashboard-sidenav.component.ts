@@ -103,7 +103,9 @@ export class DashboardSideNavComponent implements OnInit {
     this.isFreshView = false;
   }
 
+
   isUrlSegmentsMatching(mustHave: string[], inThis: string[]): boolean {
+    
     let inThisIndex = inThis.length - 1;
     for (let i = mustHave.length - 1; i > -1; i--) {
       if (inThis[inThisIndex] !== mustHave[i]) return false;
