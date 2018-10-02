@@ -30,53 +30,67 @@ $dashboardColor: ad-dashboard-color();
     }
     .app-sidenav-menu{
       display: flex;
-      .mat-tree-node{
-        @include ad-sidnav-tree-depth(map-get($dashboardColor, 'sidenav-background'));
-      }
-    
-      
-      .app-sidenav-menu-nest{
-        display: flex;
-      }
-      .app-sidenav-menu-item{
+      .mat-tree{
         width:100%;
-        height:100%;
+      }
+      .mat-tree-node{
+        width:100%;
         display: flex;
         align-items: center;
         justify-content: center;
-        .app-sidenav-menu-icon{
-          flex-basis: 24px;
-          font-size: 1.3rem;
-          text-align: center;
+      
+        
+        
+        .app-sidenav-mat-list-item{
+          @include ad-sidnav-tree-depth(map-get($dashboardColor, 'sidenav-background'));
+          width:100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &.app-sidenav-item-selected{
+           
+           .mat-list-item-content{
+            background-color: map-get($dashboardColor, 'primary');
+           }
+          }
+          .mat-list-item-content{
+            width:100%;
+            height:100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .app-sidenav-menu-title{
+              padding-left: 8px;
+              flex: 1 1 auto;
+              display: flex;
+              .menu-title-text{
+                padding-right:20px;
+              }
+              .app-sidenav-menu-icon{
+                flex-basis: 24px;
+                font-size: 1.3rem;
+                text-align: center;
+                
+                .ng-fa-icon, svg{
+                  margin-left: -7px;
+                  transition: .1s ease-in-out;
+                }
+                
+              }
+            }
+          }
           &.expanded{
-            
+                  
             .ng-fa-icon, svg{
               
               transition: .1s ease-in-out;
               @include transform(rotate(90deg)); 
             }
-           
-          }
-          .ng-fa-icon, svg{
-            margin-left: -7px;
-            transition: .1s ease-in-out;
-          }
           
-        }
-        .app-sidenav-menu-item-inner-container{
-          display: flex;
-          width: 100%;
-          height:100%;
-          align-items: center;
-          justify-content: center;
-        }
-        .app-sidenav-menu-title{
-          padding-left: 4px;
-          flex: 1 1 auto;
-          .menu-title-text{
-            padding-right:16px;
           }
         }
+    
       }
     }
     // // height: 300px;

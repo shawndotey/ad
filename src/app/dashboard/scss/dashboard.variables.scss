@@ -43,7 +43,10 @@ $app-sidnav-toolbar-height: 44px;
 		content-background: $dashboard-content-background,
     text: $dashboard-foreground-text-color,
     secondary-text:map-get($material-foreground-data, 'secondary-text'),
-		sidenav-background: $dashboard-sidenav-background-color
+    sidenav-background: $dashboard-sidenav-background-color,
+    primary: map-get(map-get($material-theme, 'primary'), 'default'),
+    accent: map-get(map-get($material-theme, 'accent'), 'default'),
+    warn: map-get(map-get($material-theme, 'warn'), 'default')
 	);
   @return $ad-dashboard-color-data;
 }

@@ -4,11 +4,13 @@ import { CommonModule } from '@angular/common';
 import {AdNavMenuComponent} from './ad-nav-menu/ad-nav-menu.component';
 import { AdNavNesterDirective } from './ad-nav-nester/ad-nav-nester.directive';
 import { AdNavItemDirective } from './ad-nav-item/ad-nav-item.directive';
+import { Routes, RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    RouterModule
   ],
   declarations: [
     AdNavMenuComponent,

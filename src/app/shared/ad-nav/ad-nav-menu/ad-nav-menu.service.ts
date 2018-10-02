@@ -5,6 +5,7 @@ import { MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import { MenuFlatNode } from "./shared/MenuFlatNode.class";
 import { MenuNode } from "./shared/MenuNode.class";
 import { MenuModel } from "./shared/MenuModel.class";
+import { CustomMatTreeControl } from '../../model/CustomMatTreeControl.class';
 export { MenuNode, MenuFlatNode, MenuModel } ;
 
 
@@ -49,9 +50,9 @@ export class AdNavMenuService {
     builtMenuNode.children.forEach(childNode=>this.buildMenuNode(childNode, level + 1)) ;
     return builtMenuNode;
   }
-  buildTreeControl():FlatTreeControl<MenuFlatNode>{
+  buildTreeControl():CustomMatTreeControl<MenuFlatNode>{
 
-    return  new FlatTreeControl<MenuFlatNode>(this._getLevel, this._isExpandable);
+    return  new CustomMatTreeControl<MenuFlatNode>(this._getLevel, this._isExpandable);
 
   }
   buildDataSource(treeControl:FlatTreeControl<MenuFlatNode>):MatTreeFlatDataSource<MenuNode, MenuFlatNode>{
