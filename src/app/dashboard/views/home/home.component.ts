@@ -6,7 +6,6 @@ import {
   AfterViewInit,
   Output
 } from '@angular/core';
-import { getOrCreateChangeDetectorRef } from '@angular/core/src/render3/di';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../core/notification/notification.service';
 
@@ -15,7 +14,7 @@ import { NotificationService } from '../../../core/notification/notification.ser
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   providers: [
-    //NotificationService
+    // NotificationService
   ]
 })
 export class HomeComponent implements OnInit {
@@ -25,10 +24,6 @@ export class HomeComponent implements OnInit {
     private notificationService: NotificationService
   ) {}
   ngOnInit() {
-   
-  }
 
-  ngAfterViewInit(): void {
-    
   }
 }

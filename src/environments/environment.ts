@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  loggedInOnStart: true
+  loggedInOnStart: true,
+	baseHref: '/'
 };
 
 /*

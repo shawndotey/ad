@@ -1,3 +1,5 @@
+import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { CommonModule } from '@angular/common';
 import { NotificationService } from './core/notification/notification.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -13,8 +15,11 @@ import { CoreModule } from './core/core.module';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
+  imports:[
+ CommonModule,
+NgtUniversalModule,
+ 
+    
     CoreModule.forRoot({}),
     BrowserAnimationsModule,
     LayoutModule,
@@ -26,6 +31,5 @@ import { CoreModule } from './core/core.module';
   providers: [
     
   ],
-  bootstrap: [AppComponent]
 })
 export class AppModule {}
