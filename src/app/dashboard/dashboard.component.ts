@@ -31,7 +31,7 @@ export class DashboardComponent {
         Object.assign(this.appAuthorization, latestAuth);
       }
     })
-   
+
     
   }
   appAuthorization:AppAuthorization = new AppAuthorization();
