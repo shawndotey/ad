@@ -1,83 +1,97 @@
 @import './dashboard.common.scss';
-
-
 $dashboardColor: ad-dashboard-color();
 
 .app-sidenav-container {
   height: 100vh;
   display: flex;
+
   .mat-toolbar-row,
   .mat-toolbar-single-row {
     height: $app-sidnav-toolbar-height;
   }
-  
-  .mat-drawer-content{
-   background: map-get($dashboardColor, 'content-background'); 
+
+  .mat-drawer-content {
+    background: map-get($dashboardColor, 'content-background');
   }
+
   .app-main-toolbar {
     display: flex;
-    // flex-direction: column;
     justify-content: center;
 
     >div {
       padding-right: 12px;
     }
-
-    .sidebar-left-control {
+    
+    .sidebar-main {
       display: flex;
       flex-basis: 28px;
       background-color: green;
+
+     // side bar button toggle animation on close
+      &.sidebar-main-closed {
+        .icon-item {
+          &.icon-item-open {
+            animation: icon-switch-animation-off .3s linear forwards;
+          }
+
+          &.icon-item-closed {
+            animation: icon-switch-animation-on .3s linear forwards;
+          }
+        }
+      }
+      // side bar button toggle animation on open
+      &.sidebar-main-open {
+        .icon-item {
+          &.icon-item-open {
+            animation: icon-switch-animation-on .3s linear forwards;
+          }
+
+          &.icon-item-closed {
+            animation: icon-switch-animation-off .3s linear forwards;
+          }
+        }
+      }
+
 
       .icon-item {
         position: absolute;
         top: 2px;
         left: 0;
         display: cell;
+        
 
         button {
           font-size: 1.7rem;
         }
-
-        .fresh-view {
-          opacity: 0;
-        }
-
-        &:not(.fresh-view) {
-          animation: icon-switch-animation-off .3s linear forwards;
-        }
-
-        &.fresh-view {
-          opacity: 0;
-        }
-
-        &.active {
-          &:not(.fresh-view) {
-            animation: icon-switch-animation-on .3s linear forwards;
-          }
-
-          &.fresh-view {
-            opacity: 1;
-          }
-        }
-      }
-
-      &.active {
-        animation: icon-switch-animation-on .3s linear forwards;
       }
     }
 
-    // margin-bottom: -100%;
-  }
-}
-
-
-.ad-draghandle-draggable {
-  &.ad-draghandle-dragging {
-    cursor: grabbing;
-  }
-
-  &.ad-draghandle-hover {
-    cursor: move;
+    // ensure side bar button toogle animation does not animate on first load
+    .sidebar-main:not(:hover) {
+      &.sidebar-main-closed {
+        .icon-item {
+          &.icon-item-open {
+            animation: icon-switch-animation-off 0s linear forwards;
+          }
+  
+          &.icon-item-closed {
+            animation: icon-switch-animation-on 0s linear forwards;
+          }
+        }
+      }
+  
+      &.sidebar-main-open {
+        .icon-item {
+          &.icon-item-open {
+            animation: icon-switch-animation-on 0s linear forwards;
+          }
+  
+          &.icon-item-closed {
+            animation: icon-switch-animation-off 0s linear forwards;
+          }
+        }
+      }
+    }
   }
 }
 

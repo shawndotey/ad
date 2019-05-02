@@ -1,13 +1,18 @@
 import { AppAuthorization } from '../shared/model/AppAuthorization.class';
-
+import { environment } from '../../environments/environment';
 import { Component, ViewEncapsulation, Output, ViewChild } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import {
+  BreakpointObserver,
+  Breakpoints,
+} from '@angular/cdk/layout';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../core/auth/auth.service';
 import { MatSidenav } from '@angular/material';
-import {faBars as sidenavMenuClosed, faCaretLeft as sidenavMenuOpen} from '@fortawesome/free-solid-svg-icons'
-
+import {
+  faBars as sidenavMenuClosed,
+  faCaretLeft as sidenavMenuOpen
+} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,37 +24,35 @@ export class DashboardComponent {
   @ViewChild(MatSidenav) sideNav: MatSidenav;
   sidenavMenuClosed = sidenavMenuClosed;
   sidenavMenuOpen = sidenavMenuOpen;
-  @Output() isFreshView = true;
+  layoutConfigurations = environment.layout;
   get isSideNavOpen(): boolean {
-
     return this.sideNav.opened;
   }
-  constructor(private breakpointObserver: BreakpointObserver, private authService: AuthService) {
+
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private authService: AuthService
+  ) {
     authService.login();
     authService.authorizationChange$.subscribe({
-      next: (latestAuth) =>{
+      next: latestAuth => {
         Object.assign(this.appAuthorization, latestAuth);
       }
-    })
+    });
+  }
+  appAuthorization: AppAuthorization = new AppAuthorization();
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(map(result => result.matches));
 
-    
-  }
-  appAuthorization:AppAuthorization = new AppAuthorization();
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-  .pipe(
-    map(result => result.matches)
-  );
-  
   @Output()
-  toggleSideNav(){
+  toggleSideNav() {
     this.sideNav.toggle();
-    
   }
-  ngAfterContentInit(){
-   
-    setTimeout(() => {
-      this.isFreshView = false;
-    }, 3500);
-   
+  ngAfterContentInit() {
+    // setTimeout(()=>{
+    //   console.log("close sideNav")
+    //   this.sideNav.opened = false;
+    // }, 1);
   }
 }

@@ -6,22 +6,19 @@ import {
   ViewEncapsulation,
   Output,
   ViewChild,
-  ContentChildren
+  AfterContentInit
 } from '@angular/core';
 import {
   MenuModel,
   MenuNode,
   MenuFlatNode
 } from '../../shared/ad-nav/ad-nav-menu/ad-nav-menu.service';
-import { of as observableOf, BehaviorSubject } from 'rxjs';
 import { MatSidenav } from '@angular/material';
 import {
   faDotCircle as defaultIcon,
   faChevronRight,
   faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import * as clone from 'clone-deep';
 import { CustomMatTreeControl } from '../../shared/model/CustomMatTreeControl.class';
 import {
   Router,
@@ -29,7 +26,7 @@ import {
   UrlTree,
   NavigationEnd
 } from '@angular/router';
-import { filter, first } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard-sidenav',
@@ -37,7 +34,7 @@ import { filter, first } from 'rxjs/operators';
   styleUrls: ['./dashboard-sidenav.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class DashboardSideNavComponent implements OnInit {
+export class DashboardSideNavComponent implements OnInit, AfterContentInit  {
   @ViewChild(MatSidenav)
   sideNav: MatSidenav;
   @ViewChild(AdNavMenuComponent)
@@ -57,23 +54,24 @@ export class DashboardSideNavComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.mainMenu = this.menuList.MENU_LIST;
+
   }
   syncRouteToNodes() {
     this.setCurrentNodeMatchedToRouter();
     this.expandNodesMatchingRouteTree();
   }
   setCurrentNodeMatchedToRouter() {
-    if (!this.treeControl) return;
+    if (!this.treeControl) { return; }
     this.currentNodeMatchedToRouter = this.treeControl.dataNodes.filter(node =>
       this.doesNodeMatchRoute(node)
     )[0];
   }
   doesNodeMatchRoute(node: MenuFlatNode): boolean {
-    if (!node.route) return false;
-    let routerSegments = this.getRelaventUrlSegmentStrings(
+    if (!node.route) { return false; }
+    const routerSegments = this.getRelaventUrlSegmentStrings(
       this.router.parseUrl(this.router.url)
     );
-    let nodeSegments = this.getRelaventUrlSegmentStrings(
+    const nodeSegments = this.getRelaventUrlSegmentStrings(
       this.router.parseUrl(node.route)
     );
 
@@ -81,7 +79,7 @@ export class DashboardSideNavComponent implements OnInit {
   }
 
   expandNodesMatchingRouteTree() {
-    if (!this.treeControl || !this.currentNodeMatchedToRouter) return;
+    if (!this.treeControl || !this.currentNodeMatchedToRouter) { return; }
     this.treeControl.expand(this.currentNodeMatchedToRouter);
     this.treeControl.expandParents(this.currentNodeMatchedToRouter);
   }
@@ -91,6 +89,8 @@ export class DashboardSideNavComponent implements OnInit {
       .subscribe(() => {
         this.syncRouteToNodes();
       });
+
+
 
     this.adNavMenuComponent.menuData$
       .pipe(filter(data => data && data.length !== 0))
@@ -105,10 +105,10 @@ export class DashboardSideNavComponent implements OnInit {
 
 
   isUrlSegmentsMatching(mustHave: string[], inThis: string[]): boolean {
-    
+
     let inThisIndex = inThis.length - 1;
     for (let i = mustHave.length - 1; i > -1; i--) {
-      if (inThis[inThisIndex] !== mustHave[i]) return false;
+      if (inThis[inThisIndex] !== mustHave[i]) { return false; }
       inThisIndex--;
     }
     return true;

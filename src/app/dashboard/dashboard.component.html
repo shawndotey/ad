@@ -1,21 +1,21 @@
 <mat-sidenav-container class="app-sidenav-container">
   <mat-sidenav #left class="app-left-sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async)" [position]="'start'">
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="!(isHandset$ | async) && layoutConfigurations.mainSideNavOpenOnStart" [position]="'start'">
 
     <app-dashboard-sidenav #left></app-dashboard-sidenav>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary" class="app-main-toolbar">
 
-      <div style="order:1; " class="sidebar-left-control">
+      <div style="order:1; " class="sidebar-main" [ngClass]="{'sidebar-main-open':isSideNavOpen,'sidebar-main-closed':!isSideNavOpen}">
 
-        <div [ngClass]="{'icon-item':true, 'active':!isSideNavOpen, 'fresh-view': isFreshView} ">
+        <div class="icon-item icon-item-closed">
           <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
             <fa-icon [icon]="sidenavMenuClosed"></fa-icon>
           </button>
         </div>
 
-        <div [ngClass]="{'icon-item':true, 'active':isSideNavOpen, 'fresh-view': isFreshView} ">
+        <div class="icon-item icon-item-open">
           <button type="button" class="" [@.disabled]="true" aria-label="Toggle sidenav" mat-icon-button (click)="toggleSideNav()">
             <fa-icon [icon]="sidenavMenuOpen"></fa-icon>
           </button>

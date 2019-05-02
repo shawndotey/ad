@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NotificationService } from '../../core/notification/notification.service';
-import { MainMenu } from "./dashboard-sidenav.MainMenu.model";
+import { MainMenu } from './dashboard-sidenav.MainMenu.model';
 import { faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
@@ -8,21 +8,21 @@ import { faHome, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 })
 export class DashboardSidenavMenuListService {
   MENU_LIST: MainMenu[];
-  constructor(private notificationService: NotificationService) { 
-    let MENU_LIST=<MainMenu[]> [
+  constructor(private notificationService: NotificationService) {
+    const MENU_LIST = <MainMenu[]> [
       {
         name: 'Home',
         route: './home',
-        icon:faHome
+        icon: faHome
       },
       {
-        
+
         name: 'Angular Material 2',
         children: [
           {
             name: 'Auto Complete',
             route: './material2/autocomplete',
-            
+
           },
           {name: 'Badge', route: './material2/badge'},
          // {name: 'Bottom sheet', route: './material2/bottom-sheet'},
@@ -64,7 +64,7 @@ export class DashboardSidenavMenuListService {
           {name: 'Tooltip', route: './material2/tooltip'},
           {name: 'Tree', route: './material2/tree'},
           {name: 'Typography', route: './material2/typography'}
-          
+
         ]
       },
       {
@@ -86,28 +86,29 @@ export class DashboardSidenavMenuListService {
           }
         ]
       },
-      
+
       {
         name: 'About',
         route: './about',
-        icon:faInfoCircle
+        icon: faInfoCircle
       },
       {
         name: 'Notifications',
         route: './notifications',
-        icon:faInfoCircle,
-        badge:this.notificationService.allNotifications$
+        icon: faInfoCircle,
+        badge: this.notificationService.allNotifications$
       },
     ];
-  
+
     this.MENU_LIST = this.mapMenuListToClass(<MainMenu[]>MENU_LIST);
   }
   mapMenuListToClass(menuList: MainMenu[]): MainMenu[] {
     return menuList.map<MainMenu>(menuItem => {
-      if (menuItem.children && menuItem.children.length)
+      if (menuItem.children && menuItem.children.length) {
       menuItem.children = this.mapMenuListToClass(menuItem.children);
+      }
       return new MainMenu(menuItem);
-    })
+    });
   }
 }
 

@@ -1,5 +1,5 @@
 import { IAppAuthorization } from '../../shared/model/IAppAuthorization.interface';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { AppAuthorization } from '../../shared/model/AppAuthorization.class';
 import clone from 'clone';
 import { Observable, Subject, BehaviorSubject } from 'rxjs';
@@ -12,9 +12,9 @@ export class AuthService {
 
   private _authorizationChange$: BehaviorSubject<IAppAuthorization>;
   private _authorizationValues = new AppAuthorization();
-  
+
   constructor() {
-    
+
     this._authorizationChange$ = new BehaviorSubject(
       this.getCloneAuthorizationValues()
     );
